@@ -36,4 +36,10 @@ export const meatFoods: Food[] = [
   createFood({ id: 4025, name: "닭도리탕", category: "고기", subCategory: "닭요리", cuisine: "한식", price: 18000, spicy: 2, tags: ["고기", "국물", "저녁", "매운맛"], situations: ["추운날", "가족과"], eatAlone: false, message: "얼큰한 닭도리탕 어때?" }),
   createFood({ id: 4026, name: "닭똥집", category: "고기", subCategory: "닭요리", cuisine: "한식", price: 12000, spicy: 1, tags: ["고기", "저녁", "야식", "술안주"], situations: ["친구와"], message: "쫄깃한 닭똥집으로 한잔 느낌!" }),
   createFood({ id: 4027, name: "닭발", category: "고기", subCategory: "닭요리", cuisine: "한식", price: 15000, spicy: 3, tags: ["고기", "야식", "술안주", "매운맛"], situations: ["스트레스", "친구와"], message: "맵게 당기는 날엔 닭발!" }),
+  createFood({ id: 4028, name: "삼겹살", emoji: "🥓", category: "고기", subCategory: "구이", cuisine: "한식", price: 15000, spicy: 0, tags: ["고기", "저녁", "모임", "구이"], situations: ["친구와", "가족과", "스트레스"], eatAlone: false, message: "삼겹살에 소주 한 잔, 오늘의 정답!" }),
+  createFood({ id: 4029, name: "목살", emoji: "🥩", category: "고기", subCategory: "구이", cuisine: "한식", price: 15000, spicy: 0, tags: ["고기", "저녁", "모임", "구이"], situations: ["친구와", "가족과"], eatAlone: false, message: "두툼한 목살 구이 어때?" }),
+  createFood({ id: 4030, name: "항정살", emoji: "🥩", category: "고기", subCategory: "구이", cuisine: "한식", price: 18000, spicy: 0, tags: ["고기", "저녁", "모임", "구이"], situations: ["친구와", "특별한날"], eatAlone: false, message: "쫄깃한 항정살 한 점 어때?" }),
+  createFood({ id: 4031, name: "오겹살", emoji: "🥓", category: "고기", subCategory: "구이", cuisine: "한식", price: 16000, spicy: 0, tags: ["고기", "저녁", "모임", "구이"], situations: ["친구와", "가족과"], eatAlone: false, message: "두툼한 오겹살 구워먹자!" }),
+  createFood({ id: 4032, name: "갈매기살", emoji: "🥩", category: "고기", subCategory: "구이", cuisine: "한식", price: 14000, spicy: 0, tags: ["고기", "저녁", "모임", "구이"], situations: ["친구와", "가성비"], eatAlone: false, message: "갈매기살 구워서 쌈 싸먹자!" }),
+  createFood({ id: 4033, name: "탕수육", emoji: "🍖", category: "고기", subCategory: "중식", cuisine: "중식", price: 18000, spicy: 0, tags: ["고기", "점심", "저녁", "모임"], situations: ["가족과", "친구와"], eatAlone: false, message: "바삭한 탕수육 부먹? 찍먹?" }),
 ];

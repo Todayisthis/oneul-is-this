@@ -221,4 +221,9 @@ export const snackFoods: Food[] = [
     situations: ["친구와"],
     message: "간단하게 닭꼬치 하나 어때?",
   }),
+  createFood({ id: 10018, name: "순대", emoji: "🫕", category: "분식", subCategory: "순대", cuisine: "한식", price: 5000, spicy: 1, tags: ["분식", "점심", "저녁", "가성비"], situations: ["가성비", "친구와"], message: "순대 한 접시로 든든하게!" }),
+  createFood({ id: 10019, name: "튀김", emoji: "🍤", category: "분식", subCategory: "튀김", cuisine: "한식", price: 5000, spicy: 0, tags: ["분식", "점심", "저녁", "가성비"], situations: ["가성비"], message: "바삭한 튀김 한 접시 어때?" }),
+  createFood({ id: 10020, name: "핫도그", emoji: "🌭", category: "분식", subCategory: "핫도그", cuisine: "기타", price: 4000, spicy: 0, tags: ["분식", "점심", "가성비", "포장"], situations: ["가성비"], message: "바삭하고 든든한 핫도그 어때?" }),
+  createFood({ id: 10021, name: "떡꼬치", emoji: "🍢", category: "분식", subCategory: "꼬치", cuisine: "한식", price: 3000, spicy: 1, tags: ["분식", "점심", "가성비", "포장"], situations: ["가성비"], message: "매콤달콤 떡꼬치 어때?" }),
+  createFood({ id: 10022, name: "토스트", emoji: "🍞", category: "분식", subCategory: "토스트", cuisine: "기타", price: 4000, spicy: 0, tags: ["분식", "아침", "점심", "가성비", "포장"], situations: ["아침", "가성비"], message: "따뜻하고 든든한 토스트 어때?" }),
 ];
