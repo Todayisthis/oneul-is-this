@@ -60,6 +60,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://oneul-is-this.com",
   },
+  verification: {
+    google: "mLLe59N63bwrm-c-hUhsSlLKUCJrTxDYK_7Skqj5UWk",
+  },
   robots: {
     index: true,
     follow: true,
