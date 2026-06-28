@@ -17,7 +17,7 @@ export default function PopularFoods({ foods }: Props) {
             key={`${item.id}-${i}`}
             className="rounded-xl bg-yellow-50 px-3 py-2 text-sm"
           >
-            {item.emoji} {item.name}
+            {item.emoji} {item.name} <span className="text-gray-400">({item.count})</span>
           </div>
         ))}
       </div>
