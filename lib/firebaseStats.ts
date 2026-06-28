@@ -3,6 +3,7 @@ import {
   doc,
   setDoc,
   increment,
+  serverTimestamp,
   collection,
   query,
   orderBy,
@@ -47,6 +48,7 @@ export async function recordFoodPick(food: Food) {
         brand: food.brand ?? null,
         count: increment(1),
         week,
+        lastPickedAt: serverTimestamp(),
       },
       { merge: true }
     );
@@ -70,6 +72,7 @@ export async function recordFoodRating(food: Food, score: number) {
         totalScore: increment(score),
         ratingCount: increment(1),
         week,
+        lastRatedAt: serverTimestamp(),
       },
       { merge: true }
     );
