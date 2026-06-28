@@ -292,7 +292,7 @@ export const noodleFoods: Food[] = [
   {
     id: 3019,
     name: "옹심이",
-    emoji: "🥣",
+    emoji: "🍜",
     category: "면",
     subCategory: "수제비",
     cuisine: "한식",

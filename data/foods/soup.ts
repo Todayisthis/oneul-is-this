@@ -52,7 +52,7 @@ export const soupFoods: Food[] = [
   {
     id: 1004,
     name: "소머리국밥",
-    emoji: "🥣",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국밥",
     cuisine: "한식",
@@ -68,7 +68,7 @@ export const soupFoods: Food[] = [
   {
     id: 1005,
     name: "우거지국밥",
-    emoji: "🥬",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국밥",
     cuisine: "한식",
@@ -116,7 +116,7 @@ export const soupFoods: Food[] = [
   {
     id: 1008,
     name: "콩나물국밥",
-    emoji: "🥣",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국밥",
     cuisine: "한식",
@@ -148,7 +148,7 @@ export const soupFoods: Food[] = [
   {
     id: 1010,
     name: "곰탕",
-    emoji: "🥣",
+    emoji: "🍲",
     category: "국물",
     subCategory: "탕",
     cuisine: "한식",
@@ -164,7 +164,7 @@ export const soupFoods: Food[] = [
   {
     id: 1011,
     name: "설렁탕",
-    emoji: "🥣",
+    emoji: "🍲",
     category: "국물",
     subCategory: "탕",
     cuisine: "한식",
@@ -180,7 +180,7 @@ export const soupFoods: Food[] = [
   {
     id: 1012,
     name: "얼큰순대국밥",
-    emoji: "🌶️",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국밥",
     cuisine: "한식",
@@ -196,7 +196,7 @@ export const soupFoods: Food[] = [
   {
     id: 1013,
     name: "미역국",
-    emoji: "🥣",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국",
     cuisine: "한식",
@@ -212,7 +212,7 @@ export const soupFoods: Food[] = [
   {
     id: 1014,
     name: "소고기무국",
-    emoji: "🥣",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국",
     cuisine: "한식",
@@ -228,7 +228,7 @@ export const soupFoods: Food[] = [
   {
     id: 1015,
     name: "육개장",
-    emoji: "🌶️",
+    emoji: "🍲",
     category: "국물",
     subCategory: "국",
     cuisine: "한식",

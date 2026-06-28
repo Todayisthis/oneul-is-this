@@ -36,7 +36,7 @@ export const riceFoods: Food[] = [
   {
     id: 2003,
     name: "봄동비빔밥",
-    emoji: "🥬",
+    emoji: "🍚",
     category: "밥",
     subCategory: "비빔밥",
     cuisine: "한식",
@@ -52,7 +52,7 @@ export const riceFoods: Food[] = [
   {
     id: 2004,
     name: "산채비빔밥",
-    emoji: "🥗",
+    emoji: "🍚",
     category: "밥",
     subCategory: "비빔밥",
     cuisine: "한식",
@@ -68,7 +68,7 @@ export const riceFoods: Food[] = [
   {
     id: 2005,
     name: "새싹비빔밥",
-    emoji: "🌱",
+    emoji: "🍚",
     category: "밥",
     subCategory: "비빔밥",
     cuisine: "한식",
@@ -148,7 +148,7 @@ export const riceFoods: Food[] = [
   {
     id: 2010,
     name: "우렁쌈밥",
-    emoji: "🥬",
+    emoji: "🍚",
     category: "밥",
     subCategory: "쌈밥",
     cuisine: "한식",
@@ -164,7 +164,7 @@ export const riceFoods: Food[] = [
   {
     id: 2011,
     name: "제육쌈밥",
-    emoji: "🥬",
+    emoji: "🥩",
     category: "밥",
     subCategory: "쌈밥",
     cuisine: "한식",
@@ -419,7 +419,7 @@ export const riceFoods: Food[] = [
   {
     id: 2027,
     name: "포케",
-    emoji: "🥗",
+    emoji: "🥙",
     category: "밥",
     subCategory: "포케",
     cuisine: "기타",
