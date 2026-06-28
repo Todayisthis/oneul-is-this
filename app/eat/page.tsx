@@ -15,11 +15,11 @@ import {
 
 import {
   getFoodHistory,
-  getPopularFoods,
   saveFoodHistory,
   saveFoodPick,
   saveFoodRating,
 } from "@/lib/foodStats";
+import { recordFoodPick, getTopFoods } from "@/lib/firebaseStats";
 
 import CategorySelector from "@/components/eat/CategorySelector";
 import RecommendModeSelector from "@/components/eat/RecommendModeSelector";
@@ -62,10 +62,16 @@ function EatPageInner() {
   const [history, setHistory] = useState<Food[]>([]);
   const [popularFoods, setPopularFoods] = useState<any[]>([]);
 
+  async function refreshPopular() {
+    const top = await getTopFoods(10);
+    setPopularFoods(top);
+  }
+
   const searchParams = useSearchParams();
 
   useEffect(() => {
     refreshStats();
+    refreshPopular();
 
     const foodId = searchParams.get("food");
     if (foodId) {
@@ -120,10 +126,8 @@ function EatPageInner() {
   function refreshStats() {
     try {
       setHistory(getFoodHistory());
-      setPopularFoods(getPopularFoods(foods));
     } catch {
       setHistory([]);
-      setPopularFoods([]);
     }
   }
 
@@ -206,6 +210,7 @@ function EatPageInner() {
           saveFoodPick(finalFood);
           saveFoodHistory(finalFood);
           refreshStats();
+          recordFoodPick(finalFood).then(() => refreshPopular());
         } catch {}
 
         scrollToResult();
