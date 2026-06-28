@@ -246,7 +246,7 @@ function EatPageInner() {
   }
 
   return (
-    <main className="relative min-h-screen bg-orange-50/40 px-4 py-6">
+    <main className="relative min-h-screen bg-orange-50 px-4 py-6">
       <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
         <Link
           href="/"

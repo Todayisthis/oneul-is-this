@@ -28,7 +28,7 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-orange-50/40 px-4 py-8">
+    <main className="min-h-screen bg-orange-50 px-4 py-8">
       <div className="mx-auto max-w-3xl rounded-3xl bg-white p-6 shadow-sm">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
           ← 홈으로
