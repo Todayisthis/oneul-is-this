@@ -1,11 +1,14 @@
-import type { Food } from "@/data/foods";
+type PopularItem = {
+  id: number;
+  name: string;
+  emoji: string;
+  category: string;
+  brand?: string;
+  count: number;
+};
 
 type Props = {
-  foods: {
-    food?: Food;
-    count?: number;
-    avgRating?: number;
-  }[];
+  foods: PopularItem[];
 };
 
 export default function PopularFoods({ foods }: Props) {
@@ -16,18 +19,14 @@ export default function PopularFoods({ foods }: Props) {
       <p className="text-sm font-bold">🔥 인기 메뉴</p>
 
       <div className="mt-3 flex flex-wrap gap-2">
-        {foods.map((item, i) => {
-          if (!item?.food) return null;
-
-          return (
-            <div
-              key={`${item.food.id}-${i}`}
-              className="rounded-xl bg-yellow-50 px-3 py-2 text-sm"
-            >
-              {item.food.emoji} {item.food.name}
-            </div>
-          );
-        })}
+        {foods.map((item, i) => (
+          <div
+            key={`${item.id}-${i}`}
+            className="rounded-xl bg-yellow-50 px-3 py-2 text-sm"
+          >
+            {item.emoji} {item.name}
+          </div>
+        ))}
       </div>
     </div>
   );
