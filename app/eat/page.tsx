@@ -89,7 +89,11 @@ function EatPageInner() {
   const filteredFoods =
     selectedCategory === "전체"
       ? foods
-      : foods.filter((food) => food.category === selectedCategory);
+      : foods.filter(
+          (food) =>
+            food.category === selectedCategory ||
+            food.additionalCategories?.includes(selectedCategory as import("@/data/foods").FoodCategory)
+        );
 
   function handleCategoryChange(category: string) {
     setSelectedCategory(category as SelectedCategory);

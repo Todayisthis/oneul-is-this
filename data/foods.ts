@@ -6,6 +6,9 @@ import { meatFoods } from "./foods/meat";
 import { chickenFoods } from "./foods/chicken";
 import { pizzaFoods } from "./foods/pizza";
 import { fastfoodFoods } from "./foods/fastfood";
+import { westernFoods } from "./foods/western";
+import { saladFoods } from "./foods/salad";
+import { sandwichFoods } from "./foods/sandwich";
 
 import type { Brand } from "./brands";
 import type { FoodSubCategory } from "./foodSubCategories";
@@ -20,7 +23,10 @@ export type FoodCategory =
   | "분식"
   | "치킨"
   | "피자"
-  | "패스트푸드";
+  | "패스트푸드"
+  | "양식"
+  | "샐러드"
+  | "샌드위치";
 
 export type Food = {
   id: number;
@@ -30,6 +36,7 @@ export type Food = {
   emoji: string;
 
   category: FoodCategory;
+  additionalCategories?: FoodCategory[];
   subCategory: FoodSubCategory;
   cuisine: Cuisine;
 
@@ -53,10 +60,13 @@ export const foods: Food[] = [
   ...riceFoods,
   ...noodleFoods,
   ...snackFoods,
-   ...meatFoods,
+  ...meatFoods,
   ...chickenFoods,
   ...pizzaFoods,
   ...fastfoodFoods,
+  ...westernFoods,
+  ...saladFoods,
+  ...sandwichFoods,
 ];
 
 export const foodCategories: ("전체" | FoodCategory)[] = [
@@ -69,7 +79,7 @@ export const foodCategories: ("전체" | FoodCategory)[] = [
   "치킨",
   "피자",
   "패스트푸드",
-
+  "양식",
 ];
 
 export const cuisines: Cuisine[] = ["한식", "중식", "일식", "양식", "기타"];

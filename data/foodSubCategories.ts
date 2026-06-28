@@ -55,6 +55,22 @@ export const foodSubCategories = [
   "샐러드",
   "디저트",
   "카페",
+
+  "스테이크",
+  "립",
+  "그릴",
+  "파스타",
+  "중식면",
+  "아시안면",
+  "리소토",
+  "오믈렛",
+  "브런치",
+  "와플",
+  "솥밥",
+  "쌈밥",
+  "중식",
+  "토스트",
+  "콘도그",
 ] as const;
 
 export type FoodSubCategory = (typeof foodSubCategories)[number];

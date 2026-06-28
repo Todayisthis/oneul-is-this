@@ -8,6 +8,7 @@ type CreateFoodParams = {
   name: string;
 
   category: FoodCategory;
+  additionalCategories?: FoodCategory[];
   subCategory: FoodSubCategory;
   cuisine: Cuisine;
 
@@ -36,6 +37,7 @@ export function createFood(params: CreateFoodParams): Food {
     emoji: params.emoji ?? categoryEmoji[params.category],
 
     category: params.category,
+    additionalCategories: params.additionalCategories,
     subCategory: params.subCategory,
     cuisine: params.cuisine,
 
