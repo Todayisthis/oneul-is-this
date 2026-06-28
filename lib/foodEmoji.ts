@@ -9,7 +9,4 @@ export const categoryEmoji: Record<FoodCategory, string> = {
   치킨: "🍗",
   피자: "🍕",
   패스트푸드: "🍔",
-  샐러드: "🥗",
-  디저트: "🍰",
-  카페: "☕",
 };

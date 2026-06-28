@@ -41,6 +41,7 @@ export type Food = {
 
   eatAlone: boolean;
   delivery: boolean;
+  franchise?: boolean;
 
   isPopular?: boolean;
 
