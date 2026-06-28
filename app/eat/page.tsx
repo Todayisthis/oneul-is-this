@@ -309,7 +309,7 @@ function EatPageInner() {
         <AdPlaceholder label="가로 배너 광고" height="small" />
 
         <div ref={resultRef} className="mt-8 w-full">
-          {(isRolling || rollingFood) && (
+          {(isRolling || isHoldingFinal) && (
             <RouletteCard
               food={rollingFood}
               isRolling={isRolling}
