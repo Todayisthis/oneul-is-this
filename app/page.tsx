@@ -34,10 +34,10 @@ export default function Home() {
         </Link>
 
         <div className="mt-16 grid w-full gap-3 text-gray-400 sm:grid-cols-2">
-          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 보지?</div>
-          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 어디 가지?</div>
-          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 마시지?</div>
-          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 하지?</div>
+          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 보지? <span className="ml-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-400">개발중</span></div>
+          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 어디 가지? <span className="ml-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-400">개발중</span></div>
+          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 마시지? <span className="ml-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-400">개발중</span></div>
+          <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 하지? <span className="ml-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-400">개발중</span></div>
         </div>
 
         <p className="mt-16 text-xs leading-6 text-gray-300">
