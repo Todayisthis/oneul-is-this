@@ -18,13 +18,10 @@ export default function PopularFoods({ foods }: Props) {
             className="rounded-xl bg-yellow-50 px-3 py-2 text-sm"
           >
             {item.emoji} {item.name}{" "}
-            <span className="text-gray-400">({item.count}회</span>
+            <span className="text-gray-400">({item.count}회)</span>
             {item.avgRating !== undefined && (
-              <span className="text-yellow-500">
-                {" "}⭐{item.avgRating}
-              </span>
+              <span className="ml-1 text-yellow-500">⭐{item.avgRating}</span>
             )}
-            <span className="text-gray-400">)</span>
           </div>
         ))}
       </div>
