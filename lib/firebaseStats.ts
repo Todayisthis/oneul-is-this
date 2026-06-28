@@ -47,6 +47,18 @@ export async function recordFoodPick(food: Food) {
   }
 }
 
+export async function saveContactMessage(data: {
+  name: string;
+  email: string;
+  message: string;
+}) {
+  const { addDoc, collection, serverTimestamp } = await import("firebase/firestore");
+  await addDoc(collection(db, "contacts"), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+}
+
 export async function getTopFoods(topN = 10): Promise<PopularItem[]> {
   try {
     const today = todayString();
