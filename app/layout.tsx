@@ -13,8 +13,61 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "오늘 뭐 먹지?",
-  description: "오늘 먹을 메뉴를 랜덤으로 추천해드려요.",
+  metadataBase: new URL("https://oneul-is-this.com"),
+  title: {
+    default: "오늘 뭐 먹지? | 음식 메뉴 랜덤 추천",
+    template: "%s | 오늘 뭐 먹지?",
+  },
+  description:
+    "점심, 저녁 뭐 먹을지 고민될 때! 국물, 밥, 면, 고기, 치킨, 양식 등 카테고리별 랜덤 음식 추천 서비스.",
+  keywords: [
+    "오늘 뭐 먹지",
+    "음식 추천",
+    "메뉴 추천",
+    "점심 메뉴 추천",
+    "저녁 메뉴 추천",
+    "랜덤 음식",
+    "오늘의 메뉴",
+    "뭐 먹을까",
+    "음식 고르기",
+    "식사 추천",
+  ],
+  authors: [{ name: "오늘 뭐 하지?" }],
+  creator: "오늘 뭐 하지?",
+  openGraph: {
+    title: "오늘 뭐 먹지? | 음식 메뉴 랜덤 추천",
+    description:
+      "점심, 저녁 뭐 먹을지 고민될 때! 카테고리별 랜덤 음식 추천 서비스.",
+    url: "https://oneul-is-this.com",
+    siteName: "오늘 뭐 먹지?",
+    locale: "ko_KR",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "오늘 뭐 먹지? - 음식 메뉴 랜덤 추천",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "오늘 뭐 먹지? | 음식 메뉴 랜덤 추천",
+    description: "점심, 저녁 뭐 먹을지 고민될 때! 랜덤으로 오늘의 메뉴를 추천해드려요.",
+    images: ["/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://oneul-is-this.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +77,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ko"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
