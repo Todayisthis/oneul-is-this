@@ -1,11 +1,7 @@
 import type { Food } from "@/data/foods";
 
-type Props = {
-  history: Food[];
-};
-
-export default function FoodHistory({ history }: Props) {
-  if (!history.length) return null;
+export default function FoodHistory({ history }: { history: Food[] }) {
+  if (!history?.length) return null;
 
   return (
     <div className="mt-6 rounded-2xl bg-white p-5">
@@ -13,10 +9,7 @@ export default function FoodHistory({ history }: Props) {
 
       <div className="mt-3 flex flex-wrap gap-2">
         {history.map((food, i) => (
-          <span
-            key={food.id + i}
-            className="rounded-full bg-gray-100 px-3 py-1 text-sm"
-          >
+          <span key={`${food.id}-${i}`}>
             {food.emoji} {food.name}
           </span>
         ))}

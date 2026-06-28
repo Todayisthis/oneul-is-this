@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { foods } from "@/data/foods";
+import type { Food } from "@/data/foods";
 import { recommendFood, type RecommendMode } from "@/lib/recommendEngine";
 
 import {
@@ -24,20 +25,17 @@ import PopularFoods from "@/components/eat/PopularFoods";
 import FoodHistory from "@/components/eat/FoodHistory";
 
 const ROULETTE_DURATION = 5000;
-const FINAL_HOLD_DURATION = 500;
-
+const FINAL_HOLD_DURATION = 600;
 const rouletteSpeeds = [50, 70, 90, 130, 190, 280, 420];
 
 export default function EatPage() {
-  // ✅ ref 타입 수정 (핵심 수정)
   const resultRef = useRef<HTMLDivElement | null>(null);
 
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [recommendMode, setRecommendMode] =
-    useState<RecommendMode>("smart");
+  const [recommendMode, setRecommendMode] = useState<RecommendMode>("smart");
 
-  const [selectedFood, setSelectedFood] = useState<any>(null);
-  const [rollingFood, setRollingFood] = useState<any>(null);
+  const [selectedFood, setSelectedFood] = useState<Food | null>(null);
+  const [rollingFood, setRollingFood] = useState<Food | null>(null);
 
   const [isRolling, setIsRolling] = useState(false);
   const [isHoldingFinal, setIsHoldingFinal] = useState(false);
@@ -46,10 +44,9 @@ export default function EatPage() {
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [resultMessage, setResultMessage] = useState("");
 
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<Food[]>([]);
   const [popularFoods, setPopularFoods] = useState<any[]>([]);
 
-  // 초기 데이터 로딩
   useEffect(() => {
     refreshStats();
   }, []);
@@ -57,7 +54,7 @@ export default function EatPage() {
   const filteredFoods =
     selectedCategory === "전체"
       ? foods
-      : foods.filter((f) => f.category === selectedCategory);
+      : foods.filter((food) => food.category === selectedCategory);
 
   function scrollToResult() {
     setTimeout(() => {
@@ -69,54 +66,71 @@ export default function EatPage() {
   }
 
   function pickRandomFood() {
-    const i = Math.floor(Math.random() * filteredFoods.length);
-    return filteredFoods[i];
+    const list = filteredFoods.length > 0 ? filteredFoods : foods;
+    const index = Math.floor(Math.random() * list.length);
+    return list[index];
   }
 
   function refreshStats() {
-    setHistory(getFoodHistory());
-    setPopularFoods(getPopularFoods(foods));
+    try {
+      setHistory(getFoodHistory());
+      setPopularFoods(getPopularFoods(foods));
+    } catch {
+      setHistory([]);
+      setPopularFoods([]);
+    }
+  }
+
+  function getSafeFinalFood() {
+    try {
+      const result = recommendFood({
+        foods: filteredFoods.length > 0 ? filteredFoods : foods,
+        ratings: getSavedRatings(),
+        picks: getSavedPicks(),
+        history: getFoodHistory(),
+        mode: recommendMode,
+      });
+
+      return result ?? pickRandomFood();
+    } catch {
+      return pickRandomFood();
+    }
   }
 
   function startRoulette() {
     if (isRolling || isHoldingFinal) return;
 
+    const finalFood = getSafeFinalFood();
+
+    if (!finalFood) {
+      alert("추천할 메뉴가 없어요.");
+      return;
+    }
+
     setIsRolling(true);
+    setIsHoldingFinal(false);
     setSelectedFood(null);
-    setRollingFood(null);
+    setRollingFood(pickRandomFood());
     setResultMessage("");
     setSelectedRating(null);
     setMessageIndex(0);
 
     scrollToResult();
 
-    const finalFood = recommendFood({
-      foods: filteredFoods,
-      ratings: getSavedRatings(),
-      picks: getSavedPicks(),
-      history: getFoodHistory(),
-      mode: recommendMode,
-    });
-
-    if (!finalFood) {
-      setIsRolling(false);
-      return;
-    }
-
-    const start = Date.now();
-    let timer: any;
+    const startedAt = Date.now();
+    let timer: ReturnType<typeof setTimeout> | null = null;
 
     function roll() {
-      const elapsed = Date.now() - start;
+      const elapsed = Date.now() - startedAt;
 
       let speedIndex = 0;
 
       if (elapsed > 4000) speedIndex = 6;
-      else if (elapsed > 3500) speedIndex = 5;
-      else if (elapsed > 3000) speedIndex = 4;
-      else if (elapsed > 2500) speedIndex = 3;
-      else if (elapsed > 1500) speedIndex = 2;
-      else if (elapsed > 500) speedIndex = 1;
+      else if (elapsed > 3200) speedIndex = 5;
+      else if (elapsed > 2400) speedIndex = 4;
+      else if (elapsed > 1600) speedIndex = 3;
+      else if (elapsed > 800) speedIndex = 2;
+      else speedIndex = 1;
 
       setRollingFood(pickRandomFood());
 
@@ -128,11 +142,11 @@ export default function EatPage() {
     roll();
 
     const messageTimer = setInterval(() => {
-      setMessageIndex((p) => p + 1);
+      setMessageIndex((prev) => prev + 1);
     }, 300);
 
     setTimeout(() => {
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
       clearInterval(messageTimer);
 
       setRollingFood(finalFood);
@@ -144,10 +158,12 @@ export default function EatPage() {
         setResultMessage(finalFood.message ?? "추천 완료!");
         setIsHoldingFinal(false);
 
-        saveFoodPick(finalFood);
-        saveFoodHistory(finalFood);
+        try {
+          saveFoodPick(finalFood);
+          saveFoodHistory(finalFood);
+          refreshStats();
+        } catch {}
 
-        refreshStats();
         scrollToResult();
       }, FINAL_HOLD_DURATION);
     }, ROULETTE_DURATION);
@@ -155,24 +171,23 @@ export default function EatPage() {
 
   function rateFood(score: number) {
     if (!selectedFood) return;
-    saveFoodRating(selectedFood, score);
+
+    try {
+      saveFoodRating(selectedFood, score);
+    } catch {}
+
     setSelectedRating(score);
   }
 
   return (
-    <main className="min-h-screen bg-orange-50/40 px-4 py-6">
+    <main className="relative min-h-screen bg-orange-50/40 px-4 py-6">
       <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-
         <Link href="/" className="mb-6 text-sm text-gray-400">
           ← 홈으로
         </Link>
 
-        {/* 제목 */}
         <div className="w-full rounded-3xl bg-white p-6 shadow-sm">
           <h1 className="text-4xl font-bold">🍚 오늘 뭐 먹지?</h1>
-          <p className="mt-2 text-gray-500">
-            카테고리 + 추천 방식 선택 후 메뉴를 뽑아요
-          </p>
 
           <div className="mt-5">
             <CategorySelector
@@ -183,7 +198,6 @@ export default function EatPage() {
           </div>
         </div>
 
-        {/* 추천 방식 */}
         <div className="mt-5 w-full rounded-3xl bg-white p-6 shadow-sm">
           <RecommendModeSelector
             selected={recommendMode}
@@ -192,16 +206,19 @@ export default function EatPage() {
           />
         </div>
 
-        {/* 버튼 */}
         <button
+          type="button"
           onClick={startRoulette}
           disabled={isRolling || isHoldingFinal}
-          className="mt-6 w-full rounded-3xl bg-orange-500 py-4 text-xl font-bold text-white disabled:opacity-50"
+          className="relative z-50 mt-6 w-full rounded-3xl bg-orange-500 py-4 text-xl font-bold text-white active:scale-95 disabled:opacity-50"
         >
-          {isRolling ? "고르는 중..." : "🎲 메뉴 뽑기"}
+          {isRolling
+            ? "고르는 중..."
+            : isHoldingFinal
+            ? "결정 중..."
+            : "🎲 메뉴 뽑기"}
         </button>
 
-        {/* 룰렛 */}
         <div ref={resultRef} className="mt-8 w-full">
           {(isRolling || rollingFood) && (
             <RouletteCard
@@ -213,7 +230,6 @@ export default function EatPage() {
           )}
         </div>
 
-        {/* 결과 */}
         {selectedFood && !isRolling && !isHoldingFinal && (
           <ResultCard
             food={selectedFood}
@@ -223,11 +239,13 @@ export default function EatPage() {
           />
         )}
 
-        {/* 인기 */}
-        <PopularFoods foods={popularFoods} />
+        <div className="w-full">
+          <PopularFoods foods={popularFoods} />
+        </div>
 
-        {/* 히스토리 */}
-        <FoodHistory history={history} />
+        <div className="w-full">
+          <FoodHistory history={history} />
+        </div>
       </div>
     </main>
   );

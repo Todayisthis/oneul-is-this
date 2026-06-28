@@ -25,19 +25,29 @@ export default function RecommendModeSelector({
   return (
     <div className="grid gap-2 sm:grid-cols-2 sm:gap-3">
       {modes.map((mode) => (
-        <button
+        <div
           key={mode.id}
-          onClick={() => onChange(mode.id)}
-          disabled={disabled}
-          className={`rounded-2xl p-4 text-left transition ${
+          role="button"
+          tabIndex={0}
+          onPointerUp={() => {
+            if (!disabled) onChange(mode.id);
+          }}
+          className={`rounded-2xl p-4 text-left transition select-none cursor-pointer ${
             selected === mode.id
               ? "bg-orange-500 text-white"
-              : "bg-gray-50 text-gray-600 hover:bg-gray-100"
-          } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
+              : "bg-gray-50 text-gray-600"
+          } ${disabled ? "opacity-60" : ""}`}
+          style={{ touchAction: "manipulation" }}
         >
           <p className="text-sm font-extrabold">{mode.label}</p>
-          <p className="mt-1 text-xs text-gray-400">{mode.description}</p>
-        </button>
+          <p
+            className={`mt-1 text-xs ${
+              selected === mode.id ? "text-orange-50" : "text-gray-400"
+            }`}
+          >
+            {mode.description}
+          </p>
+        </div>
       ))}
     </div>
   );
