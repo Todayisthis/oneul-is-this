@@ -19,7 +19,7 @@ import {
   saveFoodPick,
   saveFoodRating,
 } from "@/lib/foodStats";
-import { recordFoodPick, recordFoodRating, getTopFoods, type PopularItem } from "@/lib/firebaseStats";
+import { recordFoodPick, recordFoodRating, getTopFoods, getTopRatedFoods, type PopularItem } from "@/lib/firebaseStats";
 
 import CategorySelector from "@/components/eat/CategorySelector";
 import RecommendModeSelector from "@/components/eat/RecommendModeSelector";
@@ -60,11 +60,13 @@ function EatPageInner() {
   const [resultMessage, setResultMessage] = useState("");
 
   const [history, setHistory] = useState<Food[]>([]);
-  const [popularFoods, setPopularFoods] = useState<PopularItem[]>([]);
+  const [topPicked, setTopPicked] = useState<PopularItem[]>([]);
+  const [topRated, setTopRated] = useState<PopularItem[]>([]);
 
   async function refreshPopular() {
-    const top = await getTopFoods(5);
-    setPopularFoods(top);
+    const [picked, rated] = await Promise.all([getTopFoods(5), getTopRatedFoods(5)]);
+    setTopPicked(picked);
+    setTopRated(rated);
   }
 
   const searchParams = useSearchParams();
@@ -340,7 +342,7 @@ function EatPageInner() {
         )}
 
         <div className="w-full">
-          <PopularFoods foods={popularFoods} />
+          <PopularFoods topPicked={topPicked} topRated={topRated} />
         </div>
 
         <AdPlaceholder label="콘텐츠 중간 광고" height="small" />

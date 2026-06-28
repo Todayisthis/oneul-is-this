@@ -81,33 +81,55 @@ export async function recordFoodRating(food: Food, score: number) {
   }
 }
 
+function toPopularItem(data: Record<string, unknown>): PopularItem {
+  const totalScore = (data.totalScore as number) ?? 0;
+  const ratingCount = (data.ratingCount as number) ?? 0;
+  return {
+    id: data.id as number,
+    name: data.name as string,
+    emoji: data.emoji as string,
+    category: data.category as string,
+    brand: (data.brand as string) ?? undefined,
+    count: (data.count as number) ?? 0,
+    avgRating: ratingCount > 0 ? Math.round((totalScore / ratingCount) * 10) / 10 : undefined,
+    ratingCount: ratingCount > 0 ? ratingCount : undefined,
+  };
+}
+
+// 이번주 전체 데이터 fetch (count순)
+async function getWeeklyFoods(): Promise<PopularItem[]> {
+  const week = weekString();
+  const q = query(
+    collection(db, "foodPicks"),
+    where("week", "==", week),
+    orderBy("count", "desc"),
+    limit(50)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => toPopularItem(d.data() as Record<string, unknown>));
+}
+
+// 많이 나온 메뉴 Top N (뽑힌 횟수 기준)
 export async function getTopFoods(topN = 5): Promise<PopularItem[]> {
   try {
-    const week = weekString();
-    const q = query(
-      collection(db, "foodPicks"),
-      where("week", "==", week),
-      orderBy("count", "desc"),
-      limit(topN)
-    );
-    const snap = await getDocs(q);
-    return snap.docs.map((d) => {
-      const data = d.data();
-      const totalScore = (data.totalScore as number) ?? 0;
-      const ratingCount = (data.ratingCount as number) ?? 0;
-      return {
-        id: data.id as number,
-        name: data.name as string,
-        emoji: data.emoji as string,
-        category: data.category as string,
-        brand: data.brand ?? undefined,
-        count: data.count as number,
-        avgRating: ratingCount > 0 ? Math.round((totalScore / ratingCount) * 10) / 10 : undefined,
-        ratingCount: ratingCount > 0 ? ratingCount : undefined,
-      };
-    });
+    const items = await getWeeklyFoods();
+    return items.slice(0, topN);
   } catch (e) {
     console.error("getTopFoods error:", e);
+    return [];
+  }
+}
+
+// 인기있는 메뉴 Top N (별점 평균 기준)
+export async function getTopRatedFoods(topN = 5): Promise<PopularItem[]> {
+  try {
+    const items = await getWeeklyFoods();
+    return items
+      .filter((item) => item.ratingCount !== undefined && item.ratingCount >= 1)
+      .sort((a, b) => (b.avgRating ?? 0) - (a.avgRating ?? 0))
+      .slice(0, topN);
+  } catch (e) {
+    console.error("getTopRatedFoods error:", e);
     return [];
   }
 }
