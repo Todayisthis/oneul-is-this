@@ -63,7 +63,7 @@ function EatPageInner() {
   const [popularFoods, setPopularFoods] = useState<PopularItem[]>([]);
 
   async function refreshPopular() {
-    const top = await getTopFoods(10);
+    const top = await getTopFoods(5);
     setPopularFoods(top);
   }
 
