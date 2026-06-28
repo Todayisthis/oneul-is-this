@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -41,7 +41,7 @@ const defaultFilters: RecommendFilters = {
   brand: "전체",
 };
 
-export default function EatPage() {
+function EatPageInner() {
   const resultRef = useRef<HTMLDivElement | null>(null);
 
   const [selectedCategory, setSelectedCategory] =
@@ -342,5 +342,13 @@ export default function EatPage() {
 
       <Footer />
     </main>
+  );
+}
+
+export default function EatPage() {
+  return (
+    <Suspense>
+      <EatPageInner />
+    </Suspense>
   );
 }
