@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fff7ed"/>
+  <text x="600" y="220" font-size="160" text-anchor="middle" font-family="Apple Color Emoji, Segoe UI Emoji, sans-serif">🍚</text>
+  <text x="600" y="360" font-size="80" font-weight="900" text-anchor="middle" fill="#1f2937" font-family="sans-serif">오늘 뭐 먹지?</text>
+  <text x="600" y="440" font-size="40" text-anchor="middle" fill="#6b7280" font-family="sans-serif">점심 · 저녁 메뉴 랜덤 추천 서비스</text>
+  <rect x="450" y="500" width="300" height="70" rx="35" fill="#f97316"/>
+  <text x="600" y="545" font-size="28" font-weight="700" text-anchor="middle" fill="white" font-family="sans-serif">oneul-is-this.com</text>
+</svg>

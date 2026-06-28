@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
         alt: "오늘 뭐 먹지? - 음식 메뉴 랜덤 추천",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "오늘 뭐 먹지? | 음식 메뉴 랜덤 추천",
     description: "점심, 저녁 뭐 먹을지 고민될 때! 랜덤으로 오늘의 메뉴를 추천해드려요.",
-    images: ["/og-image.png"],
+    images: ["/og-image.svg"],
   },
   alternates: {
     canonical: "https://oneul-is-this.com",
