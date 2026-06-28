@@ -1,6 +1,13 @@
 import { soupFoods } from "./foods/soup";
 import { riceFoods } from "./foods/rice";
+import { noodleFoods } from "./foods/noodle";
+import { snackFoods } from "./foods/snack";
+import { meatFoods } from "./foods/meat";
+import { chickenFoods } from "./foods/chicken";
+import { pizzaFoods } from "./foods/pizza";
+import { fastfoodFoods } from "./foods/fastfood";
 
+import type { Brand } from "./brands";
 import type { FoodSubCategory } from "./foodSubCategories";
 
 export type Cuisine = "한식" | "중식" | "일식" | "양식" | "기타";
@@ -13,16 +20,13 @@ export type FoodCategory =
   | "분식"
   | "치킨"
   | "피자"
-  | "패스트푸드"
-  | "샐러드"
-  | "디저트"
-  | "카페";
+  | "패스트푸드";
 
 export type Food = {
   id: number;
 
   name: string;
-  brand?: string;
+  brand?: Brand;
   emoji: string;
 
   category: FoodCategory;
@@ -37,7 +41,6 @@ export type Food = {
 
   eatAlone: boolean;
   delivery: boolean;
-  franchise: boolean;
 
   isPopular?: boolean;
 
@@ -47,6 +50,12 @@ export type Food = {
 export const foods: Food[] = [
   ...soupFoods,
   ...riceFoods,
+  ...noodleFoods,
+  ...snackFoods,
+   ...meatFoods,
+  ...chickenFoods,
+  ...pizzaFoods,
+  ...fastfoodFoods,
 ];
 
 export const foodCategories: ("전체" | FoodCategory)[] = [
@@ -59,9 +68,7 @@ export const foodCategories: ("전체" | FoodCategory)[] = [
   "치킨",
   "피자",
   "패스트푸드",
-  "샐러드",
-  "디저트",
-  "카페",
+
 ];
 
 export const cuisines: Cuisine[] = ["한식", "중식", "일식", "양식", "기타"];

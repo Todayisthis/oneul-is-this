@@ -1,105 +1,45 @@
+import type { Brand } from "@/data/brands";
 import type { Food } from "@/data/foods";
-import type { PickData, RatingData } from "@/lib/foodStats";
 
-export type RecommendMode = "random" | "smart" | "excludeRecent" | "popular";
+export type RecommendMode = "smart" | "excludeRecent" | "popular" | "random";
+
+export type RecommendFilters = {
+  brand?: "전체" | Brand;
+};
 
 type RecommendFoodParams = {
   foods: Food[];
-  ratings: Record<string, RatingData>;
-  picks: Record<string, PickData>;
-  history: Food[];
-  mode: RecommendMode;
+  mode?: RecommendMode;
+  filters?: RecommendFilters;
 };
 
-function pickRandomFood(foods: Food[]) {
-  const randomIndex = Math.floor(Math.random() * foods.length);
-  return foods[randomIndex];
-}
+function applyFilters(foods: Food[], filters?: RecommendFilters): Food[] {
+  if (!filters) return foods;
 
-function weightedPick(items: { food: Food; weight: number }[]) {
-  const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
-  let random = Math.random() * totalWeight;
-
-  for (const item of items) {
-    random -= item.weight;
-
-    if (random <= 0) {
-      return item.food;
+  return foods.filter((food) => {
+    if (filters.brand && filters.brand !== "전체") {
+      return food.brand === filters.brand;
     }
-  }
 
-  return items[items.length - 1].food;
+    return true;
+  });
 }
 
-function getRatingScore(food: Food, ratings: Record<string, RatingData>) {
-  const rating = ratings[food.id];
-
-  if (!rating || rating.count === 0) {
-    return 0;
-  }
-
-  const average = rating.totalScore / rating.count;
-
-  return average * 3 + rating.count;
-}
-
-function getPopularityScore(food: Food, picks: Record<string, PickData>) {
-  const pick = picks[food.id];
-
-  if (!pick) {
-    return 0;
-  }
-
-  return pick.count * 2;
-}
-
-function getRecentPenalty(food: Food, history: Food[]) {
-  const isRecent = history.some((historyFood) => historyFood.id === food.id);
-
-  return isRecent ? 8 : 0;
+function getRandomFood(foods: Food[]): Food | null {
+  if (foods.length === 0) return null;
+  return foods[Math.floor(Math.random() * foods.length)] ?? null;
 }
 
 export function recommendFood({
   foods,
-  ratings,
-  picks,
-  history,
-  mode,
-}: RecommendFoodParams) {
-  if (foods.length === 0) {
-    return null;
+  mode = "random",
+  filters,
+}: RecommendFoodParams): Food | null {
+  const filteredFoods = applyFilters(foods, filters);
+
+  if (filteredFoods.length === 0) {
+    return getRandomFood(foods);
   }
 
-  if (mode === "random") {
-    return pickRandomFood(foods);
-  }
-
-  if (mode === "excludeRecent") {
-    const recentIds = new Set(history.map((food) => food.id));
-    const availableFoods = foods.filter((food) => !recentIds.has(food.id));
-
-    return pickRandomFood(availableFoods.length > 0 ? availableFoods : foods);
-  }
-
-  const weightedFoods = foods.map((food) => {
-    let weight = 10;
-
-    if (mode === "smart") {
-      weight += getRatingScore(food, ratings);
-      weight += getPopularityScore(food, picks);
-      weight -= getRecentPenalty(food, history);
-    }
-
-    if (mode === "popular") {
-      weight += getPopularityScore(food, picks) * 2;
-      weight += getRatingScore(food, ratings);
-    }
-
-    return {
-      food,
-      weight: Math.max(1, Math.round(weight)),
-    };
-  });
-
-  return weightedPick(weightedFoods);
+  return getRandomFood(filteredFoods);
 }

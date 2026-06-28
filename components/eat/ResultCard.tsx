@@ -5,90 +5,88 @@ type Props = {
   message: string;
   rating: number | null;
   onRate: (score: number) => void;
+  onRetry: () => void;
+  onShare: () => void;
 };
 
-export default function ResultCard({ food, message, rating, onRate }: Props) {
+export default function ResultCard({
+  food,
+  message,
+  rating,
+  onRate,
+  onRetry,
+  onShare,
+}: Props) {
+  const ratingMessage =
+    rating === null
+      ? ""
+      : rating >= 4
+      ? "좋았어! 다음 추천에 참고할게요 😋"
+      : rating === 3
+      ? "무난했구나. 더 잘 골라볼게요 🤔"
+      : "아쉬웠구나. 다음엔 더 맛있는 걸 추천해볼게요 🙏";
+
   return (
-    <div className="mt-6 w-full rounded-3xl bg-white p-6 text-center shadow-sm">
-      <p className="text-sm font-bold text-gray-500">오늘은</p>
+    <div className="mt-6 w-full rounded-3xl bg-white p-8 text-center shadow-sm">
+      <div className="text-7xl">{food.emoji}</div>
 
-      <h2 className="mt-2 text-4xl font-black text-gray-900">
-        {food.emoji} {food.name}
-      </h2>
+      <p className="mt-4 text-sm font-bold text-orange-500">
+        오늘의 추천 메뉴
+      </p>
 
-      <p className="mt-2 text-2xl font-black text-orange-500">이거다!</p>
+      <h2 className="mt-2 text-4xl font-bold">{food.name}</h2>
 
-      <p className="mt-5 text-base leading-7 text-gray-700">
+      <p className="mt-2 text-gray-500">
+        {food.brand ? food.brand : food.category}
+      </p>
+
+      <p className="mt-6 rounded-2xl bg-orange-50 px-4 py-3 text-gray-700">
         {message}
       </p>
 
-      <div className="mt-6 grid grid-cols-3 gap-2 text-sm">
-        <div className="rounded-2xl bg-orange-50 p-3">
-          <p className="text-xs text-gray-400">가격</p>
-          <p className="mt-1 font-extrabold text-gray-800">
-            {food.price.toLocaleString()}원
-          </p>
-        </div>
+      <div className="mt-6 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={onRetry}
+          className="rounded-2xl bg-orange-500 px-3 py-3 text-sm font-bold text-white active:scale-95"
+        >
+          다시 뽑기
+        </button>
 
-        <div className="rounded-2xl bg-orange-50 p-3">
-          <p className="text-xs text-gray-400">맵기</p>
-          <p className="mt-1 font-extrabold text-gray-800">
-            {"🌶️".repeat(food.spicy) || "없음"}
-          </p>
-        </div>
-
-        <div className="rounded-2xl bg-orange-50 p-3">
-          <p className="text-xs text-gray-400">분류</p>
-          <p className="mt-1 font-extrabold text-gray-800">
-            {food.subCategory}
-          </p>
-        </div>
+        <button
+          type="button"
+          onClick={onShare}
+          className="rounded-2xl bg-gray-100 px-3 py-3 text-sm font-bold text-gray-600 active:scale-95"
+        >
+          🔗 공유하기
+        </button>
       </div>
 
-      <div className="mt-5 flex flex-wrap justify-center gap-2">
-        {food.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-500"
-          >
-            #{tag}
-          </span>
-        ))}
-      </div>
-
-      <div className="mt-7 rounded-3xl bg-gray-50 p-5">
-        <p className="text-sm font-bold text-gray-700">
-          이 메뉴 선정, 마음에 드나요?
+      <div className="mt-6">
+        <p className="mb-3 text-sm font-bold text-gray-600">
+          이 추천 어땠어?
         </p>
 
-        <div className="mt-3 flex justify-center gap-1">
+        <div className="flex justify-center gap-2">
           {[1, 2, 3, 4, 5].map((score) => (
-            <div
+            <button
               key={score}
-              role="button"
-              tabIndex={0}
-              onPointerUp={() => onRate(score)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  onRate(score);
-                }
-              }}
-              className={`cursor-pointer select-none text-3xl transition active:scale-90 ${
-                rating && score <= rating ? "opacity-100" : "opacity-35"
+              type="button"
+              onClick={() => onRate(score)}
+              className={`rounded-full px-3 py-2 text-lg ${
+                rating === score
+                  ? "bg-orange-500 text-white"
+                  : "bg-gray-100 text-gray-500"
               }`}
-              style={{
-                WebkitTapHighlightColor: "transparent",
-                touchAction: "manipulation",
-              }}
             >
               ⭐
-            </div>
+            </button>
           ))}
         </div>
 
         {rating !== null && (
-          <p className="mt-3 text-sm font-bold text-orange-500">
-            평가 고마워요! 다음 추천에 반영할게요.
+          <p className="mt-4 rounded-2xl bg-gray-50 px-4 py-3 text-sm font-bold text-gray-600">
+            {ratingMessage}
           </p>
         )}
       </div>
