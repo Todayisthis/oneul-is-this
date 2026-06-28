@@ -22,7 +22,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <p>© 2026 오늘 뭐 먹지? All rights reserved.</p>
+        <p>© 2026 오늘 뭐 하지? All rights reserved.</p>
       </div>
     </footer>
   );
