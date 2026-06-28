@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "오늘 뭐먹지? 저녁 뭐먹지? 메뉴 추천 | 오늘은 이거다",
+  description: "오늘 뭐먹지? 고민될 때! 국물, 밥, 면, 치킨, 피자, 패스트푸드 등 다양한 메뉴를 랜덤으로 추천해드려요. 저녁 뭐먹지? 점심 뭐먹지? 고민 끝!",
+};
 
 export default function Home() {
   return (
@@ -33,6 +39,10 @@ export default function Home() {
           <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 마시지?</div>
           <div className="rounded-2xl bg-gray-50 p-5">🚧 오늘 뭐 하지?</div>
         </div>
+
+        <p className="mt-16 text-xs leading-6 text-gray-300">
+          오늘 뭐먹지 · 저녁 뭐먹지 · 점심 뭐먹지 · 메뉴 추천 · 오늘 점심 · 오늘 저녁 · 랜덤 메뉴 추천
+        </p>
       </div>
     </main>
   );
