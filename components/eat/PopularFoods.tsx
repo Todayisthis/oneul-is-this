@@ -9,7 +9,7 @@ export default function PopularFoods({ foods }: Props) {
 
   return (
     <div className="mt-6 rounded-2xl bg-white p-5">
-      <p className="text-sm font-bold">🔥 인기 메뉴</p>
+      <p className="text-sm font-bold">🔥 오늘의 인기 메뉴</p>
 
       <div className="mt-3 flex flex-wrap gap-2">
         {foods.map((item, i) => (

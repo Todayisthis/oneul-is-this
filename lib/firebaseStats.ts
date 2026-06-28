@@ -8,6 +8,7 @@ import {
   orderBy,
   limit,
   getDocs,
+  where,
 } from "firebase/firestore";
 import type { Food } from "@/data/foods";
 
@@ -20,9 +21,14 @@ export type PopularItem = {
   count: number;
 };
 
+function todayString() {
+  return new Date().toISOString().slice(0, 10); // "2026-06-29"
+}
+
 export async function recordFoodPick(food: Food) {
   try {
-    const ref = doc(db, "foodPicks", String(food.id));
+    const today = todayString();
+    const ref = doc(db, "foodPicks", `${today}_${food.id}`);
     await setDoc(
       ref,
       {
@@ -32,6 +38,7 @@ export async function recordFoodPick(food: Food) {
         category: food.category,
         brand: food.brand ?? null,
         count: increment(1),
+        date: today,
       },
       { merge: true }
     );
@@ -42,8 +49,10 @@ export async function recordFoodPick(food: Food) {
 
 export async function getTopFoods(topN = 10): Promise<PopularItem[]> {
   try {
+    const today = todayString();
     const q = query(
       collection(db, "foodPicks"),
+      where("date", "==", today),
       orderBy("count", "desc"),
       limit(topN)
     );
