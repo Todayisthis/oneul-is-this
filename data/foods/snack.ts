@@ -125,6 +125,7 @@ export const snackFoods: Food[] = [
   createFood({
     id: 10011,
     name: "김치김밥",
+    emoji: "🍙",
     category: "분식",
     subCategory: "김밥",
     cuisine: "한식",
@@ -137,6 +138,7 @@ export const snackFoods: Food[] = [
   createFood({
     id: 10012,
     name: "돈가스김밥",
+    emoji: "🍙",
     category: "분식",
     subCategory: "김밥",
     cuisine: "한식",
@@ -149,6 +151,7 @@ export const snackFoods: Food[] = [
   createFood({
     id: 10013,
     name: "불고기김밥",
+    emoji: "🍙",
     category: "분식",
     subCategory: "김밥",
     cuisine: "한식",
@@ -161,6 +164,7 @@ export const snackFoods: Food[] = [
   createFood({
     id: 10014,
     name: "참치김밥",
+    emoji: "🍙",
     category: "분식",
     subCategory: "김밥",
     cuisine: "한식",
@@ -173,6 +177,7 @@ export const snackFoods: Food[] = [
   createFood({
     id: 10015,
     name: "치즈김밥",
+    emoji: "🍙",
     category: "분식",
     subCategory: "김밥",
     cuisine: "한식",
@@ -185,6 +190,7 @@ export const snackFoods: Food[] = [
   createFood({
     id: 10016,
     name: "샐러드김밥",
+    emoji: "🍙",
     category: "분식",
     subCategory: "김밥",
     cuisine: "한식",
