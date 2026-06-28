@@ -19,7 +19,7 @@ import {
   saveFoodPick,
   saveFoodRating,
 } from "@/lib/foodStats";
-import { recordFoodPick, getTopFoods, type PopularItem } from "@/lib/firebaseStats";
+import { recordFoodPick, recordFoodRating, getTopFoods, type PopularItem } from "@/lib/firebaseStats";
 
 import CategorySelector from "@/components/eat/CategorySelector";
 import RecommendModeSelector from "@/components/eat/RecommendModeSelector";
@@ -230,6 +230,7 @@ function EatPageInner() {
     } catch {}
 
     setSelectedRating(score);
+    recordFoodRating(selectedFood, score).then(() => refreshPopular());
   }
 
   async function shareFood() {
