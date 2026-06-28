@@ -1,4 +1,4 @@
-﻿import type { Food } from "../foods";
+import type { Food } from "../foods";
 import { createFood } from "@/lib/foodFactory";
 
 export const saladFoods: Food[] = [
