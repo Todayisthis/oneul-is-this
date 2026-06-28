@@ -19,7 +19,7 @@ import {
   saveFoodPick,
   saveFoodRating,
 } from "@/lib/foodStats";
-import { recordFoodPick, getTopFoods } from "@/lib/firebaseStats";
+import { recordFoodPick, getTopFoods, type PopularItem } from "@/lib/firebaseStats";
 
 import CategorySelector from "@/components/eat/CategorySelector";
 import RecommendModeSelector from "@/components/eat/RecommendModeSelector";
@@ -60,7 +60,7 @@ function EatPageInner() {
   const [resultMessage, setResultMessage] = useState("");
 
   const [history, setHistory] = useState<Food[]>([]);
-  const [popularFoods, setPopularFoods] = useState<any[]>([]);
+  const [popularFoods, setPopularFoods] = useState<PopularItem[]>([]);
 
   async function refreshPopular() {
     const top = await getTopFoods(10);

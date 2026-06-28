@@ -95,15 +95,3 @@ export function getFoodWeight(food: Food) {
   return Math.max(3, Math.round(average * 4 + rating.count));
 }
 
-export function getPopularFoods(foods: Food[]) {
-  const picks = getSavedPicks();
-
-  return foods
-    .map((food) => ({
-      food,
-      count: picks[food.id]?.count ?? 0,
-    }))
-    .filter((item) => item.count > 0)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 3);
-}

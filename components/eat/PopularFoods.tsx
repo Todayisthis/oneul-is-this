@@ -1,11 +1,4 @@
-type PopularItem = {
-  id: number;
-  name: string;
-  emoji: string;
-  category: string;
-  brand?: string;
-  count: number;
-};
+import type { PopularItem } from "@/lib/firebaseStats";
 
 type Props = {
   foods: PopularItem[];

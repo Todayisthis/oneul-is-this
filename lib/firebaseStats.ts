@@ -1,7 +1,6 @@
 import { db } from "./firebase";
 import {
   doc,
-  getDoc,
   setDoc,
   increment,
   collection,
@@ -11,6 +10,15 @@ import {
   getDocs,
 } from "firebase/firestore";
 import type { Food } from "@/data/foods";
+
+export type PopularItem = {
+  id: number;
+  name: string;
+  emoji: string;
+  category: string;
+  brand?: string;
+  count: number;
+};
 
 export async function recordFoodPick(food: Food) {
   try {
@@ -32,9 +40,7 @@ export async function recordFoodPick(food: Food) {
   }
 }
 
-export async function getTopFoods(topN = 10): Promise<
-  { id: number; name: string; emoji: string; category: string; brand?: string; count: number }[]
-> {
+export async function getTopFoods(topN = 10): Promise<PopularItem[]> {
   try {
     const q = query(
       collection(db, "foodPicks"),
@@ -42,7 +48,17 @@ export async function getTopFoods(topN = 10): Promise<
       limit(topN)
     );
     const snap = await getDocs(q);
-    return snap.docs.map((d) => d.data() as any);
+    return snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: data.id as number,
+        name: data.name as string,
+        emoji: data.emoji as string,
+        category: data.category as string,
+        brand: data.brand ?? undefined,
+        count: data.count as number,
+      };
+    });
   } catch (e) {
     console.error("getTopFoods error:", e);
     return [];
