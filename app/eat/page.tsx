@@ -256,110 +256,156 @@ function EatPageInner() {
 
   return (
     <main className="relative min-h-screen bg-orange-50 px-4 py-6">
-      <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-        <Link
-          href="/"
-          className="mb-6 text-sm text-gray-400 hover:text-orange-500"
-        >
+      {/* 상단 헤더 */}
+      <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between">
+        <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
           ← 홈으로
         </Link>
+        <h1 className="text-lg font-bold">🍚 오늘 뭐 먹지?</h1>
+        <div className="w-16" />
+      </div>
 
-        <div className="w-full rounded-3xl bg-white p-6 shadow-sm">
-          <p className="text-sm font-bold text-orange-500">오늘의 메뉴 추천</p>
+      {/* 3단 레이아웃 */}
+      <div className="mx-auto flex max-w-7xl gap-5 lg:items-start">
 
-          <h1 className="mt-2 text-4xl font-bold">🍚 오늘 뭐 먹지?</h1>
+        {/* 왼쪽: 설정 패널 */}
+        <aside className="hidden lg:flex lg:w-72 lg:flex-shrink-0 lg:flex-col lg:gap-4">
+          <div className="rounded-3xl bg-white p-5 shadow-sm">
+            <p className="mb-3 text-sm font-bold text-orange-500">오늘의 메뉴 추천</p>
+            <p className="text-sm leading-6 text-gray-400">
+              음식 분류와 브랜드를 고르면 오늘 먹을 메뉴를 랜덤으로 추천해줘요.
+            </p>
+          </div>
 
-          <p className="mt-3 text-sm leading-6 text-gray-500">
-            음식 분류와 브랜드를 고르면 오늘 먹을 메뉴를 랜덤으로 추천해줘요.
-          </p>
-
-          <div className="mt-6 text-left">
+          <div className="rounded-3xl bg-white p-5 shadow-sm">
             <p className="mb-3 text-sm font-bold text-gray-700">🍽 음식 분류</p>
-
             <CategorySelector
               selected={selectedCategory}
               onChange={handleCategoryChange}
               disabled={isRolling || isHoldingFinal}
             />
           </div>
-        </div>
 
-        <div className="mt-5 w-full rounded-3xl bg-white p-6 text-left shadow-sm">
-          <p className="mb-3 text-sm font-bold text-gray-700">🎲 추천 방식</p>
-
-          <RecommendModeSelector
-            selected={recommendMode}
-            onChange={setRecommendMode}
-            disabled={isRolling || isHoldingFinal}
-          />
-        </div>
-
-        <div className="mt-5 w-full rounded-3xl bg-white p-6 shadow-sm">
-          <FilterSelector
-            filters={filters}
-            onChange={handleFilterChange}
-            disabled={isRolling || isHoldingFinal}
-          />
-        </div>
-
-        <button
-          type="button"
-          onClick={startRoulette}
-          disabled={isRolling || isHoldingFinal}
-          className="relative z-50 mt-6 w-full rounded-3xl bg-orange-500 py-4 text-xl font-bold text-white active:scale-95 disabled:opacity-50"
-        >
-          {isRolling
-            ? "고르는 중..."
-            : isHoldingFinal
-            ? "결정 중..."
-            : "🎲 메뉴 뽑기"}
-        </button>
-
-        <AdPlaceholder label="가로 배너 광고" height="small" />
-
-        <div ref={resultRef} className="mt-8 w-full">
-          {(isRolling || isHoldingFinal) && (
-            <RouletteCard
-              food={rollingFood}
-              isRolling={isRolling}
-              isHoldingFinal={isHoldingFinal}
-              messageIndex={messageIndex}
+          <div className="rounded-3xl bg-white p-5 shadow-sm">
+            <p className="mb-3 text-sm font-bold text-gray-700">🎲 추천 방식</p>
+            <RecommendModeSelector
+              selected={recommendMode}
+              onChange={setRecommendMode}
+              disabled={isRolling || isHoldingFinal}
             />
+          </div>
+
+          <div className="rounded-3xl bg-white p-5 shadow-sm">
+            <FilterSelector
+              filters={filters}
+              onChange={handleFilterChange}
+              disabled={isRolling || isHoldingFinal}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowSuggest(true)}
+            className="w-full rounded-2xl border border-orange-200 bg-white py-3 text-sm font-bold text-orange-500 active:scale-95"
+          >
+            🍽 메뉴 제안하기
+          </button>
+        </aside>
+
+        {/* 가운데: 메인 */}
+        <div className="flex min-w-0 flex-1 flex-col items-center">
+          {/* 모바일 전용 설정 */}
+          <div className="flex w-full flex-col gap-4 lg:hidden">
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <p className="text-sm font-bold text-orange-500">오늘의 메뉴 추천</p>
+              <h2 className="mt-1 text-3xl font-bold">🍚 오늘 뭐 먹지?</h2>
+              <div className="mt-4 text-left">
+                <p className="mb-3 text-sm font-bold text-gray-700">🍽 음식 분류</p>
+                <CategorySelector
+                  selected={selectedCategory}
+                  onChange={handleCategoryChange}
+                  disabled={isRolling || isHoldingFinal}
+                />
+              </div>
+            </div>
+            <div className="rounded-3xl bg-white p-5 text-left shadow-sm">
+              <p className="mb-3 text-sm font-bold text-gray-700">🎲 추천 방식</p>
+              <RecommendModeSelector
+                selected={recommendMode}
+                onChange={setRecommendMode}
+                disabled={isRolling || isHoldingFinal}
+              />
+            </div>
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <FilterSelector
+                filters={filters}
+                onChange={handleFilterChange}
+                disabled={isRolling || isHoldingFinal}
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={startRoulette}
+            disabled={isRolling || isHoldingFinal}
+            className="relative z-50 mt-4 w-full rounded-3xl bg-orange-500 py-4 text-xl font-bold text-white active:scale-95 disabled:opacity-50 lg:mt-0"
+          >
+            {isRolling
+              ? "고르는 중..."
+              : isHoldingFinal
+              ? "결정 중..."
+              : "🎲 메뉴 뽑기"}
+          </button>
+
+          <AdPlaceholder label="가로 배너 광고" height="small" />
+
+          <div ref={resultRef} className="mt-6 w-full">
+            {(isRolling || isHoldingFinal) && (
+              <RouletteCard
+                food={rollingFood}
+                isRolling={isRolling}
+                isHoldingFinal={isHoldingFinal}
+                messageIndex={messageIndex}
+              />
+            )}
+          </div>
+
+          {selectedFood && !isRolling && !isHoldingFinal && (
+            <>
+              <ResultCard
+                food={selectedFood}
+                message={resultMessage}
+                rating={selectedRating}
+                onRate={rateFood}
+                onRetry={retryFood}
+                onShare={shareFood}
+              />
+              <AdPlaceholder label="사각형 광고" height="medium" />
+            </>
           )}
+
+          {/* 모바일 전용 인기/히스토리 */}
+          <div className="w-full lg:hidden">
+            <PopularFoods topPicked={topPicked} topRated={topRated} />
+            <FoodHistory history={history} />
+            <button
+              type="button"
+              onClick={() => setShowSuggest(true)}
+              className="mt-4 w-full rounded-2xl border border-orange-200 bg-white py-4 text-sm font-bold text-orange-500 active:scale-95"
+            >
+              🍽 먹고 싶은 메뉴가 없어요? 제안하기
+            </button>
+          </div>
         </div>
 
-        {selectedFood && !isRolling && !isHoldingFinal && (
-          <>
-            <ResultCard
-              food={selectedFood}
-              message={resultMessage}
-              rating={selectedRating}
-              onRate={rateFood}
-              onRetry={retryFood}
-              onShare={shareFood}
-            />
-
-            <AdPlaceholder label="사각형 광고" height="medium" />
-          </>
-        )}
-
-        <div className="w-full">
+        {/* 오른쪽: 인기 메뉴 + 히스토리 */}
+        <aside className="hidden lg:flex lg:w-72 lg:flex-shrink-0 lg:flex-col lg:gap-4">
           <PopularFoods topPicked={topPicked} topRated={topRated} />
-        </div>
-
-        <AdPlaceholder label="콘텐츠 중간 광고" height="small" />
-
-        <div className="w-full">
           <FoodHistory history={history} />
-        </div>
+          <AdPlaceholder label="사이드 광고" height="medium" />
+        </aside>
 
-        <button
-          type="button"
-          onClick={() => setShowSuggest(true)}
-          className="mt-4 w-full rounded-2xl border border-orange-200 bg-white py-4 text-sm font-bold text-orange-500 active:scale-95"
-        >
-          🍽 먹고 싶은 메뉴가 없어요? 제안하기
-        </button>
       </div>
 
       {showSuggest && <SuggestModal onClose={() => setShowSuggest(false)} />}
