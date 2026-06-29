@@ -102,17 +102,17 @@ export default function ResultCard({
       <div className="mt-6 w-full rounded-3xl bg-white p-8 text-center shadow-sm">
         <FoodImage food={food} />
 
-        <p className="mt-4 text-sm font-bold text-orange-500">
+        <p className="mt-4 text-xs font-bold uppercase tracking-widest text-orange-500">
           오늘의 추천 메뉴
         </p>
 
-        <h2 className="mt-2 text-4xl font-bold">{food.name}</h2>
+        <h2 className="mt-2 text-4xl font-black tracking-tight">{food.name}</h2>
 
-        <p className="mt-2 text-gray-500">
+        <p className="mt-1 text-sm font-medium text-gray-500">
           {food.brand ? food.brand : food.category}
         </p>
 
-        <p className="mt-6 rounded-2xl bg-orange-50 px-4 py-3 text-gray-700">
+        <p className="mt-5 rounded-2xl bg-orange-50 px-4 py-4 text-sm font-medium leading-relaxed text-gray-700">
           {message}
         </p>
 
