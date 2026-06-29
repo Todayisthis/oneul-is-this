@@ -103,16 +103,12 @@ const categoryTranslations: Record<string, string> = {
 
 export async function GET(req: NextRequest) {
   const name = req.nextUrl.searchParams.get("name") ?? "";
-  const category = req.nextUrl.searchParams.get("category") ?? "";
 
   const key = process.env.UNSPLASH_ACCESS_KEY;
   if (!key) return NextResponse.json({ url: null });
 
-  // 음식 이름 → 영어 번역 우선, 없으면 카테고리 번역
-  const englishQuery =
-    foodTranslations[name] ??
-    categoryTranslations[category] ??
-    `${name} food`;
+  const englishQuery = foodTranslations[name];
+  if (!englishQuery) return NextResponse.json({ url: null });
 
   try {
     const res = await fetch(
