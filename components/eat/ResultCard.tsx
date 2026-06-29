@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
 
@@ -17,6 +17,38 @@ function FoodImage({ food }: { food: Food }) {
   return <div className="text-7xl">{food.emoji}</div>;
 }
 
+function AdInterstitial({ onDone }: { onDone: () => void }) {
+  const [count, setCount] = useState(3);
+
+  useEffect(() => {
+    if (count <= 0) { onDone(); return; }
+    const t = setTimeout(() => setCount((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [count, onDone]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+      <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-xl">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-bold text-gray-500">잠깐! 광고를 확인해주세요</p>
+          <span className="text-sm text-gray-400">{count}초 후 공유 가능</span>
+        </div>
+        <div className="mt-4 flex min-h-[200px] items-center justify-center rounded-2xl bg-gray-100 text-sm text-gray-400">
+          광고 영역
+        </div>
+        <button
+          type="button"
+          disabled={count > 0}
+          onClick={onDone}
+          className="mt-4 w-full rounded-2xl bg-orange-500 py-3 text-sm font-bold text-white disabled:opacity-40"
+        >
+          {count > 0 ? `${count}초 기다려주세요...` : "공유하기 →"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function ResultCard({
   food,
   message,
@@ -24,7 +56,17 @@ export default function ResultCard({
   onRate,
   onRetry,
 }: Props) {
+  const [showAd, setShowAd] = useState(false);
   const [showShare, setShowShare] = useState(false);
+
+  function openShare() {
+    setShowAd(true);
+  }
+
+  function onAdDone() {
+    setShowAd(false);
+    setShowShare(true);
+  }
 
   const ratingMessage =
     rating === null
@@ -37,7 +79,6 @@ export default function ResultCard({
 
   function handleRate(score: number) {
     onRate(score);
-    setShowShare(true);
   }
 
   function openMap() {
@@ -52,6 +93,7 @@ export default function ResultCard({
 
   return (
     <>
+      {showAd && <AdInterstitial onDone={onAdDone} />}
       {showShare && (
         <SharePopup food={food} onClose={() => setShowShare(false)} />
       )}
@@ -89,6 +131,14 @@ export default function ResultCard({
             다시 뽑기
           </button>
         </div>
+
+        <button
+          type="button"
+          onClick={openShare}
+          className="mt-3 w-full rounded-2xl border border-orange-200 py-3 text-sm font-bold text-orange-500 active:scale-95"
+        >
+          📤 친구에게 공유하기
+        </button>
 
         <div className="mt-6">
           <p className="mb-3 text-sm font-bold text-gray-600">
