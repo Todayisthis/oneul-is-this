@@ -255,7 +255,7 @@ function EatPageInner() {
   }
 
   return (
-    <main className="relative min-h-screen px-4 py-6" style={{ background: "#2c2c2c" }}>
+    <main className="relative min-h-screen bg-orange-50 px-4 py-6">
       {/* 상단 헤더 */}
       <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
