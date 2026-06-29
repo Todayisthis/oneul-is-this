@@ -24,13 +24,13 @@ export type PopularItem = {
   ratingCount?: number;
 };
 
-// 이번 주 월요일 날짜 문자열 (주 단위 리셋 기준)
+// KST 기준 이번 주 월요일 날짜 문자열 (UTC+9)
 function weekString() {
-  const now = new Date();
-  const day = now.getDay(); // 0=일, 1=월 ...
+  const now = new Date(Date.now() + 9 * 60 * 60 * 1000); // KST
+  const day = now.getUTCDay(); // 0=일, 1=월 ...
   const diff = day === 0 ? -6 : 1 - day;
   const monday = new Date(now);
-  monday.setDate(now.getDate() + diff);
+  monday.setUTCDate(now.getUTCDate() + diff);
   return monday.toISOString().slice(0, 10); // e.g. "2026-06-23"
 }
 
