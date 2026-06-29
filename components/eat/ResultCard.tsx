@@ -21,7 +21,7 @@ function FoodImage({ food }: { food: Food }) {
     if (food.imageUrl) return;
     setSrc(null);
     setImgFailed(false);
-    fetch(`/api/food-image?query=${encodeURIComponent(food.name + " 음식")}`)
+    fetch(`/api/food-image?name=${encodeURIComponent(food.name)}&category=${encodeURIComponent(food.category)}`)
       .then((r) => r.json())
       .then((data) => { if (data.url) setSrc(data.url); else setImgFailed(true); })
       .catch(() => setImgFailed(true));
