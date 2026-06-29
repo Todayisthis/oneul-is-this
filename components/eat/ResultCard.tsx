@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
 
@@ -36,6 +37,13 @@ export default function ResultCard({
     setShowShare(true);
   }
 
+  function openKakaoMap() {
+    window.open(
+      `https://map.kakao.com/?q=${encodeURIComponent(food.name + " 맛집")}`,
+      "_blank"
+    );
+  }
+
   return (
     <>
       {showShare && (
@@ -43,7 +51,18 @@ export default function ResultCard({
       )}
 
       <div className="mt-6 w-full rounded-3xl bg-white p-8 text-center shadow-sm">
-        <div className="text-7xl">{food.emoji}</div>
+        {food.imageUrl ? (
+          <div className="relative mx-auto h-48 w-48 overflow-hidden rounded-2xl">
+            <Image
+              src={food.imageUrl}
+              alt={food.name}
+              fill
+              className="object-cover"
+            />
+          </div>
+        ) : (
+          <div className="text-7xl">{food.emoji}</div>
+        )}
 
         <p className="mt-4 text-sm font-bold text-orange-500">
           오늘의 추천 메뉴
@@ -59,11 +78,18 @@ export default function ResultCard({
           {message}
         </p>
 
-        <div className="mt-6">
+        <div className="mt-4 flex gap-2">
+          <button
+            type="button"
+            onClick={openKakaoMap}
+            className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-[#FEE500] py-3 text-sm font-bold text-[#191919] active:scale-95"
+          >
+            🗺 근처 식당 찾기
+          </button>
           <button
             type="button"
             onClick={onRetry}
-            className="w-full rounded-2xl bg-orange-500 px-3 py-3 text-sm font-bold text-white active:scale-95"
+            className="flex-1 rounded-2xl bg-orange-500 py-3 text-sm font-bold text-white active:scale-95"
           >
             다시 뽑기
           </button>

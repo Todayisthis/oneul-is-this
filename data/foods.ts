@@ -53,6 +53,7 @@ export type Food = {
   isPopular?: boolean;
 
   message: string;
+  imageUrl?: string;
 };
 
 export const foods: Food[] = [
