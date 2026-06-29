@@ -79,6 +79,7 @@ export default function ResultCard({
 
   function handleRate(score: number) {
     onRate(score);
+    setShowAd(true);
   }
 
   function openMap() {
