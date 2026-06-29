@@ -5,45 +5,52 @@ type Props = {
   topRated: PopularItem[];
 };
 
+const rankColors = ["text-yellow-500", "text-gray-400", "text-orange-400", "text-gray-300", "text-gray-300"];
+const rankLabels = ["1st", "2nd", "3rd", "4th", "5th"];
+
 export default function PopularFoods({ topPicked, topRated }: Props) {
   if (!topPicked?.length && !topRated?.length) return null;
 
   return (
-    <div className="mt-6 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mt-6">
       {topPicked.length > 0 && (
-        <div className="rounded-2xl bg-white p-5">
-          <p className="text-sm font-bold">🔥 이번주 많이 나온 메뉴 Top 5</p>
-          <div className="mt-3 flex flex-wrap gap-2">
+        <div className="rounded-2xl bg-white p-5 shadow-sm">
+          <p className="text-sm font-bold mb-4">🔥 이번주 많이 나온 메뉴</p>
+          <ol className="flex flex-col gap-3">
             {topPicked.map((item, i) => (
-              <div
-                key={`picked-${item.id}-${i}`}
-                className="rounded-xl bg-yellow-50 px-3 py-2 text-sm"
-              >
-                {item.emoji} {item.name}{" "}
-                <span className="text-gray-400">({item.count}회)</span>
-              </div>
+              <li key={`picked-${item.id}-${i}`} className="flex items-center gap-3">
+                <span className={`w-8 text-center text-xs font-bold ${rankColors[i]}`}>
+                  {rankLabels[i]}
+                </span>
+                <span className="text-xl">{item.emoji}</span>
+                <span className="flex-1 text-sm font-medium">{item.name}</span>
+                <span className="text-xs text-gray-400 tabular-nums">{item.count}회</span>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       )}
 
       {topRated.length > 0 && (
-        <div className="rounded-2xl bg-white p-5">
-          <p className="text-sm font-bold">⭐ 이번주 인기있는 메뉴 Top 5</p>
-          <div className="mt-3 flex flex-wrap gap-2">
+        <div className="rounded-2xl bg-white p-5 shadow-sm">
+          <p className="text-sm font-bold mb-4">⭐ 이번주 인기있는 메뉴</p>
+          <ol className="flex flex-col gap-3">
             {topRated.map((item, i) => (
-              <div
-                key={`rated-${item.id}-${i}`}
-                className="rounded-xl bg-orange-50 px-3 py-2 text-sm"
-              >
-                {item.emoji} {item.name}{" "}
-                <span className="text-yellow-500">⭐{item.avgRating}</span>
-                {item.ratingCount && (
-                  <span className="ml-1 text-gray-400">({item.ratingCount}명)</span>
-                )}
-              </div>
+              <li key={`rated-${item.id}-${i}`} className="flex items-center gap-3">
+                <span className={`w-8 text-center text-xs font-bold ${rankColors[i]}`}>
+                  {rankLabels[i]}
+                </span>
+                <span className="text-xl">{item.emoji}</span>
+                <span className="flex-1 text-sm font-medium">{item.name}</span>
+                <span className="text-xs font-bold text-yellow-500 tabular-nums">
+                  ⭐{item.avgRating}
+                  {item.ratingCount && (
+                    <span className="ml-1 font-normal text-gray-400">({item.ratingCount}명)</span>
+                  )}
+                </span>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       )}
     </div>
