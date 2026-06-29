@@ -144,7 +144,7 @@ export default function ResultCard({
           <button
             type="button"
             onClick={() => window.open(`https://www.coupangeats.com/search?keyword=${encodeURIComponent(food.name)}`, "_blank")}
-            className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-[#FF6000] py-3 text-sm font-bold text-white active:scale-95"
+            className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-[#2AC1BC] py-3 text-sm font-bold text-white active:scale-95"
           >
             🛵 쿠팡이츠
           </button>
