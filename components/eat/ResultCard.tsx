@@ -60,10 +60,24 @@ export default function ResultCard({
     setShowShare(true);
   }
 
-  function openKakaoMap() {
-    window.open(
-      `https://map.kakao.com/?q=${encodeURIComponent(food.name + " 맛집")}`,
-      "_blank"
+  function openMap() {
+    const query = encodeURIComponent(`내 근처 ${food.name} 맛집`);
+    if (!navigator.geolocation) {
+      window.open(`https://map.kakao.com/?q=${query}`, "_blank");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        window.open(
+          `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`,
+          "_blank"
+        );
+      },
+      () => {
+        // 위치 거부 시 카카오맵 일반 검색
+        window.open(`https://map.kakao.com/?q=${query}`, "_blank");
+      }
     );
   }
 
@@ -93,7 +107,7 @@ export default function ResultCard({
         <div className="mt-4 flex gap-2">
           <button
             type="button"
-            onClick={openKakaoMap}
+            onClick={openMap}
             className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-[#FEE500] py-3 text-sm font-bold text-[#191919] active:scale-95"
           >
             🗺 근처 식당 찾기
