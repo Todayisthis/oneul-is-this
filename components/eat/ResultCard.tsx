@@ -62,23 +62,12 @@ export default function ResultCard({
 
   function openMap() {
     const query = encodeURIComponent(`내 근처 ${food.name} 맛집`);
-    if (!navigator.geolocation) {
-      window.open(`https://map.kakao.com/?q=${query}`, "_blank");
-      return;
+    const kakaoUrl = `https://map.kakao.com/?q=${query}`;
+    const googleUrl = `https://www.google.com/maps/search/${query}`;
+    const opened = window.open(kakaoUrl, "_blank");
+    if (!opened) {
+      window.open(googleUrl, "_blank");
     }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude: lat, longitude: lng } = pos.coords;
-        window.open(
-          `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`,
-          "_blank"
-        );
-      },
-      () => {
-        // 위치 거부 시 카카오맵 일반 검색
-        window.open(`https://map.kakao.com/?q=${query}`, "_blank");
-      }
-    );
   }
 
   return (
