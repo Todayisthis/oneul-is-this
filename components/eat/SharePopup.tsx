@@ -1,6 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
 import type { Food } from "@/data/foods";
+
+declare global {
+  interface Window {
+    Kakao: {
+      isInitialized: () => boolean;
+      init: (key: string) => void;
+      Share: {
+        sendDefault: (options: unknown) => void;
+      };
+    };
+  }
+}
 
 type Props = {
   food: Food;
@@ -14,6 +27,37 @@ export default function SharePopup({ food, onClose }: Props) {
       : "";
 
   const text = `오늘 뭐 먹지? ${food.emoji} ${food.name} 어때요?`;
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY!);
+    }
+  }, []);
+
+  function shareKakao() {
+    if (!window.Kakao?.Share) return;
+    window.Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: `오늘 뭐 먹지? ${food.emoji} ${food.name}`,
+        description: food.message ?? `${food.name} 어때요?`,
+        imageUrl: "https://www.oneul-is-this.com/og-image.svg",
+        link: {
+          mobileWebUrl: url,
+          webUrl: url,
+        },
+      },
+      buttons: [
+        {
+          title: "나도 뽑아보기",
+          link: {
+            mobileWebUrl: url,
+            webUrl: url,
+          },
+        },
+      ],
+    });
+  }
 
   async function nativeShare() {
     if (navigator.share) {
@@ -71,7 +115,17 @@ export default function SharePopup({ food, onClose }: Props) {
         </p>
 
         <div className="mt-5 flex flex-col gap-3">
-          {/* 모바일: 기기 공유 시트 (카카오, 인스타 등 설치된 앱 전부 뜸) */}
+          {/* 카카오톡 공유 */}
+          <button
+            type="button"
+            onClick={shareKakao}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-[#FEE500] py-4 text-sm font-bold text-[#191919] active:scale-95"
+          >
+            <span className="text-xl">💬</span>
+            카카오톡으로 공유
+          </button>
+
+          {/* 모바일: 기기 공유 시트 */}
           {hasNativeShare && (
             <button
               type="button"
@@ -79,11 +133,11 @@ export default function SharePopup({ food, onClose }: Props) {
               className="flex items-center justify-center gap-2 rounded-2xl bg-orange-500 py-4 text-sm font-bold text-white active:scale-95"
             >
               <span className="text-xl">📤</span>
-              카카오톡 · 인스타그램 · 기타 앱으로 공유
+              기타 앱으로 공유
             </button>
           )}
 
-          {/* X · 트위터 (PC/모바일 공통) */}
+          {/* X · 트위터 */}
           <button
             type="button"
             onClick={shareTwitter}
@@ -104,7 +158,6 @@ export default function SharePopup({ food, onClose }: Props) {
           </button>
         </div>
 
-        {/* 광고 영역 */}
         <div className="mt-4 flex h-16 items-center justify-center rounded-2xl bg-gray-50 text-xs text-gray-300">
           광고
         </div>
