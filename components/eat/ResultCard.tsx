@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
+import { saveFeedComment } from "@/lib/firebaseStats";
 
 type Props = {
   food: Food;
@@ -58,6 +59,8 @@ export default function ResultCard({
 }: Props) {
   const [showAd, setShowAd] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [comment, setComment] = useState("");
+  const [commentSent, setCommentSent] = useState(false);
 
   function openShare() {
     setShowAd(true);
@@ -66,6 +69,18 @@ export default function ResultCard({
   function onAdDone() {
     setShowAd(false);
     setShowShare(true);
+  }
+
+  async function submitComment() {
+    const trimmed = comment.trim();
+    if (!trimmed) return;
+    await saveFeedComment({
+      foodId: food.id,
+      foodName: food.name,
+      foodEmoji: food.emoji,
+      comment: trimmed,
+    });
+    setCommentSent(true);
   }
 
   const ratingMessage =
@@ -168,6 +183,35 @@ export default function ResultCard({
             <p className="mt-4 rounded-2xl bg-gray-50 px-4 py-3 text-sm font-bold text-gray-600">
               {ratingMessage}
             </p>
+          )}
+        </div>
+
+        <div className="mt-5 border-t border-gray-100 pt-5">
+          <p className="mb-2 text-sm font-bold text-gray-700">💬 한줄 후기 남기기</p>
+          {commentSent ? (
+            <p className="rounded-2xl bg-orange-50 py-3 text-sm font-bold text-orange-500">
+              후기가 등록됐어요! 🎉
+            </p>
+          ) : (
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
+                maxLength={60}
+                placeholder="맛있었다, 별로였다... 자유롭게!"
+                className="flex-1 rounded-2xl border border-gray-200 px-4 py-2 text-sm outline-none focus:border-orange-400"
+              />
+              <button
+                type="button"
+                onClick={submitComment}
+                disabled={!comment.trim()}
+                className="rounded-2xl bg-orange-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-40 active:scale-95"
+              >
+                등록
+              </button>
+            </div>
           )}
         </div>
       </div>

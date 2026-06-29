@@ -19,7 +19,7 @@ import {
   saveFoodPick,
   saveFoodRating,
 } from "@/lib/foodStats";
-import { recordFoodPick, recordFoodRating, getTopFoods, getTopRatedFoods, type PopularItem } from "@/lib/firebaseStats";
+import { recordFoodPick, recordFoodRating, getTopFoods, getTopRatedFoods, getRecentFeeds, type PopularItem, type FeedItem } from "@/lib/firebaseStats";
 
 import CategorySelector from "@/components/eat/CategorySelector";
 import RecommendModeSelector from "@/components/eat/RecommendModeSelector";
@@ -29,6 +29,7 @@ import ResultCard from "@/components/eat/ResultCard";
 import PopularFoods from "@/components/eat/PopularFoods";
 import FoodHistory from "@/components/eat/FoodHistory";
 import SuggestModal from "@/components/eat/SuggestModal";
+import FeedList from "@/components/eat/FeedList";
 import AdPlaceholder from "@/components/ads/AdPlaceholder";
 import Footer from "@/components/layout/Footer";
 
@@ -64,11 +65,13 @@ function EatPageInner() {
   const [history, setHistory] = useState<Food[]>([]);
   const [topPicked, setTopPicked] = useState<PopularItem[]>([]);
   const [topRated, setTopRated] = useState<PopularItem[]>([]);
+  const [feeds, setFeeds] = useState<FeedItem[]>([]);
 
   async function refreshPopular() {
-    const [picked, rated] = await Promise.all([getTopFoods(5), getTopRatedFoods(5)]);
+    const [picked, rated, recentFeeds] = await Promise.all([getTopFoods(5), getTopRatedFoods(5), getRecentFeeds(20)]);
     setTopPicked(picked);
     setTopRated(rated);
+    setFeeds(recentFeeds);
   }
 
   const searchParams = useSearchParams();
@@ -385,9 +388,10 @@ function EatPageInner() {
             </>
           )}
 
-          {/* 모바일 전용 인기/히스토리 */}
+          {/* 모바일 전용 인기/피드/히스토리 */}
           <div className="w-full lg:hidden">
             <PopularFoods topPicked={topPicked} topRated={topRated} />
+            <FeedList feeds={feeds} />
             <FoodHistory history={history} />
             <button
               type="button"
@@ -399,9 +403,10 @@ function EatPageInner() {
           </div>
         </div>
 
-        {/* 오른쪽: 인기 메뉴 + 히스토리 */}
+        {/* 오른쪽: 인기 메뉴 + 피드 + 히스토리 */}
         <aside className="hidden lg:flex lg:w-72 lg:flex-shrink-0 lg:flex-col lg:gap-4">
           <PopularFoods topPicked={topPicked} topRated={topRated} />
+          <FeedList feeds={feeds} />
           <FoodHistory history={history} />
           <AdPlaceholder label="사이드 광고" height="medium" />
         </aside>

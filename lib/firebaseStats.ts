@@ -134,6 +134,51 @@ export async function getTopRatedFoods(topN = 5): Promise<PopularItem[]> {
   }
 }
 
+export type FeedItem = {
+  id: string;
+  foodName: string;
+  foodEmoji: string;
+  comment: string;
+  createdAt: Date;
+};
+
+export async function saveFeedComment(data: {
+  foodId: number;
+  foodName: string;
+  foodEmoji: string;
+  comment: string;
+}) {
+  const { addDoc, collection: col } = await import("firebase/firestore");
+  await addDoc(col(db, "feeds"), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+}
+
+export async function getRecentFeeds(count = 20): Promise<FeedItem[]> {
+  try {
+    const q = query(
+      collection(db, "feeds"),
+      orderBy("createdAt", "desc"),
+      limit(count)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        foodName: data.foodName as string,
+        foodEmoji: data.foodEmoji as string,
+        comment: data.comment as string,
+        createdAt: data.createdAt?.toDate?.() ?? new Date(),
+      };
+    });
+  } catch (e) {
+    console.error("getRecentFeeds error:", e);
+    return [];
+  }
+}
+
 export async function saveFoodSuggestion(data: {
   name: string;
   category: string;
