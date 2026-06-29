@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
 
@@ -13,6 +12,30 @@ type Props = {
   onRetry: () => void;
   onShare: () => void;
 };
+
+function FoodImage({ food }: { food: Food }) {
+  const [imgFailed, setImgFailed] = useState(false);
+
+  const src =
+    food.imageUrl ||
+    `https://source.unsplash.com/400x400/?${encodeURIComponent(food.name)},food,korean`;
+
+  if (imgFailed) {
+    return <div className="text-7xl">{food.emoji}</div>;
+  }
+
+  return (
+    <div className="relative mx-auto h-48 w-48 overflow-hidden rounded-2xl">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={food.name}
+        className="h-full w-full object-cover"
+        onError={() => setImgFailed(true)}
+      />
+    </div>
+  );
+}
 
 export default function ResultCard({
   food,
@@ -51,18 +74,7 @@ export default function ResultCard({
       )}
 
       <div className="mt-6 w-full rounded-3xl bg-white p-8 text-center shadow-sm">
-        {food.imageUrl ? (
-          <div className="relative mx-auto h-48 w-48 overflow-hidden rounded-2xl">
-            <Image
-              src={food.imageUrl}
-              alt={food.name}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ) : (
-          <div className="text-7xl">{food.emoji}</div>
-        )}
+        <FoodImage food={food} />
 
         <p className="mt-4 text-sm font-bold text-orange-500">
           오늘의 추천 메뉴
