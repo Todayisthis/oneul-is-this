@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
 
@@ -14,14 +14,29 @@ type Props = {
 };
 
 function FoodImage({ food }: { food: Food }) {
+  const [src, setSrc] = useState<string | null>(food.imageUrl ?? null);
   const [imgFailed, setImgFailed] = useState(false);
 
-  const src =
-    food.imageUrl ||
-    `https://source.unsplash.com/400x400/?${encodeURIComponent(food.name)},food,korean`;
+  useEffect(() => {
+    if (food.imageUrl) return;
+    setSrc(null);
+    setImgFailed(false);
+    fetch(`/api/food-image?query=${encodeURIComponent(food.name + " 음식")}`)
+      .then((r) => r.json())
+      .then((data) => { if (data.url) setSrc(data.url); else setImgFailed(true); })
+      .catch(() => setImgFailed(true));
+  }, [food.id, food.imageUrl, food.name]);
 
-  if (imgFailed) {
+  if (imgFailed || (!src && !food.imageUrl)) {
     return <div className="text-7xl">{food.emoji}</div>;
+  }
+
+  if (!src) {
+    return (
+      <div className="mx-auto flex h-48 w-48 items-center justify-center rounded-2xl bg-orange-50 text-5xl">
+        {food.emoji}
+      </div>
+    );
   }
 
   return (
