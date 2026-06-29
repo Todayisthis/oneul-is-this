@@ -28,6 +28,7 @@ import RouletteCard from "@/components/eat/RouletteCard";
 import ResultCard from "@/components/eat/ResultCard";
 import PopularFoods from "@/components/eat/PopularFoods";
 import FoodHistory from "@/components/eat/FoodHistory";
+import SuggestModal from "@/components/eat/SuggestModal";
 import AdPlaceholder from "@/components/ads/AdPlaceholder";
 import Footer from "@/components/layout/Footer";
 
@@ -54,6 +55,7 @@ function EatPageInner() {
 
   const [isRolling, setIsRolling] = useState(false);
   const [isHoldingFinal, setIsHoldingFinal] = useState(false);
+  const [showSuggest, setShowSuggest] = useState(false);
 
   const [messageIndex, setMessageIndex] = useState(0);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
@@ -350,7 +352,17 @@ function EatPageInner() {
         <div className="w-full">
           <FoodHistory history={history} />
         </div>
+
+        <button
+          type="button"
+          onClick={() => setShowSuggest(true)}
+          className="mt-4 w-full rounded-2xl border border-orange-200 bg-white py-4 text-sm font-bold text-orange-500 active:scale-95"
+        >
+          🍽 먹고 싶은 메뉴가 없어요? 제안하기
+        </button>
       </div>
+
+      {showSuggest && <SuggestModal onClose={() => setShowSuggest(false)} />}
 
       <Footer />
     </main>

@@ -134,6 +134,19 @@ export async function getTopRatedFoods(topN = 5): Promise<PopularItem[]> {
   }
 }
 
+export async function saveFoodSuggestion(data: {
+  name: string;
+  category: string;
+  description: string;
+}) {
+  const { addDoc, collection: col } = await import("firebase/firestore");
+  await addDoc(col(db, "suggestions"), {
+    ...data,
+    createdAt: serverTimestamp(),
+    status: "pending",
+  });
+}
+
 export async function saveContactMessage(data: {
   name: string;
   email: string;
