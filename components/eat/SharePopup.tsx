@@ -34,17 +34,22 @@ export default function SharePopup({ food, onClose }: Props) {
     }
   }, []);
 
-  function initKakao() {
-    if (!window.Kakao) return false;
+  async function waitForKakao(timeout = 3000): Promise<boolean> {
+    const start = Date.now();
+    while (!window.Kakao) {
+      if (Date.now() - start > timeout) return false;
+      await new Promise((r) => setTimeout(r, 100));
+    }
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY!);
     }
     return true;
   }
 
-  function shareKakao() {
-    if (!initKakao() || !window.Kakao?.Share) {
-      alert("카카오톡 공유를 불러오는 중이에요. 잠시 후 다시 눌러주세요.");
+  async function shareKakao() {
+    const ok = await waitForKakao();
+    if (!ok || !window.Kakao?.Share) {
+      alert("카카오톡 공유를 사용할 수 없어요.");
       return;
     }
     window.Kakao.Share.sendDefault({
