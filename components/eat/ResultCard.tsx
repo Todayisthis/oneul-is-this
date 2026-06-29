@@ -133,22 +133,6 @@ export default function ResultCard({
           </button>
         </div>
 
-        <div className="mt-2 flex gap-2">
-          <button
-            type="button"
-            onClick={() => window.open(`https://www.baemin.com/search/result?query=${encodeURIComponent(food.name)}`, "_blank")}
-            className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-[#2AC1BC] py-3 text-sm font-bold text-white active:scale-95"
-          >
-            🛵 배달의민족
-          </button>
-          <button
-            type="button"
-            onClick={() => window.open(`https://www.coupangeats.com/search?keyword=${encodeURIComponent(food.name)}`, "_blank")}
-            className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-[#2AC1BC] py-3 text-sm font-bold text-white active:scale-95"
-          >
-            🛵 쿠팡이츠
-          </button>
-        </div>
 
         <button
           type="button"
