@@ -34,8 +34,19 @@ export default function SharePopup({ food, onClose }: Props) {
     }
   }, []);
 
+  function initKakao() {
+    if (!window.Kakao) return false;
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY!);
+    }
+    return true;
+  }
+
   function shareKakao() {
-    if (!window.Kakao?.Share) return;
+    if (!initKakao() || !window.Kakao?.Share) {
+      alert("카카오톡 공유를 불러오는 중이에요. 잠시 후 다시 눌러주세요.");
+      return;
+    }
     window.Kakao.Share.sendDefault({
       objectType: "feed",
       content: {
