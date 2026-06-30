@@ -3,6 +3,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import WatchFooter from "@/components/watch/WatchFooter";
+import RankList from "@/components/ui/RankList";
 import {
   recordWatchPick,
   recordWatchRating,
@@ -550,59 +551,37 @@ export default function WatchPage() {
 
           {/* ───── 오른쪽 사이드바 ───── */}
           <div className="space-y-4">
-            {/* 이번주 자주 추천된 Top 5 */}
-            <div className="rounded-2xl bg-white p-4 shadow-sm">
-              <p className="mb-3 text-sm font-bold text-gray-700">🔥 이번주 자주 추천된 작품</p>
-              {topPicks.length === 0 ? (
+            {topPicks.length > 0 ? (
+              <RankList
+                title="🔥 이번주 자주 추천된 작품"
+                items={topPicks.map((item) => ({
+                  id: item.id,
+                  label: item.title,
+                  sub: `${item.year} · ${item.count}회`,
+                }))}
+              />
+            ) : (
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="mb-2 text-sm font-bold text-gray-700">🔥 이번주 자주 추천된 작품</p>
                 <p className="py-4 text-center text-xs text-gray-400">아직 데이터가 없어요</p>
-              ) : (
-                <ol className="space-y-2.5">
-                  {topPicks.map((item, idx) => (
-                    <li key={item.id} className="flex items-start gap-2">
-                      <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                        idx === 0 ? "bg-yellow-400 text-white" :
-                        idx === 1 ? "bg-gray-300 text-gray-700" :
-                        idx === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-gray-500"
-                      }`}>
-                        {idx + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate text-xs font-semibold text-gray-800">{item.title}</p>
-                        <p className="text-xs text-gray-400">{item.year} · {item.count}회</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
+              </div>
+            )}
 
-            {/* 별점 높은 Top 5 */}
-            <div className="rounded-2xl bg-white p-4 shadow-sm">
-              <p className="mb-3 text-sm font-bold text-gray-700">⭐ 추천이 마음에 드는 작품</p>
-              {topRated.length === 0 ? (
+            {topRated.length > 0 ? (
+              <RankList
+                title="⭐ 추천이 마음에 드는 작품"
+                items={topRated.map((item) => ({
+                  id: item.id,
+                  label: item.title,
+                  sub: `★ ${item.avgRating?.toFixed(1)}점 (${item.ratingCount}명)`,
+                }))}
+              />
+            ) : (
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="mb-2 text-sm font-bold text-gray-700">⭐ 추천이 마음에 드는 작품</p>
                 <p className="py-4 text-center text-xs text-gray-400">아직 데이터가 없어요</p>
-              ) : (
-                <ol className="space-y-2.5">
-                  {topRated.map((item, idx) => (
-                    <li key={item.id} className="flex items-start gap-2">
-                      <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                        idx === 0 ? "bg-yellow-400 text-white" :
-                        idx === 1 ? "bg-gray-300 text-gray-700" :
-                        idx === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-gray-500"
-                      }`}>
-                        {idx + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate text-xs font-semibold text-gray-800">{item.title}</p>
-                        <p className="text-xs text-gray-400">
-                          ★ {item.avgRating?.toFixed(1)} ({item.ratingCount}명)
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
 
