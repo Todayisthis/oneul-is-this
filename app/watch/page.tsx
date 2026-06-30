@@ -1,0 +1,206 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import Link from "next/link";
+import Footer from "@/components/layout/Footer";
+import {
+  contents,
+  ALL_GENRES,
+  ALL_OTTS,
+  OTT_SEARCH_URL,
+  OTT_COLOR,
+  type Content,
+  type ContentGenre,
+  type OTT,
+} from "@/data/contents";
+
+export default function WatchPage() {
+  const [selectedGenres, setSelectedGenres] = useState<ContentGenre[]>([]);
+  const [selectedOtts, setSelectedOtts] = useState<OTT[]>([]);
+  const [selectedType, setSelectedType] = useState<"전체" | "영화" | "드라마">("전체");
+  const [result, setResult] = useState<Content | null>(null);
+  const [spinning, setSpinning] = useState(false);
+
+  const filtered = useMemo(() => {
+    return contents.filter((c) => {
+      if (selectedType !== "전체" && c.type !== selectedType) return false;
+      if (selectedGenres.length > 0 && !selectedGenres.some((g) => c.genres.includes(g))) return false;
+      if (selectedOtts.length > 0 && !selectedOtts.some((o) => c.ott.includes(o))) return false;
+      return true;
+    });
+  }, [selectedGenres, selectedOtts, selectedType]);
+
+  function toggleGenre(g: ContentGenre) {
+    setSelectedGenres((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
+  }
+
+  function toggleOtt(o: OTT) {
+    setSelectedOtts((prev) => prev.includes(o) ? prev.filter((x) => x !== o) : [...prev, o]);
+  }
+
+  function pick() {
+    if (filtered.length === 0) return;
+    setSpinning(true);
+    setTimeout(() => {
+      const picked = filtered[Math.floor(Math.random() * filtered.length)];
+      setResult(picked);
+      setSpinning(false);
+    }, 600);
+  }
+
+  return (
+    <main className="min-h-screen bg-orange-50 px-4 py-8">
+      <div className="mx-auto max-w-6xl">
+        <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">← 홈으로</Link>
+
+        <h1 className="mt-4 text-2xl font-bold text-gray-800">🎬 오늘 뭐 보지?</h1>
+        <p className="mt-1 text-sm text-gray-500">장르와 OTT를 선택하면 랜덤으로 추천해드려요.</p>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
+          {/* 사이드바 */}
+          <div className="space-y-4">
+            {/* 타입 */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="mb-3 text-sm font-bold text-gray-700">📺 종류</p>
+              <div className="flex gap-2">
+                {(["전체", "영화", "드라마"] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setSelectedType(t)}
+                    className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                      selectedType === t
+                        ? "bg-orange-500 text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-orange-100"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* OTT */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="mb-3 text-sm font-bold text-gray-700">🎞 OTT 플랫폼</p>
+              <div className="flex flex-wrap gap-2">
+                {ALL_OTTS.map((o) => (
+                  <button
+                    key={o}
+                    onClick={() => toggleOtt(o)}
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                      selectedOtts.includes(o)
+                        ? OTT_COLOR[o]
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                  >
+                    {o}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 장르 */}
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="mb-3 text-sm font-bold text-gray-700">🎭 장르</p>
+              <div className="flex flex-wrap gap-1.5">
+                {ALL_GENRES.map((g) => (
+                  <button
+                    key={g}
+                    onClick={() => toggleGenre(g)}
+                    className={`rounded-full px-3 py-1 text-xs transition ${
+                      selectedGenres.includes(g)
+                        ? "bg-orange-500 text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-orange-100"
+                    }`}
+                  >
+                    {g}
+                  </button>
+                ))}
+              </div>
+              {selectedGenres.length > 0 && (
+                <button
+                  onClick={() => setSelectedGenres([])}
+                  className="mt-3 text-xs text-gray-400 hover:text-orange-500"
+                >
+                  장르 초기화
+                </button>
+              )}
+            </div>
+
+            <p className="text-center text-xs text-gray-400">
+              {filtered.length}개 작품 중 추천
+            </p>
+          </div>
+
+          {/* 메인 */}
+          <div className="flex flex-col items-center gap-6">
+            <button
+              onClick={pick}
+              disabled={spinning || filtered.length === 0}
+              className="w-full rounded-2xl bg-orange-500 py-5 text-xl font-bold text-white shadow-md transition hover:bg-orange-600 disabled:opacity-50"
+            >
+              {spinning ? "🎲 찾는 중..." : "🎬 뽑기"}
+            </button>
+
+            {filtered.length === 0 && (
+              <div className="rounded-2xl bg-white p-6 text-center text-gray-400 shadow-sm">
+                선택한 조건에 맞는 작품이 없어요.<br />
+                조건을 조정해보세요.
+              </div>
+            )}
+
+            {result && !spinning && (
+              <div className="w-full rounded-2xl bg-white p-6 shadow-md">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                        result.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                      }`}>
+                        {result.type}
+                      </span>
+                      <span className="text-sm text-gray-400">{result.year}년</span>
+                    </div>
+                    <h2 className="mt-2 text-2xl font-bold text-gray-900">{result.title}</h2>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {result.genres.map((g) => (
+                        <span key={g} className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs text-orange-600">
+                          {g}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5">
+                  <p className="mb-2 text-sm font-bold text-gray-600">바로 보기</p>
+                  <div className="flex flex-wrap gap-2">
+                    {result.ott.map((o) => (
+                      <a
+                        key={o}
+                        href={OTT_SEARCH_URL[o](result.title)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`rounded-xl px-4 py-2 text-sm font-bold transition hover:opacity-80 ${OTT_COLOR[o]}`}
+                      >
+                        {o} →
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={pick}
+                  className="mt-5 w-full rounded-xl border border-orange-200 py-3 text-sm font-medium text-orange-500 hover:bg-orange-50"
+                >
+                  다시 뽑기
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </main>
+  );
+}

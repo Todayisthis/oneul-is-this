@@ -61,12 +61,12 @@ export default function Home() {
           </Link>
 
           <div className="mt-16 grid w-full gap-3 text-gray-400 sm:grid-cols-2">
-            <div className="rounded-2xl bg-gray-50 p-5">
-              🚧 오늘 뭐 보지?{" "}
-              <span className="ml-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-400">
-                개발중
-              </span>
-            </div>
+            <Link
+              href="/watch"
+              className="rounded-2xl bg-white p-5 text-gray-700 shadow-sm transition hover:bg-orange-50 hover:text-orange-600"
+            >
+              🎬 오늘 뭐 보지?
+            </Link>
             <div className="rounded-2xl bg-gray-50 p-5">
               🚧 오늘 어디 가지?{" "}
               <span className="ml-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs text-gray-400">
