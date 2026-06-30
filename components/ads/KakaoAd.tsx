@@ -14,7 +14,7 @@ export default function KakaoAd() {
     callbackName.current = cbName;
 
     // NO-AD 콜백: 광고 없을 때 영역 숨김
-    (window as Record<string, unknown>)[cbName] = () => {
+    (window as unknown as Record<string, unknown>)[cbName] = () => {
       if (insRef.current) {
         insRef.current.style.display = "none";
       }
@@ -36,7 +36,7 @@ export default function KakaoAd() {
     }
 
     return () => {
-      delete (window as Record<string, unknown>)[cbName];
+      delete (window as unknown as Record<string, unknown>)[cbName];
     };
   }, []);
 
