@@ -571,6 +571,7 @@ export default function WatchPage() {
                   rank: i + 1,
                   label: item.title,
                   sub: `${item.year} · ${item.count}회`,
+                  href: getNetflixUrl(item.url, item.title),
                 }))}
               />
             ) : (
@@ -589,6 +590,7 @@ export default function WatchPage() {
                   rank: i + 1,
                   label: item.title,
                   sub: `★ ${item.avgRating?.toFixed(1)}점 (${item.ratingCount}명)`,
+                  href: getNetflixUrl(item.url, item.title),
                 }))}
               />
             ) : (
