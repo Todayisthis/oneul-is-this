@@ -259,13 +259,13 @@ function EatPageInner() {
   }
 
   return (
-    <main className="relative min-h-screen bg-orange-50 px-4 py-6">
+    <main className="relative min-h-screen bg-gray-950 px-4 py-6">
       {/* 상단 헤더 */}
       <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
           ← 홈으로
         </Link>
-        <h1 className="text-lg font-bold">🍚 오늘 뭐 먹지?</h1>
+        <h1 className="text-lg font-bold text-white">🍚 오늘 뭐 먹지?</h1>
         <div className="w-16" />
       </div>
 
