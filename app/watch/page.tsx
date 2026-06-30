@@ -3,7 +3,6 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import WatchFooter from "@/components/watch/WatchFooter";
-import RankList from "@/components/ui/RankList";
 import RankCarousel from "@/components/ui/RankCarousel";
 import {
   recordWatchPick,
@@ -553,10 +552,12 @@ export default function WatchPage() {
           {/* ───── 오른쪽 사이드바 ───── */}
           <div className="space-y-4">
             {topPicks.length > 0 ? (
-              <RankList
+              <RankCarousel
                 title="🔥 이번주 자주 추천된 작품"
-                items={topPicks.map((item) => ({
+                intervalMs={2500}
+                items={topPicks.map((item, i) => ({
                   id: item.id,
+                  rank: i + 1,
                   label: item.title,
                   sub: `${item.year} · ${item.count}회`,
                 }))}
@@ -569,10 +570,12 @@ export default function WatchPage() {
             )}
 
             {topRated.length > 0 ? (
-              <RankList
+              <RankCarousel
                 title="⭐ 추천이 마음에 드는 작품"
-                items={topRated.map((item) => ({
+                intervalMs={2500}
+                items={topRated.map((item, i) => ({
                   id: item.id,
+                  rank: i + 1,
                   label: item.title,
                   sub: `★ ${item.avgRating?.toFixed(1)}점 (${item.ratingCount}명)`,
                 }))}
