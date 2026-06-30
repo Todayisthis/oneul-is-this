@@ -76,7 +76,7 @@ export default function RankCarousel({ title, items }: Props) {
   const currentRef = useRef(0);
   const fadingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const touchStartX = useRef<number | null>(null);
+
 
   useEffect(() => { currentRef.current = current; }, [current]);
 
@@ -107,30 +107,10 @@ export default function RankCarousel({ title, items }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
 
-  function onTouchStart(e: React.TouchEvent) {
-    touchStartX.current = e.touches[0].clientX;
-  }
-
-  function onTouchEnd(e: React.TouchEvent) {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) < 40) return;
-    const next = diff > 0
-      ? (currentRef.current + 1) % items.length
-      : (currentRef.current - 1 + items.length) % items.length;
-    goTo(next);
-    touchStartX.current = null;
-    startTimer();
-  }
-
   if (items.length === 0) return null;
 
   return (
-    <div
-      className="rounded-2xl bg-white p-5 shadow-sm"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-    >
+    <div className="rounded-2xl bg-white p-5 shadow-sm">
       {/* 제목 + 인디케이터 */}
       <div className="mb-3 flex items-center justify-between">
         <p className="text-sm font-bold text-gray-700">{title}</p>
