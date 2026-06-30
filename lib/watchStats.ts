@@ -54,6 +54,7 @@ export async function recordWatchRating(content: Content, score: number) {
       year: content.year,
       type: content.type,
       url: content.url ?? null,
+      count: increment(0), // 필드 없으면 0으로 초기화
       totalScore: increment(score),
       ratingCount: increment(1),
       week,

@@ -69,6 +69,7 @@ export async function recordFoodRating(food: Food, score: number) {
         emoji: food.emoji,
         category: food.category,
         brand: food.brand ?? null,
+        count: increment(0), // 필드 없으면 0으로 초기화 (orderBy 쿼리에 포함되도록)
         totalScore: increment(score),
         ratingCount: increment(1),
         week,
