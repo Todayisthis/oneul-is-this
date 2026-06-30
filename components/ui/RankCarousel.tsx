@@ -24,13 +24,13 @@ const RANK_STYLES = [
   { bg: "bg-yellow-400", border: "border-yellow-200", medal: "🥇" },
   { bg: "bg-gray-300",   border: "border-gray-200",   medal: "🥈" },
   { bg: "bg-orange-400", border: "border-orange-200", medal: "🥉" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
-  { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
+  { bg: "bg-orange-300", border: "border-orange-100", medal: "" },
 ];
 
 function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
@@ -45,7 +45,7 @@ function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
         </div>
         <div className="min-w-0 flex-1">
           {item.badge && (
-            <span className={`mb-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium text-white ${style.bg}`}>
+            <span className="mb-1 inline-block rounded-full bg-orange-400 px-2 py-0.5 text-xs font-medium text-white">
               {item.badge}
             </span>
           )}
