@@ -31,6 +31,7 @@ import FoodHistory from "@/components/eat/FoodHistory";
 import SuggestModal from "@/components/eat/SuggestModal";
 import FeedList from "@/components/eat/FeedList";
 import AdPlaceholder from "@/components/ads/AdPlaceholder";
+import KakaoAd from "@/components/ads/KakaoAd";
 import Footer from "@/components/layout/Footer";
 
 const ROULETTE_DURATION = 5000;
@@ -361,7 +362,7 @@ function EatPageInner() {
               : "🎲 메뉴 뽑기"}
           </button>
 
-          <AdPlaceholder label="가로 배너 광고" height="small" />
+          <KakaoAd />
 
           <div ref={resultRef} className="mt-6 w-full">
             {(isRolling || isHoldingFinal) && (
@@ -384,7 +385,7 @@ function EatPageInner() {
                 onRetry={retryFood}
                 onShare={shareFood}
               />
-              <AdPlaceholder label="사각형 광고" height="medium" />
+              <KakaoAd />
             </>
           )}
 
@@ -408,7 +409,7 @@ function EatPageInner() {
           <PopularFoods topPicked={topPicked} topRated={topRated} />
           <FeedList feeds={feeds} />
           <FoodHistory history={history} />
-          <AdPlaceholder label="사이드 광고" height="medium" />
+          <KakaoAd />
         </aside>
 
       </div>
