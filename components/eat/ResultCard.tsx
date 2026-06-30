@@ -163,7 +163,7 @@ export default function ResultCard({
         </button>
 
         <div className="mt-6">
-          <div className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-center text-xs text-amber-700">
+          <div className="mb-3 rounded-xl bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-400 md:bg-amber-50 md:text-amber-700">
             💡 <strong>별점을 주시면 광고 없이 바로 공유</strong>할 수 있어요!
           </div>
           <p className="mb-3 text-sm font-bold text-gray-300 md:text-gray-600">

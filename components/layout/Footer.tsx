@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-gray-200 bg-white py-8">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 text-sm text-gray-500">
+    <footer className="mt-16 border-t border-gray-800 bg-gray-950 py-8 md:border-gray-200 md:bg-white">
+      <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 text-sm text-gray-400 md:text-gray-500">
         <div className="flex flex-wrap justify-center gap-5">
           <Link href="/about" className="hover:text-orange-500">
             서비스 소개

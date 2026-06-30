@@ -397,7 +397,7 @@ function EatPageInner() {
             <button
               type="button"
               onClick={() => setShowSuggest(true)}
-              className="mt-4 w-full rounded-2xl border border-orange-200 bg-white py-4 text-sm font-bold text-orange-500 active:scale-95"
+              className="mt-4 w-full rounded-2xl border border-orange-500/30 bg-gray-900 py-4 text-sm font-bold text-orange-400 active:scale-95 md:border-orange-200 md:bg-white md:text-orange-500"
             >
               🍽 먹고 싶은 메뉴가 없어요? 제안하기
             </button>
