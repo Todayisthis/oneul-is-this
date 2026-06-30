@@ -11,13 +11,14 @@ const notoSansKr = Noto_Sans_KR({
 export const metadata: Metadata = {
   metadataBase: new URL("https://oneul-is-this.com"),
   title: {
-    default: "오늘 뭐 먹지? | 음식 메뉴 랜덤 추천",
-    template: "%s | 오늘 뭐 먹지?",
+    default: "오늘 뭐 먹지? 뭐 보지? | 음식·넷플릭스 랜덤 추천 | 오늘은 이거다",
+    template: "%s | 오늘은 이거다",
   },
   description:
-    "점심, 저녁 뭐 먹을지 고민될 때! 국물, 밥, 면, 고기, 치킨, 양식 등 카테고리별 랜덤 음식 추천 서비스.",
+    "오늘 뭐 먹지? 뭐 보지? 고민될 때! 음식 메뉴 랜덤 추천부터 넷플릭스 작품 추천까지. 한 번의 클릭으로 결정 끝!",
   keywords: [
     "오늘 뭐 먹지",
+    "오늘 뭐 보지",
     "음식 추천",
     "메뉴 추천",
     "점심 메뉴 추천",
@@ -25,8 +26,12 @@ export const metadata: Metadata = {
     "랜덤 음식",
     "오늘의 메뉴",
     "뭐 먹을까",
-    "음식 고르기",
-    "식사 추천",
+    "넷플릭스 추천",
+    "넷플릭스 뭐볼까",
+    "오늘 볼만한 영화",
+    "넷플릭스 영화 추천",
+    "넷플릭스 드라마 추천",
+    "랜덤 추천",
   ],
   authors: [{ name: "오늘 뭐 하지?" }],
   creator: "오늘 뭐 하지?",
@@ -58,6 +63,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "mLLe59N63bwrm-c-hUhsSlLKUCJrTxDYK_7Skqj5UWk",
+    other: {
+      "naver-site-verification": ["NAVER_VERIFICATION_CODE_HERE"],
+    },
   },
   robots: {
     index: true,
