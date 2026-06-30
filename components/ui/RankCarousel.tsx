@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type CarouselItem = {
   id: number | string;
@@ -36,23 +36,48 @@ const RANK_STYLES = [
 export default function RankCarousel({ title, items }: Props) {
   const [current, setCurrent] = useState(0);
   const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    if (items.length <= 1) return;
-    const timer = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % items.length);
-        setVisible(true);
-      }, FADE_MS);
-    }, INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [items.length]);
+  const touchStartX = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function goTo(i: number) {
     if (i === current) return;
     setVisible(false);
     setTimeout(() => { setCurrent(i); setVisible(true); }, FADE_MS);
+  }
+
+  function goNext() {
+    setVisible(false);
+    setTimeout(() => { setCurrent((prev) => (prev + 1) % items.length); setVisible(true); }, FADE_MS);
+  }
+
+  function goPrev() {
+    setVisible(false);
+    setTimeout(() => { setCurrent((prev) => (prev - 1 + items.length) % items.length); setVisible(true); }, FADE_MS);
+  }
+
+  function resetTimer() {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (items.length <= 1) return;
+    timerRef.current = setInterval(goNext, INTERVAL_MS);
+  }
+
+  useEffect(() => {
+    if (items.length <= 1) return;
+    timerRef.current = setInterval(goNext, INTERVAL_MS);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [items.length]);
+
+  function onTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function onTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) < 40) return; // 40px 미만은 무시
+    if (diff > 0) goNext(); else goPrev();
+    touchStartX.current = null;
+    resetTimer();
   }
 
   if (items.length === 0) return null;
@@ -92,7 +117,11 @@ export default function RankCarousel({ title, items }: Props) {
   );
 
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-sm">
+    <div
+      className="rounded-2xl bg-white p-5 shadow-sm"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       {/* 제목 + 인디케이터 */}
       <div className="mb-3 flex items-center justify-between">
         <p className="text-sm font-bold text-gray-700">{title}</p>
