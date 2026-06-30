@@ -69,7 +69,6 @@ async function getWeeklyWatchData(): Promise<WatchPopularItem[]> {
   const q = query(
     collection(db, "watchPicks"),
     where("week", "==", week),
-    orderBy("count", "desc"),
     limit(50)
   );
   const snap = await getDocs(q);
@@ -93,7 +92,7 @@ async function getWeeklyWatchData(): Promise<WatchPopularItem[]> {
 export async function getTopWatchPicks(topN = 5): Promise<WatchPopularItem[]> {
   try {
     const items = await getWeeklyWatchData();
-    return items.slice(0, topN);
+    return items.sort((a, b) => b.count - a.count).slice(0, topN);
   } catch (e) {
     console.error("getTopWatchPicks error:", e);
     return [];
