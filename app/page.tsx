@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import FeatureCards from "@/components/home/FeatureCards";
 
 export const metadata: Metadata = {
   title: "오늘 뭐먹지? 저녁 뭐먹지? 메뉴 추천 | 오늘은 이거다",
@@ -32,7 +32,6 @@ export default function Home() {
 
         {/* 히어로 */}
         <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
-          {/* 배경 글로우 */}
           <div className="pointer-events-none absolute left-1/2 top-1/3 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500 opacity-10 blur-[120px]" />
 
           <p className="mb-4 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 text-sm font-medium text-orange-400">
@@ -49,79 +48,27 @@ export default function Home() {
             이제 한 번의 클릭으로 해결하세요.
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-            <Link
-              href="/eat"
-              className="rounded-2xl bg-orange-500 px-8 py-4 text-lg font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600"
-            >
-              🍚 오늘 뭐 먹지?
-            </Link>
-            <Link
-              href="/watch"
-              className="rounded-2xl border border-gray-700 bg-gray-900 px-8 py-4 text-lg font-bold text-white transition hover:border-orange-500/50 hover:bg-gray-800"
-            >
-              🎬 오늘 뭐 보지?
-            </Link>
-          </div>
-
-          <div className="mt-16 flex items-center gap-2 text-sm text-gray-600">
-            <span>스크롤해서 더 보기</span>
-            <span className="animate-bounce">↓</span>
+          {/* 스크롤 유도 */}
+          <div className="absolute bottom-10 flex flex-col items-center gap-3">
+            <p className="text-sm font-medium text-gray-400">어떤 서비스인지 알아보기</p>
+            <div className="flex flex-col items-center gap-1">
+              <div className="h-8 w-0.5 animate-pulse bg-gradient-to-b from-orange-500 to-transparent" />
+              <span className="animate-bounce text-2xl text-orange-500">↓</span>
+            </div>
           </div>
         </section>
 
         {/* 기능 카드 */}
-        <section className="mx-auto max-w-4xl px-6 pb-24 pt-8">
-          <h2 className="mb-10 text-center text-2xl font-bold text-gray-300">
-            지금 이용 가능한 서비스
+        <section className="mx-auto max-w-4xl px-6 pb-24 pt-12">
+          <p className="mb-3 text-center text-sm font-medium text-orange-400">서비스 소개</p>
+          <h2 className="mb-10 text-center text-3xl font-bold text-white">
+            무엇을 도와드릴까요?
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Link
-              href="/eat"
-              className="group rounded-2xl border border-gray-800 bg-gray-900 p-6 transition hover:border-orange-500/40 hover:bg-gray-800"
-            >
-              <div className="mb-4 text-4xl">🍚</div>
-              <h3 className="text-xl font-bold text-white">오늘 뭐 먹지?</h3>
-              <p className="mt-2 text-sm leading-6 text-gray-400">
-                국물·찌개, 밥·덮밥, 면류, 치킨, 피자 등<br />
-                카테고리별 랜덤 메뉴 추천
-              </p>
-              <span className="mt-4 inline-block text-sm font-medium text-orange-500 group-hover:underline">
-                바로 가기 →
-              </span>
-            </Link>
-
-            <Link
-              href="/watch"
-              className="group rounded-2xl border border-gray-800 bg-gray-900 p-6 transition hover:border-orange-500/40 hover:bg-gray-800"
-            >
-              <div className="mb-4 text-4xl">🎬</div>
-              <h3 className="text-xl font-bold text-white">오늘 뭐 보지?</h3>
-              <p className="mt-2 text-sm leading-6 text-gray-400">
-                넷플릭스에서 서비스 중인 작품 중<br />
-                장르별 랜덤 추천 + 바로 보기
-              </p>
-              <span className="mt-4 inline-block text-sm font-medium text-orange-500 group-hover:underline">
-                바로 가기 →
-              </span>
-            </Link>
-
-            <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-6 opacity-50">
-              <div className="mb-4 text-4xl">📍</div>
-              <h3 className="text-xl font-bold text-gray-500">오늘 어디 가지?</h3>
-              <p className="mt-2 text-sm text-gray-600">개발 중</p>
-            </div>
-
-            <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-6 opacity-50">
-              <div className="mb-4 text-4xl">☕</div>
-              <h3 className="text-xl font-bold text-gray-500">오늘 뭐 마시지?</h3>
-              <p className="mt-2 text-sm text-gray-600">개발 중</p>
-            </div>
-          </div>
+          <FeatureCards />
         </section>
 
         {/* SEO 텍스트 */}
-        <section className="mx-auto max-w-3xl space-y-10 px-6 pb-24 text-left">
+        <section className="mx-auto max-w-3xl space-y-6 px-6 pb-24 text-left">
           <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8">
             <h2 className="text-xl font-bold text-white">오늘 뭐 먹지? 고민, 이제 그만</h2>
             <p className="mt-4 leading-8 text-gray-400">
