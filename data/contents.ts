@@ -1,7 +1,4 @@
-import { koreanDramas } from "./contents/korean-drama";
-import { koreanMovies } from "./contents/korean-movie";
-import { foreignDramas } from "./contents/foreign-drama";
-import { foreignMovies } from "./contents/foreign-movie";
+import { netflixContents } from "./contents/netflix";
 
 export type ContentGenre =
   | "액션"
@@ -62,9 +59,4 @@ export const OTT_COLOR: Record<OTT, string> = {
   넷플릭스: "bg-red-600 text-white",
 };
 
-export const contents: Content[] = [
-  ...koreanDramas,
-  ...koreanMovies,
-  ...foreignDramas,
-  ...foreignMovies,
-].filter((c) => c.ott.length > 0);
+export const contents: Content[] = netflixContents;
