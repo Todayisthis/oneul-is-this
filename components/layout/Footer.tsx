@@ -22,6 +22,7 @@ export default function Footer() {
           </Link>
         </div>
 
+        <p>작품 정보는 <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 underline">JustWatch</a>를 참고합니다.</p>
         <p>© 2026 오늘 뭐 하지? All rights reserved.</p>
       </div>
     </footer>
