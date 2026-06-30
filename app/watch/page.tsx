@@ -313,6 +313,17 @@ export default function WatchPage() {
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="mb-3 text-sm font-bold text-gray-700">🎭 장르</p>
               <div className="flex flex-wrap gap-1.5">
+                <button
+                  onClick={() => setSelectedGenres([])}
+                  disabled={isRolling || isHoldingFinal}
+                  className={`rounded-full px-3 py-1 text-xs transition disabled:opacity-50 ${
+                    selectedGenres.length === 0
+                      ? "bg-orange-500 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-orange-100"
+                  }`}
+                >
+                  전체
+                </button>
                 {ALL_GENRES.map((g) => (
                   <button
                     key={g}
@@ -328,20 +339,23 @@ export default function WatchPage() {
                   </button>
                 ))}
               </div>
-              {selectedGenres.length > 0 && (
-                <button
-                  onClick={() => setSelectedGenres([])}
-                  className="mt-3 text-xs text-gray-400 hover:text-orange-500"
-                >
-                  장르 초기화
-                </button>
-              )}
             </div>
 
             {/* IMDb 점수 */}
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="mb-3 text-sm font-bold text-gray-700">⭐ IMDb 점수</p>
               <div className="space-y-1.5">
+                <button
+                  onClick={() => setSelectedImdb(null)}
+                  disabled={isRolling || isHoldingFinal}
+                  className={`w-full rounded-xl px-3 py-2 text-left text-xs font-medium transition disabled:opacity-50 ${
+                    selectedImdb === null
+                      ? "bg-yellow-400 text-gray-900"
+                      : "bg-gray-100 text-gray-600 hover:bg-yellow-100"
+                  }`}
+                >
+                  전체
+                </button>
                 {IMDB_RANGES.map((r) => (
                   <button
                     key={r.key}
@@ -357,20 +371,23 @@ export default function WatchPage() {
                   </button>
                 ))}
               </div>
-              {selectedImdb && (
-                <button
-                  onClick={() => setSelectedImdb(null)}
-                  className="mt-2 text-xs text-gray-400 hover:text-orange-500"
-                >
-                  점수 초기화
-                </button>
-              )}
             </div>
 
             {/* 제작 국가 */}
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="mb-3 text-sm font-bold text-gray-700">🌏 제작 국가</p>
               <div className="space-y-1.5">
+                <button
+                  onClick={() => setSelectedCountry(null)}
+                  disabled={isRolling || isHoldingFinal}
+                  className={`w-full rounded-xl px-3 py-2 text-left text-xs font-medium transition disabled:opacity-50 ${
+                    selectedCountry === null
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-blue-100"
+                  }`}
+                >
+                  🌏 전체
+                </button>
                 {COUNTRY_OPTIONS.map((c) => (
                   <button
                     key={c.code}
@@ -386,14 +403,6 @@ export default function WatchPage() {
                   </button>
                 ))}
               </div>
-              {selectedCountry && (
-                <button
-                  onClick={() => setSelectedCountry(null)}
-                  className="mt-2 text-xs text-gray-400 hover:text-orange-500"
-                >
-                  국가 초기화
-                </button>
-              )}
             </div>
 
             <p className="text-center text-xs text-gray-400">{filtered.length}개 작품 중 추천</p>

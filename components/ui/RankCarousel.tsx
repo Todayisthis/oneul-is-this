@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type CarouselItem = {
   id: number | string;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 const INTERVAL_MS = 3000;
-const FADE_MS = 250;
+const SLIDE_MS = 260;
 
 const RANK_STYLES = [
   { bg: "bg-yellow-400", border: "border-yellow-200", medal: "🥇" },
@@ -33,26 +33,82 @@ const RANK_STYLES = [
   { bg: "bg-gray-200",   border: "border-gray-100",   medal: "" },
 ];
 
+function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
+  const style = RANK_STYLES[idx] ?? RANK_STYLES[RANK_STYLES.length - 1];
+
+  const inner = (
+    <div className={`rounded-xl border-2 p-4 ${style.border} bg-gray-50`}>
+      <div className="flex items-center gap-3">
+        <div className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full ${style.bg} shadow`}>
+          <span className="text-lg font-extrabold leading-none text-white">{item.rank}</span>
+          {style.medal && <span className="text-xs leading-none">{style.medal}</span>}
+        </div>
+        <div className="min-w-0 flex-1">
+          {item.badge && (
+            <span className={`mb-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium text-white ${style.bg}`}>
+              {item.badge}
+            </span>
+          )}
+          <p className="truncate font-bold text-gray-900">{item.label}</p>
+          {item.sub && <p className="mt-0.5 text-xs text-gray-400">{item.sub}</p>}
+        </div>
+        {item.score && (
+          <div className="shrink-0 text-right">
+            <p className="text-base font-extrabold text-yellow-500">{item.score}</p>
+            <p className="text-xs text-gray-400">IMDb</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return item.href ? (
+    <a href={item.href} target="_blank" rel="noopener noreferrer" className="block">
+      {inner}
+    </a>
+  ) : inner;
+}
+
+const animStyle = {
+  animationDuration: `${SLIDE_MS}ms`,
+  animationTimingFunction: "ease",
+  animationFillMode: "forwards",
+  WebkitAnimationFillMode: "forwards" as const,
+};
+
 export default function RankCarousel({ title, items }: Props) {
   const [current, setCurrent] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [outgoing, setOutgoing] = useState<number | null>(null);
+  const [dir, setDir] = useState<"next" | "prev">("next");
+  const [animating, setAnimating] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const navigate = useCallback(
+    (nextIdx: number, direction: "next" | "prev") => {
+      if (animating || nextIdx === current) return;
+      setOutgoing(current);
+      setDir(direction);
+      setCurrent(nextIdx);
+      setAnimating(true);
+      setTimeout(() => {
+        setOutgoing(null);
+        setAnimating(false);
+      }, SLIDE_MS);
+    },
+    [current, animating]
+  );
+
+  const goNext = useCallback(() => {
+    navigate((current + 1) % items.length, "next");
+  }, [navigate, current, items.length]);
+
+  const goPrev = useCallback(() => {
+    navigate((current - 1 + items.length) % items.length, "prev");
+  }, [navigate, current, items.length]);
+
   function goTo(i: number) {
-    if (i === current) return;
-    setVisible(false);
-    setTimeout(() => { setCurrent(i); setVisible(true); }, FADE_MS);
-  }
-
-  function goNext() {
-    setVisible(false);
-    setTimeout(() => { setCurrent((prev) => (prev + 1) % items.length); setVisible(true); }, FADE_MS);
-  }
-
-  function goPrev() {
-    setVisible(false);
-    setTimeout(() => { setCurrent((prev) => (prev - 1 + items.length) % items.length); setVisible(true); }, FADE_MS);
+    navigate(i, i > current ? "next" : "prev");
   }
 
   function resetTimer() {
@@ -65,7 +121,7 @@ export default function RankCarousel({ title, items }: Props) {
     if (items.length <= 1) return;
     timerRef.current = setInterval(goNext, INTERVAL_MS);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [items.length]);
+  }, [goNext]);
 
   function onTouchStart(e: React.TouchEvent) {
     touchStartX.current = e.touches[0].clientX;
@@ -74,7 +130,7 @@ export default function RankCarousel({ title, items }: Props) {
   function onTouchEnd(e: React.TouchEvent) {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) < 40) return; // 40px 미만은 무시
+    if (Math.abs(diff) < 40) return;
     if (diff > 0) goNext(); else goPrev();
     touchStartX.current = null;
     resetTimer();
@@ -82,39 +138,10 @@ export default function RankCarousel({ title, items }: Props) {
 
   if (items.length === 0) return null;
 
-  const item = items[current];
-  const style = RANK_STYLES[current] ?? RANK_STYLES[RANK_STYLES.length - 1];
-
-  const inner = (
-    <div className={`rounded-xl border-2 p-4 ${style.border} bg-gray-50`}>
-      <div className="flex items-center gap-3">
-        {/* 순위 배지 */}
-        <div className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full ${style.bg} shadow`}>
-          <span className="text-lg font-extrabold leading-none text-white">{item.rank}</span>
-          {style.medal && <span className="text-xs leading-none">{style.medal}</span>}
-        </div>
-
-        {/* 정보 */}
-        <div className="min-w-0 flex-1">
-          {item.badge && (
-            <span className={`mb-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium text-white ${style.bg}`}>
-              {item.badge}
-            </span>
-          )}
-          <p className="truncate font-bold text-gray-900">{item.label}</p>
-          {item.sub && <p className="mt-0.5 text-xs text-gray-400">{item.sub}</p>}
-        </div>
-
-        {/* 점수 */}
-        {item.score && (
-          <div className="shrink-0 text-right">
-            <p className="text-base font-extrabold text-yellow-500">{item.score}</p>
-            <p className="text-xs text-gray-400">IMDb</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  // next: 현재는 왼쪽으로 나가고, 다음은 오른쪽에서 들어옴
+  // prev: 현재는 오른쪽으로 나가고, 다음은 왼쪽에서 들어옴
+  const outClass = dir === "next" ? "carousel-out-left" : "carousel-out-right";
+  const inClass  = dir === "next" ? "carousel-in-right" : "carousel-in-left";
 
   return (
     <div
@@ -138,16 +165,26 @@ export default function RankCarousel({ title, items }: Props) {
         </div>
       </div>
 
-      {/* 카드 */}
-      <div
-        style={{ transition: `opacity ${FADE_MS}ms ease, transform ${FADE_MS}ms ease` }}
-        className={visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}
-      >
-        {item.href ? (
-          <a href={item.href} target="_blank" rel="noopener noreferrer" className="block">
-            {inner}
-          </a>
-        ) : inner}
+      {/* 슬라이드 영역 */}
+      <div style={{ position: "relative", overflow: "hidden" }}>
+        {/* 나가는 카드 */}
+        {animating && outgoing !== null && (
+          <div
+            key={`out-${outgoing}`}
+            className={outClass}
+            style={{ position: "absolute", top: 0, left: 0, right: 0, ...animStyle }}
+          >
+            <ItemCard item={items[outgoing]} idx={outgoing} />
+          </div>
+        )}
+        {/* 들어오는 카드 */}
+        <div
+          key={`in-${current}`}
+          className={animating ? inClass : ""}
+          style={animating ? animStyle : undefined}
+        >
+          <ItemCard item={items[current]} idx={current} />
+        </div>
       </div>
     </div>
   );

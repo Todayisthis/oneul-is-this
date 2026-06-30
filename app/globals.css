@@ -12,12 +12,22 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  background: #fff7ed; /* orange-50 — KakaoTalk WebView safe area 배경색 고정 */
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background: #ffffff;
   color: #1a1a1a;
   font-family: var(--font-noto), "Noto Sans KR", sans-serif;
   word-break: keep-all;
   line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes progress {
@@ -28,3 +38,26 @@ body {
 .animate-progress {
   animation: progress 2.5s linear forwards;
 }
+
+/* 캐러셀 슬라이드 애니메이션 */
+@keyframes carousel-in-right {
+  from { -webkit-transform: translateX(100%); transform: translateX(100%); }
+  to   { -webkit-transform: translateX(0);    transform: translateX(0); }
+}
+@keyframes carousel-in-left {
+  from { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
+  to   { -webkit-transform: translateX(0);     transform: translateX(0); }
+}
+@keyframes carousel-out-left {
+  from { -webkit-transform: translateX(0);    transform: translateX(0); }
+  to   { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
+}
+@keyframes carousel-out-right {
+  from { -webkit-transform: translateX(0);   transform: translateX(0); }
+  to   { -webkit-transform: translateX(100%); transform: translateX(100%); }
+}
+
+.carousel-in-right  { -webkit-animation-name: carousel-in-right;  animation-name: carousel-in-right; }
+.carousel-in-left   { -webkit-animation-name: carousel-in-left;   animation-name: carousel-in-left; }
+.carousel-out-left  { -webkit-animation-name: carousel-out-left;  animation-name: carousel-out-left; }
+.carousel-out-right { -webkit-animation-name: carousel-out-right; animation-name: carousel-out-right; }
