@@ -20,8 +20,8 @@ export default function PopularFoods({ topPicked, topRated }: Props) {
             id: item.id,
             rank: i + 1,
             label: item.name,
-            sub: `${item.count}회 추천됨`,
-            emoji: item.emoji,
+            score: `🔥 ${item.count}`,
+            scoreLabel: "추천",
           }))}
         />
       )}
@@ -32,10 +32,8 @@ export default function PopularFoods({ topPicked, topRated }: Props) {
             id: item.id,
             rank: i + 1,
             label: item.name,
-            sub: item.avgRating
-              ? `⭐ ${item.avgRating}점 (${item.ratingCount ?? 0}명)`
-              : "",
-            emoji: item.emoji,
+            score: `⭐ ${item.avgRating}`,
+            scoreLabel: `${item.ratingCount ?? 0}명 평가`,
           }))}
         />
       )}
