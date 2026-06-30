@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
 import { saveFeedComment } from "@/lib/firebaseStats";
+import { filterComment } from "@/lib/filterComment";
 
 type Props = {
   food: Food;
@@ -61,6 +62,7 @@ export default function ResultCard({
   const [showShare, setShowShare] = useState(false);
   const [comment, setComment] = useState("");
   const [commentSent, setCommentSent] = useState(false);
+  const [commentError, setCommentError] = useState("");
 
   function openShare() {
     if (rating !== null) {
@@ -78,6 +80,12 @@ export default function ResultCard({
   async function submitComment() {
     const trimmed = comment.trim();
     if (!trimmed) return;
+    const { ok, reason } = filterComment(trimmed);
+    if (!ok) {
+      setCommentError(reason ?? "등록할 수 없는 내용이에요.");
+      return;
+    }
+    setCommentError("");
     await saveFeedComment({
       foodId: food.id,
       foodName: food.name,
@@ -201,24 +209,29 @@ export default function ResultCard({
               후기가 등록됐어요! 🎉
             </p>
           ) : (
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
-                maxLength={60}
-                placeholder="맛있었다, 별로였다... 자유롭게!"
-                className="flex-1 rounded-2xl border border-gray-200 px-4 py-2 text-sm outline-none focus:border-orange-400"
-              />
-              <button
-                type="button"
-                onClick={submitComment}
-                disabled={!comment.trim()}
-                className="rounded-2xl bg-orange-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-40 active:scale-95"
-              >
-                등록
-              </button>
+            <div className="flex flex-col gap-2">
+              {commentError && (
+                <p className="text-xs text-red-400">{commentError}</p>
+              )}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
+                  maxLength={60}
+                  placeholder="맛있었다, 별로였다... 자유롭게!"
+                  className="flex-1 rounded-2xl border border-gray-200 px-4 py-2 text-sm outline-none focus:border-orange-400"
+                />
+                <button
+                  type="button"
+                  onClick={submitComment}
+                  disabled={!comment.trim()}
+                  className="rounded-2xl bg-orange-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-40 active:scale-95"
+                >
+                  등록
+                </button>
+              </div>
             </div>
           )}
         </div>
