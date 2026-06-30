@@ -201,7 +201,7 @@ export default function WatchPage() {
 
             {filtered.length === 0 && (
               <div className="rounded-2xl bg-white p-6 text-center text-gray-400 shadow-sm">
-                선택한 조건에 맞는 작품이 없어요.<br />
+                선택한 조건을 전부 충족하는 작품이 없어요.<br />
                 조건을 조정해보세요.
               </div>
             )}
