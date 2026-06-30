@@ -241,7 +241,7 @@ export default function WatchPage() {
   const displayContent = (isRolling || isHoldingFinal) ? rollingContent : result;
 
   return (
-    <main className="min-h-screen bg-gray-950 px-4 py-8">
+    <main className="min-h-screen bg-orange-50 px-4 py-8">
       {showSharePopup && result && (
         <WatchSharePopup
           content={result}
@@ -282,8 +282,8 @@ export default function WatchPage() {
       <div className="mx-auto max-w-7xl">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">← 홈으로</Link>
 
-        <h1 className="mt-4 text-2xl font-bold text-white">🎬 오늘 뭐 보지?</h1>
-        <p className="mt-1 text-sm text-gray-400">넷플릭스 서비스 중인 작품 중 장르별로 랜덤 추천해드려요.</p>
+        <h1 className="mt-4 text-2xl font-bold text-gray-800">🎬 오늘 뭐 보지?</h1>
+        <p className="mt-1 text-sm text-gray-500">넷플릭스 서비스 중인 작품 중 장르별로 랜덤 추천해드려요.</p>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr_260px]">
           {/* ───── 왼쪽 사이드바 ───── */}
