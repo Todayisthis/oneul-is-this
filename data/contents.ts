@@ -57,7 +57,7 @@ export const OTT_SEARCH_URL: Record<OTT, (title: string) => string> = {
   넷플릭스: (t) => `https://www.netflix.com/search?q=${encodeURIComponent(t)}`,
   왓챠: (t) => `https://watcha.com/search?query=${encodeURIComponent(t)}`,
   티빙: (t) => `https://www.tving.com/search?keyword=${encodeURIComponent(t)}`,
-  웨이브: (t) => `https://www.wavve.com/search?keyword=${encodeURIComponent(t)}`,
+  웨이브: (t) => `https://www.wavve.com/search?searchWord=${encodeURIComponent(t)}`,
   쿠팡플레이: (t) => `https://play.coupang.com/vp/search?searchKeyword=${encodeURIComponent(t)}`,
   "디즈니+": (t) => `https://www.disneyplus.com/ko-kr/search?q=${encodeURIComponent(t)}`,
   "애플TV": (t) => `https://tv.apple.com/search?term=${encodeURIComponent(t)}`,
