@@ -32,13 +32,14 @@ export type ContentGenre =
   | "힐링"
   | "시대극";
 
-export type OTT = "넷플릭스" | "왓챠" | "티빙" | "쿠팡플레이" | "애플TV";
+export type OTT = "넷플릭스";
 
 export type ContentType = "영화" | "드라마";
 
 export type Content = {
   id: number;
   title: string;
+  searchTitle?: string; // 영어 원제 (OTT 검색용)
   year: number;
   type: ContentType;
   genres: ContentGenre[];
@@ -51,22 +52,14 @@ export const ALL_GENRES: ContentGenre[] = [
   "음악", "가족", "재난", "심리", "법정", "의학", "좀비", "첩보", "성장", "힐링", "시대극",
 ];
 
-export const ALL_OTTS: OTT[] = ["넷플릭스", "왓챠", "티빙", "쿠팡플레이", "애플TV"];
+export const ALL_OTTS: OTT[] = ["넷플릭스"];
 
 export const OTT_SEARCH_URL: Record<OTT, (title: string) => string> = {
   넷플릭스: (t) => `https://www.netflix.com/search?q=${encodeURIComponent(t)}`,
-  왓챠: (t) => `https://watcha.com/search?query=${encodeURIComponent(t)}`,
-  티빙: (t) => `https://www.tving.com/search?keyword=${encodeURIComponent(t)}`,
-  쿠팡플레이: (t) => `https://play.coupang.com/vp/search?searchKeyword=${encodeURIComponent(t)}`,
-  "애플TV": (t) => `https://tv.apple.com/search?term=${encodeURIComponent(t)}`,
 };
 
 export const OTT_COLOR: Record<OTT, string> = {
   넷플릭스: "bg-red-600 text-white",
-  왓챠: "bg-red-400 text-white",
-  티빙: "bg-red-500 text-white",
-  쿠팡플레이: "bg-yellow-400 text-black",
-  "애플TV": "bg-gray-900 text-white",
 };
 
 export const contents: Content[] = [

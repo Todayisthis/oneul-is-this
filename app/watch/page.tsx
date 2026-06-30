@@ -264,7 +264,7 @@ export default function WatchPage() {
                     {result.ott.map((o) => (
                       <a
                         key={o}
-                        href={OTT_SEARCH_URL[o](result.title)}
+                        href={OTT_SEARCH_URL[o](result.searchTitle ?? result.title)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`rounded-xl px-4 py-2 text-sm font-bold transition hover:opacity-80 ${OTT_COLOR[o]}`}
