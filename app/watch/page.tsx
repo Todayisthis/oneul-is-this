@@ -129,7 +129,7 @@ export default function WatchPage() {
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">← 홈으로</Link>
 
         <h1 className="mt-4 text-2xl font-bold text-gray-800">🎬 오늘 뭐 보지?</h1>
-        <p className="mt-1 text-sm text-gray-500">장르와 OTT를 선택하면 랜덤으로 추천해드려요.</p>
+        <p className="mt-1 text-sm text-gray-500">넷플릭스 서비스 중인 작품 중 장르별로 랜덤 추천해드려요.</p>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr]">
           {/* 사이드바 */}
@@ -150,27 +150,6 @@ export default function WatchPage() {
                     }`}
                   >
                     {t}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* OTT */}
-            <div className="rounded-2xl bg-white p-4 shadow-sm">
-              <p className="mb-3 text-sm font-bold text-gray-700">🎞 OTT 플랫폼</p>
-              <div className="flex flex-wrap gap-2">
-                {ALL_OTTS.map((o) => (
-                  <button
-                    key={o}
-                    onClick={() => toggleOtt(o)}
-                    disabled={isRolling || isHoldingFinal}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-50 ${
-                      selectedOtts.includes(o)
-                        ? OTT_COLOR[o]
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
-                  >
-                    {o}
                   </button>
                 ))}
               </div>
