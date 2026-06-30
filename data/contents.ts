@@ -32,7 +32,7 @@ export type ContentGenre =
   | "힐링"
   | "시대극";
 
-export type OTT = "넷플릭스" | "왓챠" | "티빙" | "웨이브" | "쿠팡플레이" | "디즈니+" | "애플TV";
+export type OTT = "넷플릭스" | "왓챠" | "티빙" | "쿠팡플레이" | "디즈니+" | "애플TV";
 
 export type ContentType = "영화" | "드라마";
 
@@ -51,13 +51,12 @@ export const ALL_GENRES: ContentGenre[] = [
   "음악", "가족", "재난", "심리", "법정", "의학", "좀비", "첩보", "성장", "힐링", "시대극",
 ];
 
-export const ALL_OTTS: OTT[] = ["넷플릭스", "왓챠", "티빙", "웨이브", "쿠팡플레이", "디즈니+", "애플TV"];
+export const ALL_OTTS: OTT[] = ["넷플릭스", "왓챠", "티빙", "쿠팡플레이", "디즈니+", "애플TV"];
 
 export const OTT_SEARCH_URL: Record<OTT, (title: string) => string> = {
   넷플릭스: (t) => `https://www.netflix.com/search?q=${encodeURIComponent(t)}`,
   왓챠: (t) => `https://watcha.com/search?query=${encodeURIComponent(t)}`,
   티빙: (t) => `https://www.tving.com/search?keyword=${encodeURIComponent(t)}`,
-  웨이브: (t) => `https://www.wavve.com/search?searchWord=${encodeURIComponent(t)}`,
   쿠팡플레이: (t) => `https://play.coupang.com/vp/search?searchKeyword=${encodeURIComponent(t)}`,
   "디즈니+": (t) => `https://www.disneyplus.com/ko-kr/search?q=${encodeURIComponent(t)}`,
   "애플TV": (t) => `https://tv.apple.com/search?term=${encodeURIComponent(t)}`,
@@ -67,7 +66,6 @@ export const OTT_COLOR: Record<OTT, string> = {
   넷플릭스: "bg-red-600 text-white",
   왓챠: "bg-red-400 text-white",
   티빙: "bg-red-500 text-white",
-  웨이브: "bg-blue-600 text-white",
   쿠팡플레이: "bg-yellow-400 text-black",
   "디즈니+": "bg-blue-800 text-white",
   "애플TV": "bg-gray-900 text-white",
@@ -78,4 +76,4 @@ export const contents: Content[] = [
   ...koreanMovies,
   ...foreignDramas,
   ...foreignMovies,
-];
+].filter((c) => c.ott.length > 0);
