@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import FeatureCards from "@/components/home/FeatureCards";
 
 export const metadata: Metadata = {
-  title: "오늘 뭐먹지? 저녁 뭐먹지? 메뉴 추천 | 오늘은 이거다",
+  title: "오늘 뭐먹지? 오늘 뭐보지? 메뉴·넷플릭스 랜덤 추천 | 오늘은 이거다",
   description:
-    "오늘 뭐먹지? 고민될 때! 국물, 밥, 면, 치킨, 피자, 양식 등 다양한 메뉴를 랜덤으로 추천해드려요. 저녁 뭐먹지? 점심 뭐먹지? 고민 끝!",
+    "오늘 뭐먹지? 뭐보지? 고민될 때! 음식 메뉴 랜덤 추천부터 넷플릭스 작품 추천까지. 한 번의 클릭으로 결정 끝!",
   alternates: { canonical: "https://oneul-is-this.com" },
 };
 
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "오늘 뭐 먹지?",
+  name: "오늘은 이거다",
   url: "https://oneul-is-this.com",
-  description: "점심, 저녁 뭐 먹을지 고민될 때! 카테고리별 랜덤 음식 추천 서비스.",
-  applicationCategory: "FoodApplication",
+  description: "뭐 먹지? 뭐 보지? 매일 반복되는 고민을 한 번의 클릭으로 해결하는 랜덤 추천 서비스.",
+  applicationCategory: "LifestyleApplication",
   operatingSystem: "Web",
   inLanguage: "ko",
   offers: { "@type": "Offer", price: "0", priceCurrency: "KRW" },
@@ -73,16 +73,22 @@ export default function Home() {
             <h2 className="text-xl font-bold text-white">오늘 뭐 먹지? 고민, 이제 그만</h2>
             <p className="mt-4 leading-8 text-gray-400">
               매일 점심시간마다 동료들과 &quot;오늘 뭐 먹지?&quot;로 시작하는 10분짜리 회의,
-              익숙하지 않으신가요? 오늘은 이거다는 그 반복되는 고민을 단 한 번의 클릭으로 해결해드립니다.
-            </p>
-            <p className="mt-4 leading-8 text-gray-400">
-              국물·찌개, 밥·덮밥, 면류, 분식, 고기·구이, 치킨, 피자, 패스트푸드 등
-              다양한 카테고리에서 원하는 종류를 선택하면 랜덤으로 추천해드립니다.
+              익숙하지 않으신가요? 국물·찌개, 밥·덮밥, 면류, 분식, 고기·구이, 치킨, 피자 등
+              다양한 카테고리에서 원하는 종류를 선택하면 딱 하나를 골라드립니다.
             </p>
           </div>
 
           <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8">
-            <h2 className="text-xl font-bold text-white">메뉴 결정, 왜 이렇게 어려울까?</h2>
+            <h2 className="text-xl font-bold text-white">오늘 뭐 보지? 넷플릭스 추천도 여기서</h2>
+            <p className="mt-4 leading-8 text-gray-400">
+              넷플릭스를 켜고 30분째 뭘 볼지 고르다가 결국 유튜브를 보게 된 경험, 다들 있으시죠?
+              현재 넷플릭스 한국에서 서비스 중인 1,000개 이상의 작품 중에서 장르·IMDb 점수·제작 국가를
+              선택하면 딱 하나를 추천해드려요. 추천 결과에서 바로 넷플릭스로 이동도 가능합니다.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8">
+            <h2 className="text-xl font-bold text-white">결정 피로, 왜 생길까?</h2>
             <p className="mt-4 leading-8 text-gray-400">
               심리학 연구에 따르면 선택지가 너무 많으면 오히려 결정이 어려워지는
               &apos;선택의 역설&apos;이 발생합니다. 오늘은 이거다는 이 문제를 해결하기 위해 만들어졌습니다.
@@ -90,7 +96,7 @@ export default function Home() {
           </div>
 
           <p className="text-center text-xs leading-6 text-gray-700">
-            오늘 뭐먹지 · 저녁 뭐먹지 · 점심 뭐먹지 · 메뉴 추천 · 오늘 점심 · 오늘 저녁 · 랜덤 메뉴 추천
+            오늘 뭐먹지 · 저녁 뭐먹지 · 점심 뭐먹지 · 메뉴 추천 · 오늘 뭐보지 · 넷플릭스 추천 · 랜덤 추천
           </p>
         </section>
       </main>
