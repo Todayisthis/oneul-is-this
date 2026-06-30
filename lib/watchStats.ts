@@ -69,6 +69,7 @@ async function getWeeklyWatchData(): Promise<WatchPopularItem[]> {
   const q = query(
     collection(db, "watchPicks"),
     where("week", "==", week),
+    orderBy("count", "desc"),
     limit(50)
   );
   const snap = await getDocs(q);
