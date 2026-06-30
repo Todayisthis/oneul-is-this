@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type CarouselItem = {
   id: number | string;
@@ -81,47 +81,48 @@ export default function RankCarousel({ title, items }: Props) {
   const [outgoing, setOutgoing] = useState<number | null>(null);
   const [dir, setDir] = useState<"next" | "prev">("next");
   const [animating, setAnimating] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+
+  // refs — 클로저 stale 없이 항상 최신값 참조
+  const currentRef = useRef(0);
+  const animatingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
-  const navigate = useCallback(
-    (nextIdx: number, direction: "next" | "prev") => {
-      if (animating || nextIdx === current) return;
-      setOutgoing(current);
-      setDir(direction);
-      setCurrent(nextIdx);
-      setAnimating(true);
-      setTimeout(() => {
-        setOutgoing(null);
-        setAnimating(false);
-      }, SLIDE_MS);
-    },
-    [current, animating]
-  );
+  // refs 동기화
+  useEffect(() => { currentRef.current = current; }, [current]);
+  useEffect(() => { animatingRef.current = animating; }, [animating]);
 
-  const goNext = useCallback(() => {
-    navigate((current + 1) % items.length, "next");
-  }, [navigate, current, items.length]);
-
-  const goPrev = useCallback(() => {
-    navigate((current - 1 + items.length) % items.length, "prev");
-  }, [navigate, current, items.length]);
-
-  function goTo(i: number) {
-    navigate(i, i > current ? "next" : "prev");
+  function slide(nextIdx: number, direction: "next" | "prev") {
+    if (animatingRef.current) return;
+    const cur = currentRef.current;
+    if (nextIdx === cur) return;
+    setOutgoing(cur);
+    setDir(direction);
+    setCurrent(nextIdx);
+    setAnimating(true);
+    animatingRef.current = true;
+    setTimeout(() => {
+      setOutgoing(null);
+      setAnimating(false);
+      animatingRef.current = false;
+    }, SLIDE_MS);
   }
 
-  function resetTimer() {
+  function startTimer() {
     if (timerRef.current) clearInterval(timerRef.current);
     if (items.length <= 1) return;
-    timerRef.current = setInterval(goNext, INTERVAL_MS);
+    timerRef.current = setInterval(() => {
+      const next = (currentRef.current + 1) % items.length;
+      slide(next, "next");
+    }, INTERVAL_MS);
   }
 
+  // 마운트 시 타이머 시작 — items.length 바뀔 때만 재시작
   useEffect(() => {
-    if (items.length <= 1) return;
-    timerRef.current = setInterval(goNext, INTERVAL_MS);
+    startTimer();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [goNext]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
 
   function onTouchStart(e: React.TouchEvent) {
     touchStartX.current = e.touches[0].clientX;
@@ -131,15 +132,21 @@ export default function RankCarousel({ title, items }: Props) {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) < 40) return;
-    if (diff > 0) goNext(); else goPrev();
+    const next = diff > 0
+      ? (currentRef.current + 1) % items.length
+      : (currentRef.current - 1 + items.length) % items.length;
+    slide(next, diff > 0 ? "next" : "prev");
     touchStartX.current = null;
-    resetTimer();
+    startTimer(); // 수동 스와이프 후 타이머 리셋
+  }
+
+  function goTo(i: number) {
+    slide(i, i > currentRef.current ? "next" : "prev");
+    startTimer();
   }
 
   if (items.length === 0) return null;
 
-  // next: 현재는 왼쪽으로 나가고, 다음은 오른쪽에서 들어옴
-  // prev: 현재는 오른쪽으로 나가고, 다음은 왼쪽에서 들어옴
   const outClass = dir === "next" ? "carousel-out-left" : "carousel-out-right";
   const inClass  = dir === "next" ? "carousel-in-right" : "carousel-in-left";
 
