@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import Link from "next/link";
 import Footer from "@/components/layout/Footer";
 import {
@@ -14,12 +14,29 @@ import {
   type OTT,
 } from "@/data/contents";
 
+const ROULETTE_DURATION = 4000;
+const rouletteSpeeds = [50, 70, 100, 150, 220, 340, 500];
+
+const spinMessages = [
+  "🎬 좋은 작품 찾는 중...",
+  "🍿 취향 분석 중...",
+  "🎭 최고의 선택을 고르는 중...",
+  "😎 거의 다 됐어요...",
+  "🎉 곧 결정됩니다!",
+];
+
 export default function WatchPage() {
   const [selectedGenres, setSelectedGenres] = useState<ContentGenre[]>([]);
   const [selectedOtts, setSelectedOtts] = useState<OTT[]>([]);
   const [selectedType, setSelectedType] = useState<"전체" | "영화" | "드라마">("전체");
+
   const [result, setResult] = useState<Content | null>(null);
-  const [spinning, setSpinning] = useState(false);
+  const [rollingContent, setRollingContent] = useState<Content | null>(null);
+  const [isRolling, setIsRolling] = useState(false);
+  const [isHoldingFinal, setIsHoldingFinal] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
     return contents.filter((c) => {
@@ -30,6 +47,10 @@ export default function WatchPage() {
     });
   }, [selectedGenres, selectedOtts, selectedType]);
 
+  function pickRandom(list: Content[]) {
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
   function toggleGenre(g: ContentGenre) {
     setSelectedGenres((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]);
   }
@@ -38,15 +59,60 @@ export default function WatchPage() {
     setSelectedOtts((prev) => prev.includes(o) ? prev.filter((x) => x !== o) : [...prev, o]);
   }
 
-  function pick() {
-    if (filtered.length === 0) return;
-    setSpinning(true);
+  function startRoulette() {
+    if (isRolling || isHoldingFinal || filtered.length === 0) return;
+
+    const finalContent = pickRandom(filtered);
+
+    setIsRolling(true);
+    setIsHoldingFinal(false);
+    setResult(null);
+    setRollingContent(pickRandom(filtered));
+    setMessageIndex(0);
+
+    resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    const startedAt = Date.now();
+    let timer: ReturnType<typeof setTimeout> | null = null;
+
+    function roll() {
+      const elapsed = Date.now() - startedAt;
+      let speedIndex = 0;
+      if (elapsed > 3200) speedIndex = 6;
+      else if (elapsed > 2400) speedIndex = 5;
+      else if (elapsed > 1800) speedIndex = 4;
+      else if (elapsed > 1200) speedIndex = 3;
+      else if (elapsed > 600) speedIndex = 2;
+      else speedIndex = 1;
+
+      setRollingContent(pickRandom(filtered));
+
+      if (elapsed < ROULETTE_DURATION) {
+        timer = setTimeout(roll, rouletteSpeeds[speedIndex]);
+      }
+    }
+
+    roll();
+
+    const msgTimer = setInterval(() => {
+      setMessageIndex((prev) => prev + 1);
+    }, 300);
+
     setTimeout(() => {
-      const picked = filtered[Math.floor(Math.random() * filtered.length)];
-      setResult(picked);
-      setSpinning(false);
-    }, 600);
+      if (timer) clearTimeout(timer);
+      clearInterval(msgTimer);
+      setRollingContent(finalContent);
+      setIsRolling(false);
+      setIsHoldingFinal(true);
+
+      setTimeout(() => {
+        setIsHoldingFinal(false);
+        setResult(finalContent);
+      }, 500);
+    }, ROULETTE_DURATION);
   }
+
+  const displayContent = (isRolling || isHoldingFinal) ? rollingContent : result;
 
   return (
     <main className="min-h-screen bg-orange-50 px-4 py-8">
@@ -67,7 +133,8 @@ export default function WatchPage() {
                   <button
                     key={t}
                     onClick={() => setSelectedType(t)}
-                    className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                    disabled={isRolling || isHoldingFinal}
+                    className={`rounded-full px-4 py-1.5 text-sm font-medium transition disabled:opacity-50 ${
                       selectedType === t
                         ? "bg-orange-500 text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-orange-100"
@@ -87,7 +154,8 @@ export default function WatchPage() {
                   <button
                     key={o}
                     onClick={() => toggleOtt(o)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                    disabled={isRolling || isHoldingFinal}
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition disabled:opacity-50 ${
                       selectedOtts.includes(o)
                         ? OTT_COLOR[o]
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -107,7 +175,8 @@ export default function WatchPage() {
                   <button
                     key={g}
                     onClick={() => toggleGenre(g)}
-                    className={`rounded-full px-3 py-1 text-xs transition ${
+                    disabled={isRolling || isHoldingFinal}
+                    className={`rounded-full px-3 py-1 text-xs transition disabled:opacity-50 ${
                       selectedGenres.includes(g)
                         ? "bg-orange-500 text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-orange-100"
@@ -135,11 +204,11 @@ export default function WatchPage() {
           {/* 메인 */}
           <div className="flex flex-col items-center gap-6">
             <button
-              onClick={pick}
-              disabled={spinning || filtered.length === 0}
+              onClick={startRoulette}
+              disabled={isRolling || isHoldingFinal || filtered.length === 0}
               className="w-full rounded-2xl bg-orange-500 py-5 text-xl font-bold text-white shadow-md transition hover:bg-orange-600 disabled:opacity-50"
             >
-              {spinning ? "🎲 찾는 중..." : "🎬 뽑기"}
+              {isRolling ? "고르는 중..." : isHoldingFinal ? "결정 중..." : "🎬 뽑기"}
             </button>
 
             {filtered.length === 0 && (
@@ -149,27 +218,44 @@ export default function WatchPage() {
               </div>
             )}
 
-            {result && !spinning && (
-              <div className="w-full rounded-2xl bg-white p-6 shadow-md">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
-                        result.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
-                      }`}>
-                        {result.type}
-                      </span>
-                      <span className="text-sm text-gray-400">{result.year}년</span>
-                    </div>
-                    <h2 className="mt-2 text-2xl font-bold text-gray-900">{result.title}</h2>
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {result.genres.map((g) => (
-                        <span key={g} className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs text-orange-600">
-                          {g}
-                        </span>
-                      ))}
-                    </div>
+            {/* 룰렛 카드 */}
+            <div ref={resultRef} className="w-full">
+              {(isRolling || isHoldingFinal) && displayContent && (
+                <div className="w-full rounded-2xl bg-white p-8 text-center shadow-md transition-all">
+                  <div className="scale-105 transition">
+                    <span className={`rounded-full px-3 py-1 text-sm font-bold ${
+                      displayContent.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                    }`}>
+                      {displayContent.type}
+                    </span>
+                    <h2 className="mt-4 text-3xl font-bold text-gray-900">{displayContent.title}</h2>
+                    <p className="mt-2 text-gray-400">{displayContent.year}년</p>
+                    <p className="mt-6 text-lg font-semibold text-orange-500">
+                      {spinMessages[messageIndex % spinMessages.length]}
+                    </p>
                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* 결과 카드 */}
+            {result && !isRolling && !isHoldingFinal && (
+              <div className="w-full rounded-2xl bg-white p-6 shadow-md">
+                <div className="flex items-center gap-2">
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                    result.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                  }`}>
+                    {result.type}
+                  </span>
+                  <span className="text-sm text-gray-400">{result.year}년</span>
+                </div>
+                <h2 className="mt-2 text-2xl font-bold text-gray-900">{result.title}</h2>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {result.genres.map((g) => (
+                    <span key={g} className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs text-orange-600">
+                      {g}
+                    </span>
+                  ))}
                 </div>
 
                 <div className="mt-5">
@@ -190,7 +276,7 @@ export default function WatchPage() {
                 </div>
 
                 <button
-                  onClick={pick}
+                  onClick={startRoulette}
                   className="mt-5 w-full rounded-xl border border-orange-200 py-3 text-sm font-medium text-orange-500 hover:bg-orange-50"
                 >
                   다시 뽑기
