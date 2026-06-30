@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import WatchFooter from "@/components/watch/WatchFooter";
 import RankList from "@/components/ui/RankList";
+import RankCarousel from "@/components/ui/RankCarousel";
 import {
   recordWatchPick,
   recordWatchRating,
@@ -585,109 +586,47 @@ export default function WatchPage() {
           </div>
         </div>
 
-        {/* ───── IMDb Top 10 ───── */}
-        <section className="mt-10">
-          <h2 className="mb-4 text-lg font-bold text-gray-800">🏆 IMDb 기준 넷플릭스 Top 10</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {imdbTop10.map((c, idx) => (
-              <a
-                key={c.id}
-                href={getNetflixUrl(c.url, c.title)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md hover:ring-2 hover:ring-orange-200"
-              >
-                <div className="flex items-center gap-2">
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${
-                    idx === 0 ? "bg-yellow-400 text-white" :
-                    idx === 1 ? "bg-gray-300 text-gray-700" :
-                    idx === 2 ? "bg-orange-400 text-white" : "bg-gray-100 text-gray-500"
-                  }`}>
-                    {idx + 1}
-                  </span>
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                    c.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
-                  }`}>
-                    {c.type}
-                  </span>
-                </div>
-                <p className="mt-2 line-clamp-2 text-sm font-bold text-gray-900 group-hover:text-orange-600">
-                  {c.title}
-                </p>
-                <p className="mt-1 text-xs text-gray-400">{c.year}년</p>
-                {c.imdbScore && (
-                  <p className="mt-auto pt-2 text-sm font-bold text-yellow-500">
-                    ⭐ {c.imdbScore.toFixed(1)}
-                  </p>
-                )}
-              </a>
-            ))}
-          </div>
-        </section>
+        {/* ───── IMDb Top 10 + 나라별 Top 3 ───── */}
+        <section className="mt-10 grid gap-6 lg:grid-cols-3">
+          <RankCarousel
+            title="🏆 IMDb 기준 넷플릭스 Top 10"
+            intervalMs={2500}
+            items={imdbTop10.map((c, idx) => ({
+              id: c.id,
+              rank: idx + 1,
+              label: c.title,
+              sub: `${c.year}년 · ${c.type}`,
+              badge: c.type,
+              score: c.imdbScore ? `⭐ ${c.imdbScore.toFixed(1)}` : undefined,
+              href: getNetflixUrl(c.url, c.title),
+            }))}
+          />
 
-        {/* ───── 나라별 Top 3 ───── */}
-        <section className="mt-8 grid gap-6 sm:grid-cols-2">
-          <div>
-            <h2 className="mb-3 text-base font-bold text-gray-800">🇰🇷 한국 작품 IMDb Top 3</h2>
-            <div className="space-y-2">
-              {krTop3.map((c, idx) => (
-                <a
-                  key={c.id}
-                  href={getNetflixUrl(c.url, c.title)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-xl bg-white p-3 shadow-sm transition hover:ring-2 hover:ring-orange-200"
-                >
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                    idx === 0 ? "bg-yellow-400 text-white" :
-                    idx === 1 ? "bg-gray-300 text-gray-700" : "bg-orange-300 text-white"
-                  }`}>
-                    {idx + 1}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-gray-800">{c.title}</p>
-                    <p className="text-xs text-gray-400">{c.year}년 · {c.type}</p>
-                  </div>
-                  {c.imdbScore && (
-                    <span className="shrink-0 text-sm font-bold text-yellow-500">
-                      ⭐ {c.imdbScore.toFixed(1)}
-                    </span>
-                  )}
-                </a>
-              ))}
-            </div>
-          </div>
+          <RankCarousel
+            title="🇰🇷 한국 작품 IMDb Top 3"
+            intervalMs={3000}
+            items={krTop3.map((c, idx) => ({
+              id: c.id,
+              rank: idx + 1,
+              label: c.title,
+              sub: `${c.year}년 · ${c.type}`,
+              score: c.imdbScore ? `⭐ ${c.imdbScore.toFixed(1)}` : undefined,
+              href: getNetflixUrl(c.url, c.title),
+            }))}
+          />
 
-          <div>
-            <h2 className="mb-3 text-base font-bold text-gray-800">🇺🇸 미국 작품 IMDb Top 3</h2>
-            <div className="space-y-2">
-              {usTop3.map((c, idx) => (
-                <a
-                  key={c.id}
-                  href={getNetflixUrl(c.url, c.title)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-xl bg-white p-3 shadow-sm transition hover:ring-2 hover:ring-orange-200"
-                >
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                    idx === 0 ? "bg-yellow-400 text-white" :
-                    idx === 1 ? "bg-gray-300 text-gray-700" : "bg-orange-300 text-white"
-                  }`}>
-                    {idx + 1}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-gray-800">{c.title}</p>
-                    <p className="text-xs text-gray-400">{c.year}년 · {c.type}</p>
-                  </div>
-                  {c.imdbScore && (
-                    <span className="shrink-0 text-sm font-bold text-yellow-500">
-                      ⭐ {c.imdbScore.toFixed(1)}
-                    </span>
-                  )}
-                </a>
-              ))}
-            </div>
-          </div>
+          <RankCarousel
+            title="🇺🇸 미국 작품 IMDb Top 3"
+            intervalMs={3000}
+            items={usTop3.map((c, idx) => ({
+              id: c.id,
+              rank: idx + 1,
+              label: c.title,
+              sub: `${c.year}년 · ${c.type}`,
+              score: c.imdbScore ? `⭐ ${c.imdbScore.toFixed(1)}` : undefined,
+              href: getNetflixUrl(c.url, c.title),
+            }))}
+          />
         </section>
       </div>
 
