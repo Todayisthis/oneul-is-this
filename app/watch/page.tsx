@@ -238,6 +238,13 @@ export default function WatchPage() {
                   <span className="text-sm text-gray-400">{result.year}년</span>
                 </div>
                 <h2 className="mt-2 text-2xl font-bold text-gray-900">{result.title}</h2>
+                {result.imdbScore && (
+                  <div className="mt-2 flex items-center gap-1">
+                    <span className="text-yellow-500">⭐</span>
+                    <span className="text-sm font-bold text-gray-700">{result.imdbScore.toFixed(1)}</span>
+                    <span className="text-xs text-gray-400">/ 10 (IMDb)</span>
+                  </div>
+                )}
                 <div className="mt-2 flex flex-wrap gap-1">
                   {result.genres.map((g) => (
                     <span key={g} className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs text-orange-600">
