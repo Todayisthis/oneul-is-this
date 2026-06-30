@@ -38,6 +38,15 @@ export default function WatchPage() {
 
   const resultRef = useRef<HTMLDivElement>(null);
 
+  function getNetflixUrl(url: string | undefined, title: string) {
+    if (!url) return OTT_SEARCH_URL["넷플릭스"](title);
+    if (typeof navigator !== "undefined" && /android/i.test(navigator.userAgent)) {
+      const path = new URL(url).pathname;
+      return `intent://www.netflix.com${path}#Intent;scheme=https;package=com.netflix.mediaclient;end`;
+    }
+    return url;
+  }
+
   const filtered = useMemo(() => {
     return contents.filter((c) => {
       if (selectedType !== "전체" && c.type !== selectedType) return false;
@@ -264,7 +273,7 @@ export default function WatchPage() {
                     {result.ott.map((o) => (
                       <a
                         key={o}
-                        href={result.url ?? OTT_SEARCH_URL[o](result.title)}
+                        href={getNetflixUrl(result.url, result.title)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`rounded-xl px-4 py-2 text-sm font-bold transition hover:opacity-80 ${OTT_COLOR[o]}`}
