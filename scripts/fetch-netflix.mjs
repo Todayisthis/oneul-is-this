@@ -59,6 +59,7 @@ async function fetchPage(contentType, after) {
           }
           offers(country: "KR", platform: WEB) {
             package { shortName }
+            standardWebURL
           }
         }
       }
@@ -80,8 +81,8 @@ async function fetchAll(contentType) {
 
     for (const edge of data.edges) {
       const node = edge.node;
-      const isNetflix = node.offers?.some((o) => o.package?.shortName === "nfx");
-      if (!isNetflix) continue;
+      const netflixOffer = node.offers?.find((o) => o.package?.shortName === "nfx");
+      if (!netflixOffer) continue;
 
       const rawGenres = node.content?.genres?.map((g) => g.translation) ?? [];
       const genres = rawGenres
@@ -95,6 +96,7 @@ async function fetchAll(contentType) {
         year: node.content?.originalReleaseYear,
         type: contentType === "Movie" ? "영화" : "드라마",
         genres,
+        url: netflixOffer.standardWebURL,
       });
     }
 
@@ -119,7 +121,8 @@ let showId = 8001;
 const lines = allContents.map((c) => {
   const id = c.type === "영화" ? movieId++ : showId++;
   const genresStr = c.genres.map((g) => `"${g}"`).join(", ");
-  return `  { id: ${id}, title: "${c.title?.replace(/"/g, '\\"')}", year: ${c.year}, type: "${c.type}", genres: [${genresStr}], ott: ["넷플릭스"] },`;
+  const urlStr = c.url ? `, url: "${c.url}"` : "";
+  return `  { id: ${id}, title: "${c.title?.replace(/"/g, '\\"')}", year: ${c.year}, type: "${c.type}", genres: [${genresStr}], ott: ["넷플릭스"]${urlStr} },`;
 });
 
 const output = `import type { Content } from "../contents";

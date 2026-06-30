@@ -36,11 +36,11 @@ export type ContentType = "영화" | "드라마";
 export type Content = {
   id: number;
   title: string;
-  searchTitle?: string; // 영어 원제 (OTT 검색용)
   year: number;
   type: ContentType;
   genres: ContentGenre[];
   ott: OTT[];
+  url?: string;
 };
 
 export const ALL_GENRES: ContentGenre[] = [
