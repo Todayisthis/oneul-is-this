@@ -341,7 +341,7 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* IMDb 점수 */}
+            {/* IMDb 점수 — 숨김 처리 (기능은 유지, 나중에 꺼내쓸 것)
             <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
               <p className="mb-3 text-sm font-bold text-white md:text-gray-700">⭐ IMDb 점수</p>
               <div className="space-y-1.5">
@@ -372,6 +372,7 @@ export default function WatchPage() {
                 ))}
               </div>
             </div>
+            */}
 
             {/* 제작 국가 */}
             <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
