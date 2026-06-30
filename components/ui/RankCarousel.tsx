@@ -111,20 +111,9 @@ export default function RankCarousel({ title, items }: Props) {
 
   return (
     <div className="rounded-2xl bg-white p-5 shadow-sm">
-      {/* 제목 + 인디케이터 */}
-      <div className="mb-3 flex items-center justify-between">
+      {/* 제목 */}
+      <div className="mb-3">
         <p className="text-sm font-bold text-gray-700">{title}</p>
-        <div className="flex gap-1">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => { goTo(i); startTimer(); }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === current ? "w-4 bg-orange-500" : "w-1.5 bg-gray-200"
-              }`}
-            />
-          ))}
-        </div>
       </div>
 
       {/* 카드 */}
