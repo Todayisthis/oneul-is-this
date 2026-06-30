@@ -92,18 +92,20 @@ export default function RankCarousel({ title, items }: Props) {
     }, FADE_MS);
   }
 
-  function startTimer() {
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (items.length <= 1) return;
-    timerRef.current = setInterval(() => {
-      const next = (currentRef.current + 1) % items.length;
-      goTo(next);
-    }, INTERVAL_MS);
-  }
-
+  // 전역 3초 클락에 동기화 — 모든 캐러셀이 동시에 전환
   useEffect(() => {
-    startTimer();
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    if (items.length <= 1) return;
+    const delay = INTERVAL_MS - (Date.now() % INTERVAL_MS);
+    const timeout = setTimeout(() => {
+      goTo((currentRef.current + 1) % items.length);
+      timerRef.current = setInterval(() => {
+        goTo((currentRef.current + 1) % items.length);
+      }, INTERVAL_MS);
+    }, delay);
+    return () => {
+      clearTimeout(timeout);
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
 
