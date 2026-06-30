@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import type { Food } from "@/data/foods";
@@ -119,7 +119,7 @@ export default function ResultCard({
         <SharePopup food={food} onClose={() => setShowShare(false)} />
       )}
 
-      <div className="mt-6 w-full rounded-3xl border border-gray-800 bg-gray-900 p-8 text-center shadow-sm md:border-none md:bg-white">
+      <div className="mt-6 w-full rounded-3xl border border-gray-700 bg-gray-800 p-8 text-center shadow-sm md:border-none md:bg-white">
         <FoodImage food={food} />
 
         <p className="mt-4 text-xs font-bold uppercase tracking-widest text-orange-500">
@@ -179,7 +179,7 @@ export default function ResultCard({
                 className={`rounded-full px-3 py-2 text-lg ${
                   rating === score
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-800 text-gray-300 md:bg-gray-100 md:text-gray-500"
+                    : "bg-gray-700 text-gray-300 md:bg-gray-100 md:text-gray-500"
                 }`}
               >
                 ⭐
@@ -188,13 +188,13 @@ export default function ResultCard({
           </div>
 
           {rating !== null && (
-            <p className="mt-4 rounded-2xl bg-gray-800 px-4 py-3 text-sm font-bold text-gray-200 md:bg-gray-50 md:text-gray-600">
+            <p className="mt-4 rounded-2xl bg-gray-700 px-4 py-3 text-sm font-bold text-gray-200 md:bg-gray-50 md:text-gray-600">
               {ratingMessage}
             </p>
           )}
         </div>
 
-        <div className="mt-5 border-t border-gray-800 pt-5 md:border-gray-100">
+        <div className="mt-5 border-t border-gray-700 pt-5 md:border-gray-100">
           <p className="mb-2 text-sm font-bold text-white md:text-gray-700">💬 한줄 후기 남기기</p>
           {commentSent ? (
             <p className="rounded-2xl bg-orange-50 py-3 text-sm font-bold text-orange-500">

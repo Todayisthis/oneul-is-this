@@ -1,4 +1,4 @@
-import type { Food } from "@/data/foods";
+﻿import type { Food } from "@/data/foods";
 
 type Props = {
   food: Food | null;
@@ -24,7 +24,7 @@ export default function RouletteCard({
   if (!food) return null;
 
   return (
-    <div className="w-full rounded-3xl border border-gray-800 bg-gray-900 p-8 text-center shadow-sm md:border-none md:bg-white">
+    <div className="w-full rounded-3xl border border-gray-700 bg-gray-800 p-8 text-center shadow-sm md:border-none md:bg-white">
       <div className={isRolling ? "scale-105 transition" : "transition"}>
         <div className="text-6xl">{food.emoji}</div>
 

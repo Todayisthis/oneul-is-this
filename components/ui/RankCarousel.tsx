@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -38,7 +38,7 @@ function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
   const style = RANK_STYLES[idx] ?? RANK_STYLES[RANK_STYLES.length - 1];
 
   const inner = (
-    <div className={`rounded-xl border-2 p-4 ${style.border} bg-gray-900 md:bg-gray-50`}>
+    <div className={`rounded-xl border-2 p-4 ${style.border} bg-gray-700 md:bg-gray-50`}>
       <div className="flex items-center gap-3">
         <div className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full ${style.bg} shadow`}>
           <span className="text-lg font-extrabold leading-none text-white">{item.rank}</span>
@@ -113,7 +113,7 @@ export default function RankCarousel({ title, items }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <div className="rounded-2xl border border-gray-800 bg-gray-900 p-5 shadow-sm md:border-none md:bg-white">
+    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
       {/* 제목 */}
       <div className="mb-3">
         <p className="text-sm font-bold text-white md:text-gray-700">{title}</p>

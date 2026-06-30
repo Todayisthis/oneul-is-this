@@ -1,8 +1,8 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export default function WatchFooter() {
   return (
-    <footer className="mt-16 border-t border-gray-800 bg-gray-950 py-8 md:border-gray-200 md:bg-white">
+    <footer className="mt-16 border-t border-gray-700 bg-gray-950 py-8 md:border-gray-200 md:bg-white">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 text-sm text-gray-400 md:text-gray-500">
         <div className="flex flex-wrap justify-center gap-5">
           <Link href="/watch/about" className="hover:text-orange-500">서비스 소개</Link>

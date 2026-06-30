@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { FeedItem } from "@/lib/firebaseStats";
 
@@ -14,7 +14,7 @@ export default function FeedList({ feeds }: { feeds: FeedItem[] }) {
   if (!feeds.length) return null;
 
   return (
-    <div className="rounded-2xl border border-gray-800 bg-gray-900 p-5 shadow-sm md:border-none md:bg-white">
+    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
       <p className="text-sm font-bold text-white md:text-gray-800">💬 오늘의 한마디</p>
       <div className="mt-3 flex flex-col gap-3">
         {feeds.map((feed) => (
