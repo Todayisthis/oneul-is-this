@@ -16,8 +16,7 @@ export default function PopularFoods({ topPicked, topRated }: Props) {
       {topPicked.length > 0 && (
         <RankCarousel
           title="🔥 이번주 많이 나온 메뉴"
-          intervalMs={2500}
-          items={topPicked.map((item, i) => ({
+                    items={topPicked.map((item, i) => ({
             id: item.id,
             rank: i + 1,
             label: item.name,
@@ -29,8 +28,7 @@ export default function PopularFoods({ topPicked, topRated }: Props) {
       {topRated.length > 0 && (
         <RankCarousel
           title="⭐ 이번주 인기있는 메뉴"
-          intervalMs={2500}
-          items={topRated.map((item, i) => ({
+                    items={topRated.map((item, i) => ({
             id: item.id,
             rank: i + 1,
             label: item.name,

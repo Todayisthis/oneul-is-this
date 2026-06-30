@@ -556,7 +556,7 @@ export default function WatchPage() {
             {topPicks.length > 0 ? (
               <RankCarousel
                 title="🔥 이번주 자주 추천된 작품"
-                intervalMs={2500}
+
                 items={topPicks.map((item, i) => ({
                   id: item.id,
                   rank: i + 1,
@@ -574,7 +574,7 @@ export default function WatchPage() {
             {topRated.length > 0 ? (
               <RankCarousel
                 title="⭐ 추천이 마음에 드는 작품"
-                intervalMs={2500}
+
                 items={topRated.map((item, i) => ({
                   id: item.id,
                   rank: i + 1,
@@ -595,7 +595,6 @@ export default function WatchPage() {
         <section className="mt-10 grid gap-6 lg:grid-cols-3">
           <RankCarousel
             title="🏆 IMDb 기준 넷플릭스 Top 10"
-            intervalMs={2500}
             items={imdbTop10.map((c, idx) => ({
               id: c.id,
               rank: idx + 1,
@@ -609,7 +608,6 @@ export default function WatchPage() {
 
           <RankCarousel
             title="🇰🇷 한국 작품 IMDb Top 3"
-            intervalMs={3000}
             items={krTop3.map((c, idx) => ({
               id: c.id,
               rank: idx + 1,
@@ -622,7 +620,6 @@ export default function WatchPage() {
 
           <RankCarousel
             title="🇺🇸 미국 작품 IMDb Top 3"
-            intervalMs={3000}
             items={usTop3.map((c, idx) => ({
               id: c.id,
               rank: idx + 1,
