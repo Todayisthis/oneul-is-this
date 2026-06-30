@@ -18,7 +18,7 @@ type Props = {
 };
 
 const INTERVAL_MS = 3000;
-const SLIDE_MS = 260;
+const FADE_MS = 250;
 
 const RANK_STYLES = [
   { bg: "bg-yellow-400", border: "border-yellow-200", medal: "🥇" },
@@ -69,43 +69,27 @@ function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
   ) : inner;
 }
 
-const animStyle = {
-  animationDuration: `${SLIDE_MS}ms`,
-  animationTimingFunction: "ease",
-  animationFillMode: "forwards",
-  WebkitAnimationFillMode: "forwards" as const,
-};
-
 export default function RankCarousel({ title, items }: Props) {
   const [current, setCurrent] = useState(0);
-  const [outgoing, setOutgoing] = useState<number | null>(null);
-  const [dir, setDir] = useState<"next" | "prev">("next");
-  const [animating, setAnimating] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  // refs — 클로저 stale 없이 항상 최신값 참조
   const currentRef = useRef(0);
-  const animatingRef = useRef(false);
+  const fadingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const touchStartX = useRef<number | null>(null);
 
-  // refs 동기화
   useEffect(() => { currentRef.current = current; }, [current]);
-  useEffect(() => { animatingRef.current = animating; }, [animating]);
 
-  function slide(nextIdx: number, direction: "next" | "prev") {
-    if (animatingRef.current) return;
-    const cur = currentRef.current;
-    if (nextIdx === cur) return;
-    setOutgoing(cur);
-    setDir(direction);
-    setCurrent(nextIdx);
-    setAnimating(true);
-    animatingRef.current = true;
+  function goTo(nextIdx: number) {
+    if (fadingRef.current || nextIdx === currentRef.current) return;
+    fadingRef.current = true;
+    setVisible(false);
     setTimeout(() => {
-      setOutgoing(null);
-      setAnimating(false);
-      animatingRef.current = false;
-    }, SLIDE_MS);
+      setCurrent(nextIdx);
+      currentRef.current = nextIdx;
+      setVisible(true);
+      fadingRef.current = false;
+    }, FADE_MS);
   }
 
   function startTimer() {
@@ -113,11 +97,10 @@ export default function RankCarousel({ title, items }: Props) {
     if (items.length <= 1) return;
     timerRef.current = setInterval(() => {
       const next = (currentRef.current + 1) % items.length;
-      slide(next, "next");
+      goTo(next);
     }, INTERVAL_MS);
   }
 
-  // 마운트 시 타이머 시작 — items.length 바뀔 때만 재시작
   useEffect(() => {
     startTimer();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
@@ -135,20 +118,12 @@ export default function RankCarousel({ title, items }: Props) {
     const next = diff > 0
       ? (currentRef.current + 1) % items.length
       : (currentRef.current - 1 + items.length) % items.length;
-    slide(next, diff > 0 ? "next" : "prev");
+    goTo(next);
     touchStartX.current = null;
-    startTimer(); // 수동 스와이프 후 타이머 리셋
-  }
-
-  function goTo(i: number) {
-    slide(i, i > currentRef.current ? "next" : "prev");
     startTimer();
   }
 
   if (items.length === 0) return null;
-
-  const outClass = dir === "next" ? "carousel-out-left" : "carousel-out-right";
-  const inClass  = dir === "next" ? "carousel-in-right" : "carousel-in-left";
 
   return (
     <div
@@ -163,7 +138,7 @@ export default function RankCarousel({ title, items }: Props) {
           {items.map((_, i) => (
             <button
               key={i}
-              onClick={() => goTo(i)}
+              onClick={() => { goTo(i); startTimer(); }}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === current ? "w-4 bg-orange-500" : "w-1.5 bg-gray-200"
               }`}
@@ -172,26 +147,15 @@ export default function RankCarousel({ title, items }: Props) {
         </div>
       </div>
 
-      {/* 슬라이드 영역 */}
-      <div style={{ position: "relative", overflow: "hidden" }}>
-        {/* 나가는 카드 */}
-        {animating && outgoing !== null && (
-          <div
-            key={`out-${outgoing}`}
-            className={outClass}
-            style={{ position: "absolute", top: 0, left: 0, right: 0, ...animStyle }}
-          >
-            <ItemCard item={items[outgoing]} idx={outgoing} />
-          </div>
-        )}
-        {/* 들어오는 카드 */}
-        <div
-          key={`in-${current}`}
-          className={animating ? inClass : ""}
-          style={animating ? animStyle : undefined}
-        >
-          <ItemCard item={items[current]} idx={current} />
-        </div>
+      {/* 카드 */}
+      <div
+        style={{
+          opacity: visible ? 1 : 0,
+          transition: `opacity ${FADE_MS}ms ease`,
+          WebkitTransition: `opacity ${FADE_MS}ms ease`,
+        }}
+      >
+        <ItemCard item={items[current]} idx={current} />
       </div>
     </div>
   );
