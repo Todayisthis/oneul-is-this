@@ -18,7 +18,7 @@ export default function CategorySelector({ selected, onChange, disabled }: Props
           className={`rounded-full px-4 py-2 text-sm font-bold transition select-none cursor-pointer ${
             selected === category
               ? "bg-orange-500 text-white"
-              : "bg-gray-100 text-gray-600"
+              : "bg-gray-800 text-gray-300 md:bg-gray-100 md:text-gray-600"
           } ${disabled ? "opacity-60" : ""}`}
         >
           {category}

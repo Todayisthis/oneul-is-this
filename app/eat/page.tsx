@@ -320,11 +320,11 @@ function EatPageInner() {
         <div className="flex min-w-0 flex-1 flex-col items-center">
           {/* 모바일 전용 설정 */}
           <div className="flex w-full flex-col gap-4 lg:hidden">
-            <div className="rounded-3xl bg-white p-5 shadow-sm">
+            <div className="rounded-3xl border border-gray-800 bg-gray-900 p-5 shadow-sm md:border-none md:bg-white">
               <p className="text-sm font-bold text-orange-500">오늘의 메뉴 추천</p>
-              <h2 className="mt-1 text-3xl font-bold">🍚 오늘 뭐 먹지?</h2>
+              <h2 className="mt-1 text-3xl font-bold text-white md:text-gray-900">🍚 오늘 뭐 먹지?</h2>
               <div className="mt-4 text-left">
-                <p className="mb-3 text-sm font-bold text-gray-700">🍽 음식 분류</p>
+                <p className="mb-3 text-sm font-bold text-white md:text-gray-700">🍽 음식 분류</p>
                 <CategorySelector
                   selected={selectedCategory}
                   onChange={handleCategoryChange}
@@ -332,15 +332,15 @@ function EatPageInner() {
                 />
               </div>
             </div>
-            <div className="rounded-3xl bg-white p-5 text-left shadow-sm">
-              <p className="mb-3 text-sm font-bold text-gray-700">🎲 추천 방식</p>
+            <div className="rounded-3xl border border-gray-800 bg-gray-900 p-5 text-left shadow-sm md:border-none md:bg-white">
+              <p className="mb-3 text-sm font-bold text-white md:text-gray-700">🎲 추천 방식</p>
               <RecommendModeSelector
                 selected={recommendMode}
                 onChange={setRecommendMode}
                 disabled={isRolling || isHoldingFinal}
               />
             </div>
-            <div className="rounded-3xl bg-white p-5 shadow-sm">
+            <div className="rounded-3xl border border-gray-800 bg-gray-900 p-5 shadow-sm md:border-none md:bg-white">
               <FilterSelector
                 filters={filters}
                 onChange={handleFilterChange}

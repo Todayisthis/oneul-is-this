@@ -119,16 +119,16 @@ export default function ResultCard({
         <SharePopup food={food} onClose={() => setShowShare(false)} />
       )}
 
-      <div className="mt-6 w-full rounded-3xl bg-white p-8 text-center shadow-sm">
+      <div className="mt-6 w-full rounded-3xl border border-gray-800 bg-gray-900 p-8 text-center shadow-sm md:border-none md:bg-white">
         <FoodImage food={food} />
 
         <p className="mt-4 text-xs font-bold uppercase tracking-widest text-orange-500">
           오늘의 추천 메뉴
         </p>
 
-        <h2 className="mt-2 text-4xl font-black tracking-tight">{food.name}</h2>
+        <h2 className="mt-2 text-4xl font-black tracking-tight text-white md:text-gray-900">{food.name}</h2>
 
-        <p className="mt-1 text-sm font-medium text-gray-500">
+        <p className="mt-1 text-sm font-medium text-gray-400 md:text-gray-500">
           {food.brand ? food.brand : food.category}
         </p>
 
@@ -166,7 +166,7 @@ export default function ResultCard({
           <div className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-center text-xs text-amber-700">
             💡 <strong>별점을 주시면 광고 없이 바로 공유</strong>할 수 있어요!
           </div>
-          <p className="mb-3 text-sm font-bold text-gray-600">
+          <p className="mb-3 text-sm font-bold text-gray-300 md:text-gray-600">
             이 추천 어땠어?
           </p>
 
@@ -179,7 +179,7 @@ export default function ResultCard({
                 className={`rounded-full px-3 py-2 text-lg ${
                   rating === score
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-100 text-gray-500"
+                    : "bg-gray-800 text-gray-300 md:bg-gray-100 md:text-gray-500"
                 }`}
               >
                 ⭐
@@ -188,14 +188,14 @@ export default function ResultCard({
           </div>
 
           {rating !== null && (
-            <p className="mt-4 rounded-2xl bg-gray-50 px-4 py-3 text-sm font-bold text-gray-600">
+            <p className="mt-4 rounded-2xl bg-gray-800 px-4 py-3 text-sm font-bold text-gray-200 md:bg-gray-50 md:text-gray-600">
               {ratingMessage}
             </p>
           )}
         </div>
 
-        <div className="mt-5 border-t border-gray-100 pt-5">
-          <p className="mb-2 text-sm font-bold text-gray-700">💬 한줄 후기 남기기</p>
+        <div className="mt-5 border-t border-gray-800 pt-5 md:border-gray-100">
+          <p className="mb-2 text-sm font-bold text-white md:text-gray-700">💬 한줄 후기 남기기</p>
           {commentSent ? (
             <p className="rounded-2xl bg-orange-50 py-3 text-sm font-bold text-orange-500">
               후기가 등록됐어요! 🎉

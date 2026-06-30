@@ -33,7 +33,7 @@ export default function RecommendModeSelector({
           className={`rounded-2xl p-4 text-left transition select-none cursor-pointer ${
             selected === mode.id
               ? "bg-orange-500 text-white"
-              : "bg-gray-50 text-gray-600"
+              : "bg-gray-800 text-gray-300 md:bg-gray-50 md:text-gray-600"
           } ${disabled ? "opacity-60" : ""}`}
         >
           <p className="text-sm font-extrabold">{mode.label}</p>
