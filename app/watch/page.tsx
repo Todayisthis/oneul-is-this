@@ -473,7 +473,7 @@ export default function WatchPage() {
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1">
                     {result.genres.map((g) => (
-                      <span key={g} className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs text-orange-600">
+                      <span key={g} className="rounded-full bg-orange-500/15 px-2.5 py-0.5 text-xs text-orange-400 md:bg-orange-50 md:text-orange-600">
                         {g}
                       </span>
                     ))}
@@ -506,8 +506,8 @@ export default function WatchPage() {
 
                 {/* 별점 + 공유 */}
                 <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6 shadow-md md:border-none md:bg-white">
-                  <div className="mb-4 rounded-xl bg-amber-50 p-3 text-center text-sm">
-                    <span className="text-amber-700">
+                  <div className="mb-4 rounded-xl bg-amber-500/10 p-3 text-center text-sm md:bg-amber-50">
+                    <span className="text-amber-400 md:text-amber-700">
                       💡 <strong>별점을 주시면 광고 없이 바로 공유</strong>할 수 있어요!
                     </span>
                   </div>
