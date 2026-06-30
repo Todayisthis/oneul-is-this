@@ -125,13 +125,6 @@ function CardInner({
         )}
       </div>
 
-      {/* 진행 바 */}
-      <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-gray-200">
-        <div
-          key={current}
-          className={`h-1 rounded-full ${style.bg} animate-progress`}
-        />
-      </div>
     </div>
   );
 }
