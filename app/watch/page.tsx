@@ -38,6 +38,14 @@ export default function WatchPage() {
 
   const resultRef = useRef<HTMLDivElement>(null);
 
+  const COUNTRY_MAP: Record<string, string> = {
+    KR: "🇰🇷 한국", US: "🇺🇸 미국", JP: "🇯🇵 일본", GB: "🇬🇧 영국",
+    FR: "🇫🇷 프랑스", DE: "🇩🇪 독일", ES: "🇪🇸 스페인", IT: "🇮🇹 이탈리아",
+    IN: "🇮🇳 인도", CN: "🇨🇳 중국", TH: "🇹🇭 태국", MX: "🇲🇽 멕시코",
+    AU: "🇦🇺 호주", CA: "🇨🇦 캐나다", SE: "🇸🇪 스웨덴", DK: "🇩🇰 덴마크",
+    NO: "🇳🇴 노르웨이", BR: "🇧🇷 브라질", TR: "🇹🇷 터키", PL: "🇵🇱 폴란드",
+  };
+
   function getNetflixUrl(url: string | undefined, title: string) {
     if (!url) return OTT_SEARCH_URL["넷플릭스"](title);
     if (typeof navigator !== "undefined" && /android/i.test(navigator.userAgent)) {
@@ -238,13 +246,20 @@ export default function WatchPage() {
                   <span className="text-sm text-gray-400">{result.year}년</span>
                 </div>
                 <h2 className="mt-2 text-2xl font-bold text-gray-900">{result.title}</h2>
-                {result.imdbScore && (
-                  <div className="mt-2 flex items-center gap-1">
-                    <span className="text-yellow-500">⭐</span>
-                    <span className="text-sm font-bold text-gray-700">{result.imdbScore.toFixed(1)}</span>
-                    <span className="text-xs text-gray-400">/ 10 (IMDb)</span>
-                  </div>
-                )}
+                <div className="mt-2 flex flex-wrap items-center gap-3">
+                  {result.country && (
+                    <span className="text-sm text-gray-500">
+                      {COUNTRY_MAP[result.country] ?? result.country} 작품
+                    </span>
+                  )}
+                  {result.imdbScore && (
+                    <span className="flex items-center gap-1 text-sm">
+                      <span className="text-yellow-500">⭐</span>
+                      <span className="font-bold text-gray-700">{result.imdbScore.toFixed(1)}</span>
+                      <span className="text-gray-400">/ 10 (IMDb)</span>
+                    </span>
+                  )}
+                </div>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {result.genres.map((g) => (
                     <span key={g} className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs text-orange-600">

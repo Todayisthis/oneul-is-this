@@ -42,6 +42,7 @@ export type Content = {
   ott: OTT[];
   url?: string;
   imdbScore?: number;
+  country?: string;
 };
 
 export const ALL_GENRES: ContentGenre[] = [

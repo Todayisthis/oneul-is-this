@@ -57,6 +57,7 @@ async function fetchPage(contentType, after) {
             originalReleaseYear
             genres { translation(language: "ko") }
             scoring { imdbScore }
+            productionCountries
           }
           offers(country: "KR", platform: WEB) {
             package { shortName }
@@ -99,6 +100,7 @@ async function fetchAll(contentType) {
         genres,
         url: netflixOffer.standardWebURL,
         imdbScore: node.content?.scoring?.imdbScore ?? null,
+        country: node.content?.productionCountries?.[0] ?? null,
       });
     }
 
@@ -125,7 +127,8 @@ const lines = allContents.map((c) => {
   const genresStr = c.genres.map((g) => `"${g}"`).join(", ");
   const urlStr = c.url ? `, url: "${c.url}"` : "";
   const imdbStr = c.imdbScore ? `, imdbScore: ${c.imdbScore}` : "";
-  return `  { id: ${id}, title: "${c.title?.replace(/"/g, '\\"')}", year: ${c.year}, type: "${c.type}", genres: [${genresStr}], ott: ["넷플릭스"]${urlStr}${imdbStr} },`;
+  const countryStr = c.country ? `, country: "${c.country}"` : "";
+  return `  { id: ${id}, title: "${c.title?.replace(/"/g, '\\"')}", year: ${c.year}, type: "${c.type}", genres: [${genresStr}], ott: ["넷플릭스"]${urlStr}${imdbStr}${countryStr} },`;
 });
 
 const output = `import type { Content } from "../contents";
