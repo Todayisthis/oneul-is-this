@@ -132,7 +132,7 @@ export default function ResultCard({
           {food.brand ? food.brand : food.category}
         </p>
 
-        <p className="mt-5 rounded-2xl bg-orange-50 px-4 py-4 text-sm font-medium leading-relaxed text-gray-700">
+        <p className="mt-5 rounded-2xl bg-gray-700 px-4 py-4 text-sm font-medium leading-relaxed text-gray-200 md:bg-orange-50 md:text-gray-700">
           {message}
         </p>
 
