@@ -63,7 +63,11 @@ export default function ResultCard({
   const [commentSent, setCommentSent] = useState(false);
 
   function openShare() {
-    setShowAd(true);
+    if (rating !== null) {
+      setShowShare(true); // 별점 있으면 광고 스킵
+    } else {
+      setShowAd(true);
+    }
   }
 
   function onAdDone() {
@@ -94,7 +98,8 @@ export default function ResultCard({
 
   function handleRate(score: number) {
     onRate(score);
-    setShowAd(true);
+    // 별점 주면 광고 없이 바로 공유 팝업
+    setShowShare(true);
   }
 
   function openMap() {
@@ -158,8 +163,11 @@ export default function ResultCard({
         </button>
 
         <div className="mt-6">
+          <div className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-center text-xs text-amber-700">
+            💡 <strong>별점을 주시면 광고 없이 바로 공유</strong>할 수 있어요!
+          </div>
           <p className="mb-3 text-sm font-bold text-gray-600">
-            이 추천 어땠어? 별점 주면 친구에게 공유할 수 있어요!
+            이 추천 어땠어?
           </p>
 
           <div className="flex justify-center gap-2">

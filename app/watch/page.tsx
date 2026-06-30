@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import WatchFooter from "@/components/watch/WatchFooter";
 import RankCarousel from "@/components/ui/RankCarousel";
+import WatchSharePopup from "@/components/watch/WatchSharePopup";
 import {
   recordWatchPick,
   recordWatchRating,
@@ -93,6 +94,7 @@ export default function WatchPage() {
   const [hoverRating, setHoverRating] = useState(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [shareSuccess, setShareSuccess] = useState(false);
+  const [showSharePopup, setShowSharePopup] = useState(false);
 
   const [showAdModal, setShowAdModal] = useState(false);
   const [adCountdown, setAdCountdown] = useState(3);
@@ -122,9 +124,8 @@ export default function WatchPage() {
 
   useEffect(() => {
     if (!showAdModal || adCountdown !== 0) return;
-    const content = adPendingContent.current;
     setShowAdModal(false);
-    if (content) doShare(content).then(() => setShareSuccess(true));
+    setShowSharePopup(true);
   }, [showAdModal, adCountdown]);
 
   const imdbTop10 = useMemo(() =>
@@ -223,7 +224,7 @@ export default function WatchPage() {
 
   function handleShare(content: Content) {
     if (ratingSubmitted) {
-      doShare(content).then(() => setShareSuccess(true));
+      setShowSharePopup(true); // 별점 있으면 광고 스킵
     } else {
       adPendingContent.current = content;
       setShowAdModal(true);
@@ -241,6 +242,13 @@ export default function WatchPage() {
 
   return (
     <main className="min-h-screen bg-orange-50 px-4 py-8">
+      {showSharePopup && result && (
+        <WatchSharePopup
+          content={result}
+          onClose={() => setShowSharePopup(false)}
+        />
+      )}
+
       {/* 광고 모달 */}
       {showAdModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
@@ -528,22 +536,16 @@ export default function WatchPage() {
                   </div>
 
                   {/* 공유 버튼 */}
-                  {shareSuccess ? (
-                    <div className="rounded-xl bg-green-50 py-3 text-center text-sm font-medium text-green-700">
-                      ✓ 공유 완료!
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleShare(result)}
-                      className={`w-full rounded-xl py-3 text-sm font-bold transition ${
-                        ratingSubmitted
-                          ? "bg-green-500 text-white hover:bg-green-600"
-                          : "bg-gray-800 text-white hover:bg-gray-700"
-                      }`}
-                    >
-                      {ratingSubmitted ? "📤 바로 공유하기 (광고 없음)" : "📤 공유하기 (광고 3초)"}
-                    </button>
-                  )}
+                  <button
+                    onClick={() => handleShare(result)}
+                    className={`w-full rounded-xl py-3 text-sm font-bold transition ${
+                      ratingSubmitted
+                        ? "bg-green-500 text-white hover:bg-green-600"
+                        : "bg-gray-800 text-white hover:bg-gray-700"
+                    }`}
+                  >
+                    {ratingSubmitted ? "📤 바로 공유하기 (광고 없음)" : "📤 공유하기 (광고 3초)"}
+                  </button>
                 </div>
               </div>
             )}
