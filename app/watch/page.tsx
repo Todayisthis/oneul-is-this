@@ -570,7 +570,9 @@ export default function WatchPage() {
                   id: item.id,
                   rank: i + 1,
                   label: item.title,
-                  sub: `${item.year} · ${item.count}회`,
+                  sub: `${item.year}년`,
+                  score: `🔥 ${item.count}`,
+                  scoreLabel: "추천",
                   href: getNetflixUrl(item.url, item.title),
                 }))}
               />
@@ -589,7 +591,9 @@ export default function WatchPage() {
                   id: item.id,
                   rank: i + 1,
                   label: item.title,
-                  sub: `★ ${item.avgRating?.toFixed(1)}점 (${item.ratingCount}명)`,
+                  sub: `${item.year}년`,
+                  score: `⭐ ${item.avgRating?.toFixed(1)}`,
+                  scoreLabel: `${item.ratingCount}명 평가`,
                   href: getNetflixUrl(item.url, item.title),
                 }))}
               />

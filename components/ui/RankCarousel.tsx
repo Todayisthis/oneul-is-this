@@ -9,6 +9,7 @@ export type CarouselItem = {
   sub?: string;
   badge?: string;
   score?: string;
+  scoreLabel?: string;
   href?: string;
 };
 
@@ -55,7 +56,7 @@ function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
         {item.score && (
           <div className="shrink-0 text-right">
             <p className="text-base font-extrabold text-yellow-500">{item.score}</p>
-            <p className="text-xs text-gray-400">IMDb</p>
+            <p className="text-xs text-gray-400">{item.scoreLabel ?? "IMDb"}</p>
           </div>
         )}
       </div>
