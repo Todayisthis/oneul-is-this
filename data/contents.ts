@@ -59,4 +59,4 @@ export const OTT_COLOR: Record<OTT, string> = {
   넷플릭스: "bg-red-600 text-white",
 };
 
-export const contents: Content[] = netflixContents;
+export const contents: Content[] = netflixContents.filter((c) => c.year >= 2000);
