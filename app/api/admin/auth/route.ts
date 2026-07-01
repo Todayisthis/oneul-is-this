@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { timingSafeEqual } from "crypto";
 import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
@@ -9,7 +10,11 @@ export async function POST(req: NextRequest) {
   }
 
   const { password } = await req.json();
-  if (password !== process.env.ADMIN_PASSWORD) {
+  const expected = process.env.ADMIN_PASSWORD ?? "";
+  const isValid =
+    password?.length === expected.length &&
+    timingSafeEqual(Buffer.from(password), Buffer.from(expected));
+  if (!isValid) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 

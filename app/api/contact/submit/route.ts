@@ -17,6 +17,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Invalid message" }, { status: 400 });
   if (typeof name === "string" && name.length > 50)
     return NextResponse.json({ ok: false, error: "Name too long" }, { status: 400 });
+  if (email !== undefined && email !== "" && (typeof email !== "string" || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))
+    return NextResponse.json({ ok: false, error: "Invalid email" }, { status: 400 });
 
   const { ok, reason } = filterComment(message);
   if (!ok) return NextResponse.json({ ok: false, error: reason }, { status: 400 });
