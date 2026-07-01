@@ -81,19 +81,20 @@ export async function getReviewComments(reviewId: string): Promise<ReviewComment
   try {
     const q = query(
       collection(db, "review_comments"),
-      where("reviewId", "==", reviewId),
-      orderBy("createdAt", "asc")
+      where("reviewId", "==", reviewId)
     );
     const snap = await getDocs(q);
-    return snap.docs.map((d) => {
-      const data = d.data();
-      return {
-        id: d.id,
-        reviewId: data.reviewId,
-        content: data.content,
-        createdAt: data.createdAt?.toDate?.() ?? new Date(),
-      };
-    });
+    return snap.docs
+      .map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          reviewId: data.reviewId,
+          content: data.content,
+          createdAt: data.createdAt?.toDate?.() ?? new Date(),
+        };
+      })
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
   } catch {
     return [];
   }
