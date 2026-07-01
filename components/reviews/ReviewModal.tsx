@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { foods } from "@/data/foods";
 import { contents } from "@/data/contents";
+import { useDebounce } from "@/lib/useDebounce";
 
 type Props = {
   onClose: () => void;
@@ -18,9 +19,11 @@ export default function ReviewModal({ onClose }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const debouncedSearch = useDebounce(search, 300);
+
   const results = useMemo(() => {
-    if (!search.trim()) return [];
-    const q = search.trim().toLowerCase();
+    if (!debouncedSearch.trim()) return [];
+    const q = debouncedSearch.trim().toLowerCase();
     if (type === "food") {
       return foods.filter((f) => f.name.toLowerCase().includes(q)).slice(0, 8);
     } else {
