@@ -157,7 +157,7 @@ export default function WatchPage() {
   const filtered = useMemo(() => {
     return contents.filter((c) => {
       if (selectedType !== "전체" && c.type !== selectedType) return false;
-      if (selectedGenres.length > 0 && !selectedGenres.some((g) => c.genres.includes(g))) return false;
+      if (selectedGenres.length > 0 && !selectedGenres.every((g) => c.genres.includes(g))) return false;
       if (selectedCountry && c.country !== selectedCountry) return false;
       if (selectedImdb) {
         const range = IMDB_RANGES.find((r) => r.key === selectedImdb);
