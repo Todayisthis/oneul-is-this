@@ -4,7 +4,17 @@ import { useEffect, useRef } from "react";
 
 let globalAdCount = 0;
 
-export default function KakaoAd() {
+interface KakaoAdProps {
+  unitId?: string;
+  width?: number;
+  height?: number;
+}
+
+export default function KakaoAd({
+  unitId = "DAN-3qhuUl7cRaH3PTPF",
+  width = 300,
+  height = 250,
+}: KakaoAdProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,9 +27,9 @@ export default function KakaoAd() {
     ins.className = "kakao_ad_area";
     ins.style.display = "none";
     ins.style.width = "100%";
-    ins.setAttribute("data-ad-unit", "DAN-3qhuUl7cRaH3PTPF");
-    ins.setAttribute("data-ad-width", "300");
-    ins.setAttribute("data-ad-height", "250");
+    ins.setAttribute("data-ad-unit", unitId);
+    ins.setAttribute("data-ad-width", String(width));
+    ins.setAttribute("data-ad-height", String(height));
     ins.setAttribute("data-ad-onfail", cbName);
 
     (window as unknown as Record<string, unknown>)[cbName] = () => {
@@ -29,7 +39,6 @@ export default function KakaoAd() {
 
     containerRef.current.appendChild(ins);
 
-    // 기존 스크립트 제거 후 재삽입 → SPA 페이지 이동 시 재스캔
     const old = document.querySelector('script[data-kakao-ad]');
     if (old) old.remove();
 
@@ -47,12 +56,12 @@ export default function KakaoAd() {
         containerRef.current.style.display = "";
       }
     };
-  }, []);
+  }, [unitId, width, height]);
 
   return (
     <div
       ref={containerRef}
-      className="my-4 flex w-full items-center justify-center"
+      className="my-2 flex w-full items-center justify-center"
     />
   );
 }
