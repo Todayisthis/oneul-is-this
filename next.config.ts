@@ -12,11 +12,11 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // unsafe-eval은 카카오 광고 SDK(ba.min.js)가 내부적으로 사용하므로 유지
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://t1.kakaocdn.net https://ka-f.kakaocdn.net https://pagead2.googlesyndication.com https://ep2.adtrafficquality.google https://googleads.g.doubleclick.net https://www.googletagservices.com https://securepubads.g.doubleclick.net",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://t1.kakaocdn.net https://ka-f.kakaocdn.net https://pagead2.googlesyndication.com https://ep2.adtrafficquality.google https://googleads.g.doubleclick.net https://www.googletagservices.com https://securepubads.g.doubleclick.net",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com wss://*.firebaseio.com https://images.unsplash.com https://api.unsplash.com https://*.kakao.com https://*.kakaocdn.net https://*.daumcdn.net https://*.onkakao.net https://stat.tiara.kakao.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google",
+      "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com wss://*.firebaseio.com https://images.unsplash.com https://api.unsplash.com https://*.kakao.com https://*.kakaocdn.net https://*.daumcdn.net https://*.onkakao.net https://stat.tiara.kakao.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://www.google-analytics.com https://analytics.google.com",
       "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://t1.kakaocdn.net https://ka-f.kakaocdn.net https://*.kakao.com https://*.daumcdn.net",
       "worker-src 'self'",
       "child-src 'self' https://googleads.g.doubleclick.net https://*.kakao.com https://*.daumcdn.net",

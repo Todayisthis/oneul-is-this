@@ -89,6 +89,12 @@ export default function RootLayout({
       style={{ backgroundColor: "#030712" }}
     >
       <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q94CGPGK68" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Q94CGPGK68');`,
+          }}
+        />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6637875835027720"
