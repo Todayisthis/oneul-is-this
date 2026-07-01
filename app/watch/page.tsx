@@ -196,7 +196,9 @@ export default function WatchPage() {
     setRollingContent(pickRandom(filtered));
     setMessageIndex(0);
 
-    resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
 
     const startedAt = Date.now();
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -316,6 +318,11 @@ export default function WatchPage() {
 
         <div>
       <div className="mx-auto max-w-7xl">
+        {/* 모바일 전용 최상단 광고 */}
+        <div className="mb-4 block lg:hidden">
+          <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
+        </div>
+
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">← 홈으로</Link>
 
         <h1 className="mt-4 text-2xl font-bold text-white">🎬 오늘 뭐 보지?</h1>
@@ -443,14 +450,6 @@ export default function WatchPage() {
             </div>
 
             <p className="text-center text-xs text-gray-400">{filtered.length}개 작품 중 추천</p>
-
-            <button
-              type="button"
-              onClick={() => setShowSuggest(true)}
-              className="w-full rounded-2xl border border-orange-500/30 bg-gray-700 py-3 text-sm font-bold text-orange-400 active:scale-95"
-            >
-              🎬 작품 제안하기
-            </button>
 
             {/* PC 전용 광고 — 모바일에서는 숨김 */}
             <div className="hidden lg:block">
@@ -701,11 +700,15 @@ export default function WatchPage() {
               </div>
             )}
 
-            <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
+            <div className="hidden lg:block">
+              <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
+            </div>
           </div>
         </div>
 
-        <KakaoAd />
+        <div className="hidden lg:block">
+          <KakaoAd />
+        </div>
 
         {/* ───── IMDb Top 10 + 나라별 Top 3 ───── */}
         <section className="mt-10 grid gap-6 lg:grid-cols-3">
