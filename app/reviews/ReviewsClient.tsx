@@ -31,11 +31,13 @@ export default function ReviewsClient() {
     <main className="min-h-screen bg-gray-950 py-8">
       {showModal && <ReviewModal onClose={handleModalClose} />}
 
-      <div className="lg:grid lg:grid-cols-[160px_1fr_160px] lg:items-start lg:gap-2">
+      <div className="lg:grid lg:items-start lg:gap-2" style={{ gridTemplateColumns: "1fr minmax(0, 576px) 1fr" }}>
 
         {/* 왼쪽 광고 (PC 전용) */}
-        <div className="hidden lg:block lg:sticky lg:top-8">
-          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+        <div className="hidden lg:flex lg:flex-col lg:items-end lg:sticky lg:top-8 lg:self-start">
+          <div className="w-[160px]">
+            <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+          </div>
         </div>
 
         {/* 메인 콘텐츠 */}
@@ -96,10 +98,16 @@ export default function ReviewsClient() {
         </div>
 
         {/* 오른쪽 광고 (PC 전용) */}
-        <div className="hidden lg:block lg:sticky lg:top-8">
-          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+        <div className="hidden lg:flex lg:flex-col lg:items-start lg:sticky lg:top-8 lg:self-start">
+          <div className="w-[160px]">
+            <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+          </div>
         </div>
 
+      </div>
+
+      <div className="hidden lg:flex justify-center bg-gray-950 py-4">
+        <KakaoAd unitId="DAN-v96On6dbt3Krp7Pw" width={728} height={90} />
       </div>
     </main>
   );

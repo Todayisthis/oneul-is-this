@@ -307,10 +307,10 @@ export default function WatchPage() {
         </div>
       )}
 
-      <div className="xl:grid xl:grid-cols-[160px_1fr_160px] xl:items-start xl:gap-2">
+      <div className="xl:grid xl:items-start xl:gap-2" style={{ gridTemplateColumns: "1fr minmax(0, 950px) 1fr" }}>
 
         {/* 왼쪽 광고 (PC 전용) */}
-        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-8">
+        <div className="hidden xl:flex xl:flex-col xl:items-center xl:sticky xl:top-8 xl:pt-8 xl:self-start">
           <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
         </div>
 
@@ -750,7 +750,7 @@ export default function WatchPage() {
         </div>{/* 메인 콘텐츠 끝 */}
 
         {/* 오른쪽 광고 (PC 전용) */}
-        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-8">
+        <div className="hidden xl:flex xl:flex-col xl:items-center xl:sticky xl:top-8 xl:pt-8 xl:self-start">
           <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
         </div>
 
