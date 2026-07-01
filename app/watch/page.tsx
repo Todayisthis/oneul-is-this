@@ -746,7 +746,7 @@ export default function WatchPage() {
 
         {/* 오른쪽 광고 (PC 전용) */}
         <div className="hidden min-[1440px]:flex min-[1440px]:flex-col min-[1440px]:items-center min-[1440px]:sticky min-[1440px]:top-8 min-[1440px]:pt-8 min-[1440px]:self-start">
-          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+          <KakaoAd unitId="DAN-25Txegewf1xpeL7c" width={160} height={600} />
         </div>
 
       </div>{/* xl grid 끝 */}

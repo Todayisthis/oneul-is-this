@@ -119,7 +119,7 @@ export default function Home() {
 
           {/* 오른쪽 광고 (PC 전용) */}
           <div className="hidden min-[1220px]:flex min-[1220px]:flex-col min-[1220px]:items-center min-[1220px]:sticky min-[1220px]:top-8 min-[1220px]:pt-12 min-[1220px]:self-start">
-            <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+            <KakaoAd unitId="DAN-25Txegewf1xpeL7c" width={160} height={600} />
           </div>
 
         </div>

@@ -100,7 +100,7 @@ export default function ReviewsClient() {
         {/* 오른쪽 광고 (PC 전용) */}
         <div className="hidden lg:flex lg:flex-col lg:items-start lg:sticky lg:top-8 lg:self-start">
           <div className="w-[160px]">
-            <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+            <KakaoAd unitId="DAN-25Txegewf1xpeL7c" width={160} height={600} />
           </div>
         </div>
 
