@@ -272,6 +272,11 @@ function EatPageInner() {
 
         {/* 메인 콘텐츠 */}
         <div className="px-4">
+      {/* 모바일 전용 최상단 광고 */}
+      <div className="mb-4 block lg:hidden">
+        <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
+      </div>
+
       {/* 상단 헤더 */}
       <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
@@ -374,10 +379,7 @@ function EatPageInner() {
               : "🎲 메뉴 뽑기"}
           </button>
 
-          {/* 모바일 전용 300×250 광고 */}
-          <div className="lg:hidden w-full">
-            <KakaoAd />
-          </div>
+          {/* 모바일 전용 300×250 광고 (최상단으로 이동됨) */}
 
           <div ref={resultRef} className="mt-6 w-full">
             {(isRolling || isHoldingFinal) && (
@@ -401,9 +403,6 @@ function EatPageInner() {
                 onShare={shareFood}
                 onReview={() => setShowReview(true)}
               />
-              <div className="lg:hidden w-full">
-                <KakaoAd />
-              </div>
             </>
           )}
 
