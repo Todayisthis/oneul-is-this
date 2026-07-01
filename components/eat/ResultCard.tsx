@@ -33,12 +33,12 @@ function AdInterstitial({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-      <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-xl">
-        <div className="flex items-center justify-between">
+      <div className="flex w-full max-w-sm flex-col items-center rounded-3xl bg-white p-6 shadow-xl">
+        <div className="flex w-full items-center justify-between">
           <p className="text-sm font-bold text-gray-500">잠깐! 광고를 확인해주세요</p>
           <span className="text-sm text-gray-400">{count}초 후 공유 가능</span>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex items-center justify-center">
           <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
         </div>
         <button
