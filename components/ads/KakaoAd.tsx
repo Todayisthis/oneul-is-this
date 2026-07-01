@@ -26,7 +26,7 @@ export default function KakaoAd({
 
     const ins = document.createElement("ins");
     ins.className = "kakao_ad_area";
-    ins.style.display = "none";
+    ins.style.display = "block";
     ins.style.width = `${width}px`;
     ins.setAttribute("data-ad-unit", unitId);
     ins.setAttribute("data-ad-width", String(width));
