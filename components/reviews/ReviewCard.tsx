@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { likeReview, addReviewComment, getReviewComments, type Review, type ReviewComment } from "@/lib/reviewStats";
 import { filterComment } from "@/lib/filterComment";
 
@@ -21,6 +21,13 @@ export default function ReviewCard({ review }: { review: Review }) {
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState("");
   const [commentSent, setCommentSent] = useState(false);
+
+  useEffect(() => {
+    getReviewComments(review.id).then((data) => {
+      setComments(data);
+      setCommentsLoaded(true);
+    });
+  }, [review.id]);
 
   async function handleLike() {
     if (liked) return;
