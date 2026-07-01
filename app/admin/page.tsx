@@ -59,11 +59,15 @@ export default function AdminPage() {
   async function loadData(col: string) {
     setDataLoading(true);
     const res = await apiFetch(`/api/admin/data?collection=${col}`);
-    if (!res.ok) { setDataLoading(false); return; }
-    const { docs } = await res.json();
-    if (col === "feeds") setFeeds(docs);
-    else if (col === "reviews") setReviews(docs);
-    else setComments(docs);
+    const json = await res.json();
+    if (!res.ok) {
+      alert(`API 오류 (${res.status}): ${json.error ?? "알 수 없는 오류"}`);
+      setDataLoading(false);
+      return;
+    }
+    if (col === "feeds") setFeeds(json.docs);
+    else if (col === "reviews") setReviews(json.docs);
+    else setComments(json.docs);
     setDataLoading(false);
   }
 
