@@ -159,7 +159,7 @@ export default function ReviewModal({ onClose }: Props) {
                 maxLength={200}
                 rows={4}
                 placeholder="솔직한 후기를 남겨주세요! (최대 200자)"
-                className="w-full resize-none rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-orange-400"
+                className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-orange-400"
               />
               <p className="mt-1 text-right text-xs text-gray-400">{content.length}/200</p>
             </div>
