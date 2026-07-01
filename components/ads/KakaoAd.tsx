@@ -55,7 +55,7 @@ export default function KakaoAd({
     }, 100);
 
     return () => {
-      delete (window as unknown as Record<string, unknown>)[cbName];
+      (window as unknown as Record<string, unknown>)[cbName] = () => {};
       if (containerRef.current) {
         containerRef.current.innerHTML = "";
         containerRef.current.style.display = "";

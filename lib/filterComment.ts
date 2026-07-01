@@ -23,7 +23,7 @@ const SPAM_PATTERNS = [
 const REPEAT_EXCEPTIONS = ["ㅋ", "ㅎ", "ㅠ", "ㅜ", "ㅡ", "!",  "~", "ㅇ"];
 
 export function filterComment(text: string): { ok: boolean; reason?: string } {
-  const lower = text.toLowerCase();
+  const lower = text.normalize("NFKC").toLowerCase();
 
   for (const word of BAD_WORDS) {
     if (lower.includes(word.toLowerCase())) {

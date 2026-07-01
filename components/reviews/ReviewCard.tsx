@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { likeReview, addReviewComment, getReviewComments, type Review, type ReviewComment } from "@/lib/reviewStats";
-import { filterComment } from "@/lib/filterComment";
+import { likeReview, getReviewComments, type Review, type ReviewComment } from "@/lib/reviewStats";
 
 function timeAgo(date: Date): string {
   const diff = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -14,7 +13,12 @@ function timeAgo(date: Date): string {
 
 export default function ReviewCard({ review }: { review: Review }) {
   const [likes, setLikes] = useState(review.likes);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(() => {
+    try {
+      const stored = localStorage.getItem("liked_reviews");
+      return stored ? JSON.parse(stored).includes(review.id) : false;
+    } catch { return false; }
+  });
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<ReviewComment[]>([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
@@ -33,6 +37,11 @@ export default function ReviewCard({ review }: { review: Review }) {
     if (liked) return;
     setLiked(true);
     setLikes((l) => l + 1);
+    try {
+      const stored = localStorage.getItem("liked_reviews");
+      const arr = stored ? JSON.parse(stored) : [];
+      localStorage.setItem("liked_reviews", JSON.stringify([...arr, review.id]));
+    } catch {}
     await likeReview(review.id);
   }
 
@@ -48,16 +57,24 @@ export default function ReviewCard({ review }: { review: Review }) {
   async function submitComment() {
     const trimmed = comment.trim();
     if (!trimmed) return;
-    const { ok, reason } = filterComment(trimmed);
-    if (!ok) { setCommentError(reason ?? "등록할 수 없는 내용이에요."); return; }
     setCommentError("");
     const optimistic = { id: Date.now().toString(), reviewId: review.id, content: trimmed, createdAt: new Date() };
     setComments((prev) => [...prev, optimistic]);
     setComment("");
-    setCommentSent(true);
-    setTimeout(() => setCommentSent(false), 2000);
     try {
-      await addReviewComment(review.id, trimmed);
+      const res = await fetch("/api/comments/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviewId: review.id, content: trimmed }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setComments((prev) => prev.filter((c) => c.id !== optimistic.id));
+        setCommentError(json.error ?? "댓글 등록에 실패했어요.");
+        return;
+      }
+      setCommentSent(true);
+      setTimeout(() => setCommentSent(false), 2000);
     } catch {
       setComments((prev) => prev.filter((c) => c.id !== optimistic.id));
       setCommentError("댓글 등록에 실패했어요. 다시 시도해주세요.");

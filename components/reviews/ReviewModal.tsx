@@ -3,8 +3,6 @@
 import { useState, useMemo } from "react";
 import { foods } from "@/data/foods";
 import { contents } from "@/data/contents";
-import { addReview } from "@/lib/reviewStats";
-import { filterComment } from "@/lib/filterComment";
 
 type Props = {
   onClose: () => void;
@@ -35,19 +33,16 @@ export default function ReviewModal({ onClose }: Props) {
     if (rating === 0) { setError("별점을 선택해주세요."); return; }
     if (!content.trim()) { setError("후기 내용을 입력해주세요."); return; }
 
-    const { ok, reason } = filterComment(content);
-    if (!ok) { setError(reason ?? "등록할 수 없는 내용이에요."); return; }
-
     setError("");
     setLoading(true);
     try {
-      await addReview({
-        type,
-        itemName: selected.name,
-        itemEmoji: selected.emoji,
-        rating,
-        content: content.trim(),
+      const res = await fetch("/api/reviews/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, itemName: selected.name, itemEmoji: selected.emoji, rating, content: content.trim() }),
       });
+      const json = await res.json();
+      if (!res.ok) { setError(json.error ?? "등록 중 오류가 발생했어요."); return; }
       setSubmitted(true);
     } catch {
       setError("등록 중 오류가 발생했어요. 다시 시도해주세요.");
