@@ -27,14 +27,17 @@ export default function LiveReviews() {
 
   useEffect(() => {
     if (reviews.length <= 1) return;
-    const timer = setInterval(() => {
+    const delay = 3000 - (Date.now() % 3000);
+    let interval: ReturnType<typeof setInterval> | null = null;
+    const timeout = setTimeout(() => {
       setVisible(false);
-      setTimeout(() => {
-        setIndex((i) => (i + 1) % reviews.length);
-        setVisible(true);
-      }, 250);
-    }, 3000);
-    return () => clearInterval(timer);
+      setTimeout(() => { setIndex((i) => (i + 1) % reviews.length); setVisible(true); }, 250);
+      interval = setInterval(() => {
+        setVisible(false);
+        setTimeout(() => { setIndex((i) => (i + 1) % reviews.length); setVisible(true); }, 250);
+      }, 3000);
+    }, delay);
+    return () => { clearTimeout(timeout); if (interval) clearInterval(interval); };
   }, [reviews.length]);
 
   function handleModalClose() {
