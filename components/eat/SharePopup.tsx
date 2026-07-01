@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import type { Food } from "@/data/foods";
+import KakaoAd from "@/components/ads/KakaoAd";
 
 declare global {
   interface Window {
@@ -174,8 +175,8 @@ export default function SharePopup({ food, onClose }: Props) {
           </button>
         </div>
 
-        <div className="mt-4 flex h-16 items-center justify-center rounded-2xl bg-gray-50 text-xs text-gray-300">
-          광고
+        <div className="mt-4 flex items-center justify-center">
+          <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
         </div>
       </div>
     </div>
