@@ -11,7 +11,7 @@ type Props = {
 export default function ReviewModal({ onClose }: Props) {
   const [type, setType] = useState<"food" | "movie">("food");
   const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<{ name: string; emoji: string } | null>(null);
+  const [selected, setSelected] = useState<{ id: number; name: string; emoji: string } | null>(null);
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
@@ -39,7 +39,7 @@ export default function ReviewModal({ onClose }: Props) {
       const res = await fetch("/api/reviews/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, itemName: selected.name, itemEmoji: selected.emoji, rating, content: content.trim() }),
+        body: JSON.stringify({ type, itemId: selected.id, rating, content: content.trim() }),
       });
       const json = await res.json();
       if (!res.ok) { setError(json.error ?? "등록 중 오류가 발생했어요."); return; }
@@ -117,7 +117,7 @@ export default function ReviewModal({ onClose }: Props) {
                     return (
                       <button
                         key={item.id}
-                        onClick={() => { setSelected({ name, emoji }); setSearch(""); }}
+                        onClick={() => { setSelected({ id: item.id, name, emoji }); setSearch(""); }}
                         className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-orange-50"
                       >
                         <span>{emoji}</span>

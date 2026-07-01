@@ -7,12 +7,12 @@ import { FieldValue } from "firebase-admin/firestore";
 const validFoodIds = new Set(foods.map((f) => f.id));
 
 function weekString() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const week = Math.ceil(
-    ((now.getTime() - new Date(year, 0, 1).getTime()) / 86400000 + new Date(year, 0, 1).getDay() + 1) / 7
-  );
-  return `${year}-W${String(week).padStart(2, "0")}`;
+  const now = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const day = now.getUTCDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const monday = new Date(now);
+  monday.setUTCDate(now.getUTCDate() + diff);
+  return monday.toISOString().slice(0, 10);
 }
 
 export async function POST(req: NextRequest) {

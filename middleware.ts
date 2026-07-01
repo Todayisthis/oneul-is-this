@@ -5,7 +5,7 @@ export function middleware(req: NextRequest) {
 
   if (pathname.startsWith("/admin")) {
     const session = req.cookies.get("admin_session")?.value;
-    if (session !== "1") {
+    if (!session || session.length < 64) {
       const loginUrl = req.nextUrl.clone();
       loginUrl.pathname = "/admin";
       return NextResponse.redirect(loginUrl);

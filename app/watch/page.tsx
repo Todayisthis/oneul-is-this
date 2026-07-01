@@ -247,7 +247,7 @@ export default function WatchPage() {
     const res = await fetch("/api/watch/comment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contentId: content.id, contentTitle: content.title, comment: trimmed }),
+      body: JSON.stringify({ contentId: content.id, comment: trimmed }),
     });
     if (!res.ok) { setWatchCommentError("등록 중 오류가 발생했어요."); return; }
     setWatchCommentSent(true);

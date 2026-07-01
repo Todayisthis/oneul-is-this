@@ -3,6 +3,9 @@ import { rateLimit } from "@/lib/rateLimit";
 import { filterComment } from "@/lib/filterComment";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { contents } from "@/data/contents";
+
+const contentMap = new Map(contents.map((c) => [c.id, c]));
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
@@ -11,12 +14,11 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { contentId, contentTitle, comment } = body;
+  const { contentId, comment } = body;
 
-  if (typeof contentId !== "number" && typeof contentId !== "string")
+  const content = contentMap.get(Number(contentId));
+  if (!content)
     return NextResponse.json({ ok: false, error: "Invalid contentId" }, { status: 400 });
-  if (typeof contentTitle !== "string" || contentTitle.trim().length === 0 || contentTitle.length > 100)
-    return NextResponse.json({ ok: false, error: "Invalid contentTitle" }, { status: 400 });
   if (typeof comment !== "string" || comment.trim().length === 0 || comment.length > 200)
     return NextResponse.json({ ok: false, error: "Invalid comment" }, { status: 400 });
 
@@ -24,8 +26,8 @@ export async function POST(req: NextRequest) {
   if (!ok) return NextResponse.json({ ok: false, error: reason }, { status: 400 });
 
   await addDoc(collection(db, "feeds"), {
-    foodId: Number(contentId),
-    foodName: contentTitle.trim(),
+    foodId: content.id,
+    foodName: content.title,
     foodEmoji: "🎬",
     comment: comment.trim(),
     createdAt: serverTimestamp(),
