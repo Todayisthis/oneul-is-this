@@ -156,6 +156,32 @@ export async function saveFeedComment(data: {
   });
 }
 
+export async function getRecentWatchFeeds(count = 20): Promise<FeedItem[]> {
+  try {
+    const { where } = await import("firebase/firestore");
+    const q = query(
+      collection(db, "feeds"),
+      where("foodEmoji", "==", "🎬"),
+      orderBy("createdAt", "desc"),
+      limit(count)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        foodName: data.foodName as string,
+        foodEmoji: data.foodEmoji as string,
+        comment: data.comment as string,
+        createdAt: data.createdAt?.toDate?.() ?? new Date(),
+      };
+    });
+  } catch (e) {
+    console.error("getRecentWatchFeeds error:", e);
+    return [];
+  }
+}
+
 export async function getRecentFeeds(count = 20): Promise<FeedItem[]> {
   try {
     const q = query(

@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 let adCount = 0;
 
 export default function KakaoAd() {
   const insRef = useRef<HTMLModElement>(null);
   const callbackName = useRef<string>("");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     adCount += 1;
     const cbName = `kakaoAdFail_${adCount}`;
     callbackName.current = cbName;
 
-    // NO-AD 콜백: 광고 없을 때 영역 숨김
     (window as unknown as Record<string, unknown>)[cbName] = () => {
       if (insRef.current) {
         insRef.current.style.display = "none";
@@ -39,6 +40,8 @@ export default function KakaoAd() {
       delete (window as unknown as Record<string, unknown>)[cbName];
     };
   }, []);
+
+  if (!mounted) return <div className="my-4" style={{ minHeight: 258 }} />;
 
   return (
     <div className="my-4 flex w-full items-center justify-center">

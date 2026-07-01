@@ -1,4 +1,5 @@
 ﻿import { foodCategories } from "@/data/foods";
+import { categoryEmoji } from "@/lib/foodEmoji";
 
 type Props = {
   selected: string;
@@ -21,7 +22,7 @@ export default function CategorySelector({ selected, onChange, disabled }: Props
               : "bg-gray-700 text-gray-300 md:bg-gray-100 md:text-gray-600"
           } ${disabled ? "opacity-60" : ""}`}
         >
-          {category}
+          {category === "전체" ? "🍽️ 전체" : `${categoryEmoji[category]} ${category}`}
         </button>
       ))}
     </div>

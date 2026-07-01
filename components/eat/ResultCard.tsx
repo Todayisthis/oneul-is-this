@@ -5,6 +5,7 @@ import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
 import { saveFeedComment } from "@/lib/firebaseStats";
 import { filterComment } from "@/lib/filterComment";
+import { getFoodDisplayEmoji } from "@/lib/foodEmoji";
 
 type Props = {
   food: Food;
@@ -13,10 +14,11 @@ type Props = {
   onRate: (score: number) => void;
   onRetry: () => void;
   onShare: () => void;
+  onReview?: () => void;
 };
 
 function FoodImage({ food }: { food: Food }) {
-  return <div className="text-7xl">{food.emoji}</div>;
+  return <div className="text-7xl">{getFoodDisplayEmoji(food)}</div>;
 }
 
 function AdInterstitial({ onDone }: { onDone: () => void }) {
@@ -57,6 +59,7 @@ export default function ResultCard({
   rating,
   onRate,
   onRetry,
+  onReview,
 }: Props) {
   const [showAd, setShowAd] = useState(false);
   const [showShare, setShowShare] = useState(false);
@@ -178,19 +181,17 @@ export default function ResultCard({
             이 추천 어땠어?
           </p>
 
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-1">
             {[1, 2, 3, 4, 5].map((score) => (
               <button
                 key={score}
                 type="button"
                 onClick={() => handleRate(score)}
-                className={`rounded-full px-3 py-2 text-lg ${
-                  rating === score
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-700 text-gray-300 md:bg-gray-100 md:text-gray-500"
+                className={`text-3xl transition hover:scale-110 ${
+                  rating !== null && score <= rating ? "text-orange-400" : "text-gray-600"
                 }`}
               >
-                ⭐
+                {rating !== null && score <= rating ? "★" : "☆"}
               </button>
             ))}
           </div>
@@ -203,10 +204,10 @@ export default function ResultCard({
         </div>
 
         <div className="mt-5 border-t border-gray-700 pt-5 md:border-gray-100">
-          <p className="mb-2 text-sm font-bold text-white md:text-gray-700">💬 한줄 사용후기 남기기</p>
+          <p className="mb-2 text-sm font-bold text-white md:text-gray-700">📝 방명록 남기기</p>
           {commentSent ? (
             <p className="rounded-2xl bg-orange-50 py-3 text-sm font-bold text-orange-500">
-              후기가 등록됐어요! 🎉
+              방명록이 등록됐어요! 🎉
             </p>
           ) : (
             <div className="flex flex-col gap-2">
@@ -221,7 +222,7 @@ export default function ResultCard({
                   onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
                   maxLength={60}
                   placeholder="맛있었다, 별로였다... 자유롭게!"
-                  className="flex-1 rounded-2xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-700 md:placeholder:text-gray-400"
+                  className="flex-1 rounded-2xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-800 md:placeholder:text-gray-400"
                 />
                 <button
                   type="button"
@@ -235,6 +236,18 @@ export default function ResultCard({
             </div>
           )}
         </div>
+
+        {onReview && (
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={onReview}
+              className="w-full rounded-2xl bg-orange-500 py-3 text-sm font-bold text-white active:scale-95"
+            >
+              ✍️ 사용후기 남기기
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

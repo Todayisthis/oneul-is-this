@@ -22,8 +22,8 @@ export default function FeedList({ feeds }: { feeds: FeedItem[] }) {
       setTimeout(() => {
         setIndex((i) => (i + 1) % feeds.length);
         setVisible(true);
-      }, 400);
-    }, 3500);
+      }, 250);
+    }, 3000);
     return () => clearInterval(timer);
   }, [feeds.length]);
 
@@ -33,32 +33,18 @@ export default function FeedList({ feeds }: { feeds: FeedItem[] }) {
 
   return (
     <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3">
         <p className="text-sm font-bold text-white md:text-gray-800">💬 오늘의 한마디</p>
-        {feeds.length > 1 && (
-          <div className="flex gap-1">
-            {feeds.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => { setIndex(i); setVisible(true); }}
-                className={`h-1.5 rounded-full transition-all ${
-                  i === index ? "w-4 bg-orange-400" : "w-1.5 bg-gray-600 md:bg-gray-300"
-                }`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       <div
-        className="flex gap-2 transition-opacity duration-300"
-        style={{ opacity: visible ? 1 : 0 }}
+        style={{ opacity: visible ? 1 : 0, transition: "opacity 250ms ease" }}
       >
         <span className="text-xl">{feed.foodEmoji}</span>
         <div className="flex-1">
           <p className="text-xs font-bold text-gray-200 md:text-gray-700">{feed.foodName}</p>
           <p className="mt-0.5 text-sm text-gray-400 leading-snug md:text-gray-600">{feed.comment}</p>
-          <p className="mt-1 text-xs text-gray-500 md:text-gray-400">{timeAgo(feed.createdAt)}</p>
+          <p className="mt-1 text-xs text-gray-500 md:text-gray-400" suppressHydrationWarning>{timeAgo(feed.createdAt)}</p>
         </div>
       </div>
     </div>

@@ -6,6 +6,9 @@ import WatchFooter from "@/components/watch/WatchFooter";
 import RankCarousel from "@/components/ui/RankCarousel";
 import WatchSharePopup from "@/components/watch/WatchSharePopup";
 import ReviewModal from "@/components/reviews/ReviewModal";
+import WatchFeedList from "@/components/watch/WatchFeedList";
+import { saveFeedComment } from "@/lib/firebaseStats";
+import { filterComment } from "@/lib/filterComment";
 import {
   recordWatchPick,
   recordWatchRating,
@@ -97,6 +100,9 @@ export default function WatchPage() {
   const [shareSuccess, setShareSuccess] = useState(false);
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showReview, setShowReview] = useState(false);
+  const [watchComment, setWatchComment] = useState("");
+  const [watchCommentSent, setWatchCommentSent] = useState(false);
+  const [watchCommentError, setWatchCommentError] = useState("");
 
   const [showAdModal, setShowAdModal] = useState(false);
   const [adCountdown, setAdCountdown] = useState(3);
@@ -219,9 +225,27 @@ export default function WatchPage() {
       setTimeout(() => {
         setIsHoldingFinal(false);
         setResult(finalContent);
+        setWatchComment("");
+        setWatchCommentSent(false);
+        setWatchCommentError("");
         recordWatchPick(finalContent).catch(() => {});
       }, 500);
     }, ROULETTE_DURATION);
+  }
+
+  async function submitWatchComment(content: Content) {
+    const trimmed = watchComment.trim();
+    if (!trimmed) return;
+    const { ok, reason } = filterComment(trimmed);
+    if (!ok) { setWatchCommentError(reason ?? "등록할 수 없는 내용이에요."); return; }
+    setWatchCommentError("");
+    await saveFeedComment({
+      foodId: String(content.id),
+      foodName: content.title,
+      foodEmoji: "🎬",
+      comment: trimmed,
+    });
+    setWatchCommentSent(true);
   }
 
   function handleShare(content: Content) {
@@ -559,9 +583,37 @@ export default function WatchPage() {
                   >
                     {ratingSubmitted ? "📤 바로 공유하기 (광고 없음)" : "📤 공유하기 (광고 3초)"}
                   </button>
+                  <div className="mt-4 border-t border-gray-700 pt-4 md:border-gray-100">
+                    <p className="mb-2 text-sm font-bold text-white md:text-gray-700">📝 방명록 남기기</p>
+                    {watchCommentSent ? (
+                      <p className="rounded-xl bg-orange-50 py-3 text-center text-sm font-bold text-orange-500">방명록이 등록됐어요! 🎉</p>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        {watchCommentError && <p className="text-xs text-red-400">{watchCommentError}</p>}
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={watchComment}
+                            onChange={(e) => setWatchComment(e.target.value)}
+                            onKeyDown={(e) => { if (e.key === "Enter") submitWatchComment(result!); }}
+                            maxLength={60}
+                            placeholder="재밌었다, 별로였다... 자유롭게!"
+                            className="flex-1 rounded-xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-800 md:placeholder:text-gray-400"
+                          />
+                          <button
+                            onClick={() => submitWatchComment(result!)}
+                            disabled={!watchComment.trim()}
+                            className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-40 active:scale-95"
+                          >
+                            등록
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <button
                     onClick={() => setShowReview(true)}
-                    className="mt-3 w-full rounded-xl border border-gray-600 bg-gray-700 py-3 text-sm font-bold text-gray-300 hover:bg-gray-600 md:border-gray-200 md:bg-white md:text-gray-600 md:hover:bg-gray-50"
+                    className="mt-3 w-full rounded-xl bg-orange-500 py-3 text-sm font-bold text-white active:scale-95"
                   >
                     ✍️ 사용후기 남기기
                   </button>
@@ -572,6 +624,7 @@ export default function WatchPage() {
 
           {/* ───── 오른쪽 사이드바 ───── */}
           <div className="space-y-4">
+            <WatchFeedList />
             {topPicks.length > 0 ? (
               <RankCarousel
                 title="🔥 이번주 자주 추천된 작품"

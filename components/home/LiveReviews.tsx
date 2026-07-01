@@ -18,15 +18,31 @@ function StarRow({ rating }: { rating: number }) {
 export default function LiveReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    getRecentReviews(2).then(setReviews);
+    getRecentReviews(5).then(setReviews);
   }, []);
+
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    const timer = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex((i) => (i + 1) % reviews.length);
+        setVisible(true);
+      }, 250);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [reviews.length]);
 
   function handleModalClose() {
     setShowModal(false);
-    getRecentReviews(2).then(setReviews);
+    getRecentReviews(5).then(setReviews);
   }
+
+  const r = reviews[index];
 
   return (
     <section className="mx-auto max-w-4xl px-6 pb-16">
@@ -58,20 +74,18 @@ export default function LiveReviews() {
           <p className="text-gray-400">아직 후기가 없어요. 첫 번째 후기를 남겨보세요!</p>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {reviews.map((r) => (
-            <div key={r.id} className="rounded-2xl border border-gray-800 bg-gray-900 p-5">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{r.itemEmoji}</span>
-                <div className="flex-1">
-                  <p className="text-sm font-bold text-white">{r.itemName}</p>
-                  <p className="text-xs text-gray-500">{r.type === "food" ? "🍚 음식" : "🎬 영화/드라마"}</p>
-                </div>
-                <StarRow rating={r.rating} />
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-5">
+          <div style={{ opacity: visible ? 1 : 0, transition: "opacity 250ms ease" }}>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">{r.itemEmoji}</span>
+              <div className="flex-1">
+                <p className="text-sm font-bold text-white">{r.itemName}</p>
+                <p className="text-xs text-gray-500">{r.type === "food" ? "🍚 음식" : "🎬 영화/드라마"}</p>
               </div>
-              <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-400">{r.content}</p>
+              <StarRow rating={r.rating} />
             </div>
-          ))}
+            <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-400">{r.content}</p>
+          </div>
         </div>
       )}
     </section>

@@ -386,6 +386,7 @@ function EatPageInner() {
                 onRate={rateFood}
                 onRetry={retryFood}
                 onShare={shareFood}
+                onReview={() => setShowReview(true)}
               />
               <KakaoAd />
             </>
@@ -406,7 +407,7 @@ function EatPageInner() {
             <button
               type="button"
               onClick={() => setShowReview(true)}
-              className="mt-3 w-full rounded-2xl border border-gray-600 bg-gray-700 py-4 text-sm font-bold text-gray-300 active:scale-95 md:border-gray-200 md:bg-white md:text-gray-600"
+              className="mt-3 w-full rounded-2xl bg-orange-500 py-4 text-sm font-bold text-white active:scale-95"
             >
               ✍️ 사용후기 남기기
             </button>
