@@ -328,7 +328,7 @@ export default function WatchPage() {
         <h1 className="mt-4 text-2xl font-bold text-white">🎬 오늘 뭐 보지?</h1>
         <p className="mt-1 text-sm text-gray-400">넷플릭스 서비스 중인 작품 중 장르별로 랜덤 추천해드려요.</p>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr_260px]">
+        <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr_300px]">
           {/* ───── 왼쪽 사이드바 ───── */}
           <div className="space-y-4">
             {/* 종류 */}
