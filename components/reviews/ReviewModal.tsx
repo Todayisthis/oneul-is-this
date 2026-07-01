@@ -142,9 +142,9 @@ export default function ReviewModal({ onClose }: Props) {
                   <button
                     key={s}
                     onClick={() => setRating(s)}
-                    className={`text-2xl transition ${s <= rating ? "text-orange-400" : "text-gray-200"}`}
+                    className={`text-3xl transition hover:scale-110 ${s <= rating ? "text-orange-400" : "text-gray-300"}`}
                   >
-                    ⭐
+                    {s <= rating ? "★" : "☆"}
                   </button>
                 ))}
               </div>
