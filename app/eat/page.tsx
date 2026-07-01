@@ -261,7 +261,17 @@ function EatPageInner() {
   }
 
   return (
-    <main className="relative min-h-screen bg-gray-950 px-4 py-6">
+    <main className="relative min-h-screen bg-gray-950 py-6">
+      {/* PC 좌우 광고 래퍼 */}
+      <div className="xl:grid xl:grid-cols-[160px_1fr_160px] xl:items-start xl:gap-2">
+
+        {/* 왼쪽 광고 (PC 전용) */}
+        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-14">
+          <KakaoAd />
+        </div>
+
+        {/* 메인 콘텐츠 */}
+        <div className="px-4">
       {/* 상단 헤더 */}
       <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
@@ -426,6 +436,15 @@ function EatPageInner() {
 
       {showSuggest && <SuggestModal onClose={() => setShowSuggest(false)} />}
       {showReview && <ReviewModal onClose={() => setShowReview(false)} />}
+
+        </div>{/* 메인 콘텐츠 끝 */}
+
+        {/* 오른쪽 광고 (PC 전용) */}
+        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-14">
+          <KakaoAd />
+        </div>
+
+      </div>{/* xl grid 끝 */}
 
       <Footer />
     </main>
