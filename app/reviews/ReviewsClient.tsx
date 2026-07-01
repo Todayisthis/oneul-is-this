@@ -27,18 +27,18 @@ export default function ReviewsClient() {
   const filtered = filter === "all" ? reviews : reviews.filter((r) => r.type === filter);
 
   return (
-    <main className="min-h-screen bg-gray-950 px-4 py-8 md:bg-orange-50">
+    <main className="min-h-screen bg-gray-950 px-4 py-8">
       {showModal && <ReviewModal onClose={handleModalClose} />}
 
       <div className="mx-auto max-w-xl">
         <div className="mb-6 flex items-center gap-3">
-          <Link href="/" className="text-sm text-gray-400 hover:text-orange-400 md:text-gray-500">← 홈으로</Link>
+          <Link href="/" className="text-sm text-gray-400 hover:text-orange-400">← 홈으로</Link>
         </div>
 
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white md:text-gray-800">✍️ 후기 게시판</h1>
-            <p className="mt-1 text-sm text-gray-400 md:text-gray-500">음식·영화 솔직 후기를 공유해보세요</p>
+            <h1 className="text-2xl font-bold text-white">✍️ 후기 게시판</h1>
+            <p className="mt-1 text-sm text-gray-400">음식·영화 솔직 후기를 공유해보세요</p>
           </div>
           <button
             onClick={() => setShowModal(true)}
@@ -57,7 +57,7 @@ export default function ReviewsClient() {
               className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
                 filter === f
                   ? "bg-orange-500 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
               }`}
             >
               {f === "all" ? "전체" : f === "food" ? "🍚 음식" : "🎬 영화/드라마"}

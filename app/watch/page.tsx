@@ -285,11 +285,8 @@ export default function WatchPage() {
             <p className="mt-1 text-center text-xs text-orange-500">
               💡 별점을 주시면 광고 없이 바로 공유할 수 있어요
             </p>
-            <div className="mt-4 flex h-40 items-center justify-center rounded-xl bg-gray-100">
-              <div className="text-center">
-                <p className="text-4xl">📺</p>
-                <p className="mt-2 text-sm text-gray-400">광고 영역</p>
-              </div>
+            <div className="mt-4 flex items-center justify-center rounded-xl bg-gray-100">
+              <KakaoAd />
             </div>
             <div className="mt-4 flex items-center gap-2">
               <div className="h-2 flex-1 rounded-full bg-gray-200">

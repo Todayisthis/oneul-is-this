@@ -65,39 +65,39 @@ export default function ReviewCard({ review }: { review: Review }) {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-gray-100 md:bg-white">
+    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm">
       {/* 헤더 */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{review.itemEmoji}</span>
           <div>
-            <p className="text-sm font-bold text-white md:text-gray-800">{review.itemName}</p>
+            <p className="text-sm font-bold text-white">{review.itemName}</p>
             <p className="text-xs text-gray-400">{review.type === "food" ? "🍚 음식" : "🎬 영화/드라마"} · {timeAgo(review.createdAt)}</p>
           </div>
         </div>
         <div className="flex shrink-0 gap-0.5">
           {[1,2,3,4,5].map((s) => (
-            <span key={s} className={s <= review.rating ? "text-orange-400" : "text-gray-600 md:text-gray-300"}>★</span>
+            <span key={s} className={s <= review.rating ? "text-orange-400" : "text-gray-600"}>★</span>
           ))}
         </div>
       </div>
 
       {/* 내용 */}
-      <p className="mt-3 text-sm leading-relaxed text-gray-300 md:text-gray-600">{review.content}</p>
+      <p className="mt-3 text-sm leading-relaxed text-gray-300">{review.content}</p>
 
       {/* 액션 */}
-      <div className="mt-4 flex items-center gap-3 border-t border-gray-700 pt-3 md:border-gray-100">
+      <div className="mt-4 flex items-center gap-3 border-t border-gray-700 pt-3">
         <button
           onClick={handleLike}
           className={`flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-            liked ? "bg-orange-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-orange-50"
+            liked ? "bg-orange-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
           }`}
         >
           👍 {likes}
         </button>
         <button
           onClick={toggleComments}
-          className="flex items-center gap-1 rounded-xl bg-gray-700 px-3 py-1.5 text-xs font-bold text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-gray-200"
+          className="flex items-center gap-1 rounded-xl bg-gray-700 px-3 py-1.5 text-xs font-bold text-gray-300 hover:bg-gray-600"
         >
           💬 댓글 {comments.length}
         </button>
@@ -109,8 +109,8 @@ export default function ReviewCard({ review }: { review: Review }) {
           {comments.length > 0 && (
             <div className="mb-3 flex flex-col gap-2">
               {comments.map((c) => (
-                <div key={c.id} className="rounded-xl bg-gray-700 px-3 py-2 md:bg-gray-50">
-                  <p className="text-xs text-gray-300 md:text-gray-600">{c.content}</p>
+                <div key={c.id} className="rounded-xl bg-gray-700 px-3 py-2">
+                  <p className="text-xs text-gray-300">{c.content}</p>
                   <p className="mt-0.5 text-xs text-gray-500">{timeAgo(c.createdAt)}</p>
                 </div>
               ))}
@@ -126,7 +126,7 @@ export default function ReviewCard({ review }: { review: Review }) {
               onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
               maxLength={100}
               placeholder="댓글을 입력하세요..."
-              className="flex-1 rounded-xl border border-gray-600 bg-gray-700 px-3 py-2 text-xs text-white outline-none focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-700"
+              className="flex-1 rounded-xl border border-gray-600 bg-gray-700 px-3 py-2 text-xs text-white outline-none placeholder:text-gray-500 focus:border-orange-400"
             />
             <button
               onClick={submitComment}
