@@ -304,6 +304,14 @@ export default function WatchPage() {
         </div>
       )}
 
+      <div className="xl:grid xl:grid-cols-[160px_1fr_160px] xl:items-start xl:gap-2">
+
+        {/* 왼쪽 광고 (PC 전용) */}
+        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-8">
+          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+        </div>
+
+        <div>
       <div className="mx-auto max-w-7xl">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">← 홈으로</Link>
 
@@ -717,6 +725,14 @@ export default function WatchPage() {
           />
         </section>
       </div>
+        </div>{/* 메인 콘텐츠 끝 */}
+
+        {/* 오른쪽 광고 (PC 전용) */}
+        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-8">
+          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
+        </div>
+
+      </div>{/* xl grid 끝 */}
 
       <div className="hidden lg:flex justify-center py-4">
         <KakaoAd unitId="DAN-v96On6dbt3Krp7Pw" width={728} height={90} />
