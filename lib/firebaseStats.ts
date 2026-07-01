@@ -149,9 +149,16 @@ export async function saveFeedComment(data: {
   foodEmoji: string;
   comment: string;
 }) {
+  if (typeof data.comment !== "string" || data.comment.trim().length === 0) return;
+  if (data.comment.length > 200) return;
+  if (typeof data.foodName !== "string" || data.foodName.length > 50) return;
+
   const { addDoc, collection: col } = await import("firebase/firestore");
   await addDoc(col(db, "feeds"), {
-    ...data,
+    foodId: Number(data.foodId),
+    foodName: data.foodName.trim(),
+    foodEmoji: data.foodEmoji,
+    comment: data.comment.trim(),
     createdAt: serverTimestamp(),
   });
 }

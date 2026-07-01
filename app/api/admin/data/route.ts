@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebaseAdmin";
 import { isAdminAuthed } from "@/lib/adminAuth";
+import { rateLimit } from "@/lib/rateLimit";
 
 const ALLOWED = ["feeds", "reviews", "review_comments"] as const;
 type Col = (typeof ALLOWED)[number];
@@ -30,6 +31,11 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   if (!isAdminAuthed(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  if (!rateLimit(`admin_delete:${ip}`, 30, 60_000)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   const col = req.nextUrl.searchParams.get("collection");
   const id = req.nextUrl.searchParams.get("id");

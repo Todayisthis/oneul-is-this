@@ -3,12 +3,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // 방명록: 누구나 작성, 클라이언트 읽기/삭제 불가 (서버 Admin SDK 경유)
+    // 방명록: 누구나 읽기/작성, 삭제는 서버 Admin SDK 경유
     match /feeds/{docId} {
       allow create: if request.resource.data.keys().hasAll(['foodName', 'foodEmoji', 'comment', 'createdAt'])
                     && request.resource.data.comment is string
-                    && request.resource.data.comment.size() <= 200;
-      allow read, update, delete: if false;
+                    && request.resource.data.comment.size() <= 200
+                    && request.resource.data.foodName is string
+                    && request.resource.data.foodName.size() <= 50;
+      allow read: if true;
+      allow update, delete: if false;
     }
 
     // 후기: 누구나 작성·읽기, 삭제는 클라이언트 불가 (서버 Admin SDK 경유)
@@ -31,6 +34,26 @@ service cloud.firestore {
                     && request.resource.data.content.size() <= 300;
       allow read: if true;
       allow update, delete: if false;
+    }
+
+    // 통계용 픽 기록: 누구나 읽기/쓰기
+    match /foodPicks/{docId} {
+      allow read, write: if true;
+    }
+    match /watchPicks/{docId} {
+      allow read, write: if true;
+    }
+
+    // 문의/제안: 누구나 작성 (길이 제한)
+    match /contacts/{docId} {
+      allow create: if request.resource.data.message is string
+                    && request.resource.data.message.size() <= 1000;
+    }
+    match /suggestions/{docId} {
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() <= 100
+                    && request.resource.data.description is string
+                    && request.resource.data.description.size() <= 500;
     }
 
     // 그 외 모든 컬렉션 차단

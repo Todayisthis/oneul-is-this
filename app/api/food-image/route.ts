@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 const foodTranslations: Record<string, string> = {
   // 국물
@@ -102,6 +103,11 @@ const categoryTranslations: Record<string, string> = {
 };
 
 export async function GET(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  if (!rateLimit(`food_image:${ip}`, 30, 60_000)) {
+    return NextResponse.json({ url: null }, { status: 429 });
+  }
+
   const name = req.nextUrl.searchParams.get("name") ?? "";
 
   const key = process.env.UNSPLASH_ACCESS_KEY;
