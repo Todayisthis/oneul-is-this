@@ -120,7 +120,7 @@ export default function ReviewModal({ onClose }: Props) {
               <div className="mb-3 max-h-40 overflow-y-auto rounded-xl border border-gray-100 bg-gray-50">
                 {results.map((item) => {
                   const name = type === "food" ? (item as typeof foods[0]).name : (item as typeof contents[0]).title;
-                  const emoji = type === "food" ? (item as typeof foods[0]).emoji : (item as typeof contents[0]).emoji ?? "🎬";
+                  const emoji = type === "food" ? (item as typeof foods[0]).emoji : "🎬";
                   return (
                     <button
                       key={item.id}
