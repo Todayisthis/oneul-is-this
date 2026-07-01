@@ -32,9 +32,9 @@ export default function FeedList({ feeds }: { feeds: FeedItem[] }) {
   const feed = feeds[index];
 
   return (
-    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
+    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm">
       <div className="mb-3">
-        <p className="text-sm font-bold text-white md:text-gray-800">💬 오늘의 한마디</p>
+        <p className="text-sm font-bold text-white">💬 오늘의 한마디</p>
       </div>
 
       <div
@@ -42,9 +42,9 @@ export default function FeedList({ feeds }: { feeds: FeedItem[] }) {
       >
         <span className="text-xl">{feed.foodEmoji}</span>
         <div className="flex-1">
-          <p className="text-xs font-bold text-gray-200 md:text-gray-700">{feed.foodName}</p>
-          <p className="mt-0.5 text-sm text-gray-400 leading-snug md:text-gray-600">{feed.comment}</p>
-          <p className="mt-1 text-xs text-gray-500 md:text-gray-400" suppressHydrationWarning>{timeAgo(feed.createdAt)}</p>
+          <p className="text-xs font-bold text-gray-200">{feed.foodName}</p>
+          <p className="mt-0.5 text-sm text-gray-400 leading-snug">{feed.comment}</p>
+          <p className="mt-1 text-xs text-gray-500" suppressHydrationWarning>{timeAgo(feed.createdAt)}</p>
         </div>
       </div>
     </div>

@@ -38,7 +38,7 @@ function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
   const style = RANK_STYLES[idx] ?? RANK_STYLES[RANK_STYLES.length - 1];
 
   const inner = (
-    <div className={`rounded-xl border-2 p-4 ${style.border} bg-gray-700 md:bg-gray-50`}>
+    <div className={`rounded-xl border-2 p-4 ${style.border} bg-gray-700`}>
       <div className="flex items-center gap-3">
         <div className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full ${style.bg} shadow`}>
           <span className="text-lg font-extrabold leading-none text-white">{item.rank}</span>
@@ -50,12 +50,12 @@ function ItemCard({ item, idx }: { item: CarouselItem; idx: number }) {
               {item.badge}
             </span>
           )}
-          <p className="truncate font-bold text-white md:text-gray-900">{item.label}</p>
+          <p className="truncate font-bold text-white">{item.label}</p>
           {item.sub && <p className="mt-0.5 text-xs text-gray-400">{item.sub}</p>}
         </div>
         {item.score && (
           <div className="shrink-0 text-right">
-            <p className="text-base font-extrabold text-yellow-400 md:text-yellow-500">{item.score}</p>
+            <p className="text-base font-extrabold text-yellow-400">{item.score}</p>
             <p className="text-xs text-gray-400">{item.scoreLabel ?? "IMDb"}</p>
           </div>
         )}
@@ -113,10 +113,10 @@ export default function RankCarousel({ title, items }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
+    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm">
       {/* 제목 */}
       <div className="mb-3">
-        <p className="text-sm font-bold text-white md:text-gray-700">{title}</p>
+        <p className="text-sm font-bold text-white">{title}</p>
       </div>
 
       {/* 카드 */}

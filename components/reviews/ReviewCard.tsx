@@ -64,7 +64,7 @@ export default function ReviewCard({ review }: { review: Review }) {
         </div>
         <div className="flex shrink-0 gap-0.5">
           {[1,2,3,4,5].map((s) => (
-            <span key={s} className={s <= review.rating ? "text-orange-400" : "text-gray-600 md:text-gray-200"}>⭐</span>
+            <span key={s} className={s <= review.rating ? "text-orange-400" : "text-gray-600 md:text-gray-300"}>★</span>
           ))}
         </div>
       </div>

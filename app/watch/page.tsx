@@ -267,7 +267,7 @@ export default function WatchPage() {
   const displayContent = (isRolling || isHoldingFinal) ? rollingContent : result;
 
   return (
-    <main className="min-h-screen bg-gray-950 px-4 py-8 md:bg-orange-50">
+    <main className="min-h-screen bg-gray-950 px-4 py-8">
       {showSharePopup && result && (
         <WatchSharePopup
           content={result}
@@ -309,15 +309,15 @@ export default function WatchPage() {
       <div className="mx-auto max-w-7xl">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">← 홈으로</Link>
 
-        <h1 className="mt-4 text-2xl font-bold text-white md:text-gray-800">🎬 오늘 뭐 보지?</h1>
-        <p className="mt-1 text-sm text-gray-400 md:text-gray-500">넷플릭스 서비스 중인 작품 중 장르별로 랜덤 추천해드려요.</p>
+        <h1 className="mt-4 text-2xl font-bold text-white">🎬 오늘 뭐 보지?</h1>
+        <p className="mt-1 text-sm text-gray-400">넷플릭스 서비스 중인 작품 중 장르별로 랜덤 추천해드려요.</p>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr_260px]">
           {/* ───── 왼쪽 사이드바 ───── */}
           <div className="space-y-4">
             {/* 종류 */}
-            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
-              <p className="mb-3 text-sm font-bold text-white md:text-gray-700">📺 종류</p>
+            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm">
+              <p className="mb-3 text-sm font-bold text-white">📺 종류</p>
               <div className="flex gap-2">
                 {(["전체", "영화", "드라마"] as const).map((t) => (
                   <button
@@ -327,7 +327,7 @@ export default function WatchPage() {
                     className={`rounded-full px-4 py-1.5 text-sm font-medium transition disabled:opacity-50 ${
                       selectedType === t
                         ? "bg-orange-500 text-white"
-                        : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-orange-100"
+                        : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                     }`}
                   >
                     {t}
@@ -337,8 +337,8 @@ export default function WatchPage() {
             </div>
 
             {/* 장르 */}
-            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
-              <p className="mb-3 text-sm font-bold text-white md:text-gray-700">🎭 장르</p>
+            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm">
+              <p className="mb-3 text-sm font-bold text-white">🎭 장르</p>
               <div className="flex flex-wrap gap-1.5">
                 <button
                   onClick={() => setSelectedGenres([])}
@@ -346,7 +346,7 @@ export default function WatchPage() {
                   className={`rounded-full px-3 py-1 text-xs transition disabled:opacity-50 ${
                     selectedGenres.length === 0
                       ? "bg-orange-500 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-orange-100"
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                   }`}
                 >
                   전체
@@ -359,7 +359,7 @@ export default function WatchPage() {
                     className={`rounded-full px-3 py-1 text-xs transition disabled:opacity-50 ${
                       selectedGenres.includes(g)
                         ? "bg-orange-500 text-white"
-                        : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-orange-100"
+                        : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                     }`}
                   >
                     {g}
@@ -402,8 +402,8 @@ export default function WatchPage() {
             */}
 
             {/* 제작 국가 */}
-            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
-              <p className="mb-3 text-sm font-bold text-white md:text-gray-700">🌏 제작 국가</p>
+            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm">
+              <p className="mb-3 text-sm font-bold text-white">🌏 제작 국가</p>
               <div className="space-y-1.5">
                 <button
                   onClick={() => setSelectedCountry(null)}
@@ -411,7 +411,7 @@ export default function WatchPage() {
                   className={`w-full rounded-xl px-3 py-2 text-left text-xs font-medium transition disabled:opacity-50 ${
                     selectedCountry === null
                       ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-blue-100"
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                   }`}
                 >
                   🌏 전체
@@ -424,7 +424,7 @@ export default function WatchPage() {
                     className={`w-full rounded-xl px-3 py-2 text-left text-xs font-medium transition disabled:opacity-50 ${
                       selectedCountry === c.code
                         ? "bg-blue-500 text-white"
-                        : "bg-gray-700 text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-blue-100"
+                        : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                     }`}
                   >
                     {c.label}
@@ -447,7 +447,7 @@ export default function WatchPage() {
             </button>
 
             {filtered.length === 0 && (
-              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 text-center text-gray-400 shadow-sm md:border-none md:bg-white">
+              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 text-center text-gray-400 shadow-sm">
                 선택한 조건을 전부 충족하는 작품이 없어요.<br />
                 조건을 조정해보세요.
               </div>
@@ -456,13 +456,13 @@ export default function WatchPage() {
             {/* 룰렛 애니메이션 */}
             <div ref={resultRef} className="w-full">
               {(isRolling || isHoldingFinal) && displayContent && (
-                <div className="w-full rounded-2xl border border-gray-700 bg-gray-800 p-8 text-center shadow-md md:border-none md:bg-white">
+                <div className="w-full rounded-2xl border border-gray-700 bg-gray-800 p-8 text-center shadow-md">
                   <span className={`rounded-full px-3 py-1 text-sm font-bold ${
-                    displayContent.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                    displayContent.type === "영화" ? "bg-blue-900 text-blue-300" : "bg-purple-900 text-purple-300"
                   }`}>
                     {displayContent.type}
                   </span>
-                  <h2 className="mt-4 text-3xl font-bold text-white md:text-gray-900">{displayContent.title}</h2>
+                  <h2 className="mt-4 text-3xl font-bold text-white">{displayContent.title}</h2>
                   <p className="mt-2 text-gray-400">{displayContent.year}년</p>
                   <p className="mt-6 text-lg font-semibold text-orange-500">
                     {spinMessages[messageIndex % spinMessages.length]}
@@ -475,40 +475,40 @@ export default function WatchPage() {
             {result && !isRolling && !isHoldingFinal && (
               <div className="w-full space-y-4">
                 {/* 작품 정보 */}
-                <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 shadow-md md:border-none md:bg-white">
+                <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 shadow-md">
                   <div className="flex items-center gap-2">
                     <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
-                      result.type === "영화" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                      result.type === "영화" ? "bg-blue-900 text-blue-300" : "bg-purple-900 text-purple-300"
                     }`}>
                       {result.type}
                     </span>
                     <span className="text-sm text-gray-400">{result.year}년</span>
                   </div>
-                  <h2 className="mt-2 text-2xl font-bold text-white md:text-gray-900">{result.title}</h2>
+                  <h2 className="mt-2 text-2xl font-bold text-white">{result.title}</h2>
                   <div className="mt-2 flex flex-wrap items-center gap-3">
                     {result.country && (
-                      <span className="text-sm text-gray-400 md:text-gray-500">
+                      <span className="text-sm text-gray-400">
                         {COUNTRY_MAP[result.country] ?? result.country} 작품
                       </span>
                     )}
                     {result.imdbScore && (
                       <span className="flex items-center gap-1 text-sm">
                         <span className="text-yellow-500">⭐</span>
-                        <span className="font-bold text-white md:text-gray-700">{result.imdbScore.toFixed(1)}</span>
+                        <span className="font-bold text-white">{result.imdbScore.toFixed(1)}</span>
                         <span className="text-gray-400">/ 10 (IMDb)</span>
                       </span>
                     )}
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1">
                     {result.genres.map((g) => (
-                      <span key={g} className="rounded-full bg-orange-500/15 px-2.5 py-0.5 text-xs text-orange-400 md:bg-orange-50 md:text-orange-600">
+                      <span key={g} className="rounded-full bg-orange-500/15 px-2.5 py-0.5 text-xs text-orange-400">
                         {g}
                       </span>
                     ))}
                   </div>
 
                   <div className="mt-5">
-                    <p className="mb-2 text-sm font-bold text-gray-300 md:text-gray-600">바로 보기</p>
+                    <p className="mb-2 text-sm font-bold text-gray-300">바로 보기</p>
                     <div className="flex flex-wrap gap-2">
                       {result.ott.map((o) => (
                         <a
@@ -526,23 +526,23 @@ export default function WatchPage() {
 
                   <button
                     onClick={startRoulette}
-                    className="mt-5 w-full rounded-xl border border-orange-200 py-3 text-sm font-medium text-orange-500 hover:bg-orange-50"
+                    className="mt-5 w-full rounded-xl border border-orange-500/30 bg-gray-700 py-3 text-sm font-medium text-orange-400 hover:bg-gray-600"
                   >
                     다시 뽑기
                   </button>
                 </div>
 
                 {/* 별점 + 공유 */}
-                <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 shadow-md md:border-none md:bg-white">
-                  <div className="mb-4 rounded-xl bg-amber-500/10 p-3 text-center text-sm md:bg-amber-50">
-                    <span className="text-amber-400 md:text-amber-700">
+                <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 shadow-md">
+                  <div className="mb-4 rounded-xl bg-amber-500/10 p-3 text-center text-sm">
+                    <span className="text-amber-400">
                       💡 <strong>별점을 주시면 광고 없이 바로 공유</strong>할 수 있어요!
                     </span>
                   </div>
 
                   {/* 별점 */}
                   <div className="mb-5">
-                    <p className="mb-2 text-center text-sm font-semibold text-white md:text-gray-700">
+                    <p className="mb-2 text-center text-sm font-semibold text-white">
                       {ratingSubmitted
                         ? "⭐ 별점 주셔서 감사해요!"
                         : "추천이 마음에 드셨나요? 별점을 남겨주세요"}
@@ -583,8 +583,8 @@ export default function WatchPage() {
                   >
                     {ratingSubmitted ? "📤 바로 공유하기 (광고 없음)" : "📤 공유하기 (광고 3초)"}
                   </button>
-                  <div className="mt-4 border-t border-gray-700 pt-4 md:border-gray-100">
-                    <p className="mb-2 text-sm font-bold text-white md:text-gray-700">📝 방명록 남기기</p>
+                  <div className="mt-4 border-t border-gray-700 pt-4">
+                    <p className="mb-2 text-sm font-bold text-white">📝 방명록 남기기</p>
                     {watchCommentSent ? (
                       <p className="rounded-xl bg-orange-50 py-3 text-center text-sm font-bold text-orange-500">방명록이 등록됐어요! 🎉</p>
                     ) : (
@@ -598,7 +598,7 @@ export default function WatchPage() {
                             onKeyDown={(e) => { if (e.key === "Enter") submitWatchComment(result!); }}
                             maxLength={60}
                             placeholder="재밌었다, 별로였다... 자유롭게!"
-                            className="flex-1 rounded-xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-800 md:placeholder:text-gray-400"
+                            className="flex-1 rounded-xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400"
                           />
                           <button
                             onClick={() => submitWatchComment(result!)}
@@ -640,8 +640,8 @@ export default function WatchPage() {
                 }))}
               />
             ) : (
-              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
-                <p className="mb-2 text-sm font-bold text-white md:text-gray-700">🔥 이번주 자주 추천된 작품</p>
+              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm">
+                <p className="mb-2 text-sm font-bold text-white">🔥 이번주 자주 추천된 작품</p>
                 <p className="py-4 text-center text-xs text-gray-400">아직 데이터가 없어요</p>
               </div>
             )}
@@ -661,8 +661,8 @@ export default function WatchPage() {
                 }))}
               />
             ) : (
-              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm md:border-none md:bg-white">
-                <p className="mb-2 text-sm font-bold text-white md:text-gray-700">⭐ 추천이 마음에 드는 작품</p>
+              <div className="rounded-2xl border border-gray-700 bg-gray-800 p-4 shadow-sm">
+                <p className="mb-2 text-sm font-bold text-white">⭐ 추천이 마음에 드는 작품</p>
                 <p className="py-4 text-center text-xs text-gray-400">아직 데이터가 없어요</p>
               </div>
             )}

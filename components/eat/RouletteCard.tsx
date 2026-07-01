@@ -24,13 +24,13 @@ export default function RouletteCard({
   if (!food) return null;
 
   return (
-    <div className="w-full rounded-3xl border border-gray-700 bg-gray-800 p-8 text-center shadow-sm md:border-none md:bg-white">
+    <div className="w-full rounded-3xl border border-gray-700 bg-gray-800 p-8 text-center shadow-sm">
       <div className={isRolling ? "scale-105 transition" : "transition"}>
         <div className="text-6xl">{food.emoji}</div>
 
-        <h2 className="mt-4 text-3xl font-bold text-white md:text-gray-900">{food.name}</h2>
+        <h2 className="mt-4 text-3xl font-bold text-white">{food.name}</h2>
 
-        <p className="mt-2 text-gray-400 md:text-gray-500">
+        <p className="mt-2 text-gray-400">
           {food.brand ? food.brand : food.category}
         </p>
 

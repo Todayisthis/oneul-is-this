@@ -9,7 +9,7 @@ function StarRow({ rating }: { rating: number }) {
   return (
     <span className="flex gap-0.5">
       {[1,2,3,4,5].map((s) => (
-        <span key={s} className={s <= rating ? "text-orange-400" : "text-gray-600"} style={{ fontSize: 12 }}>⭐</span>
+        <span key={s} className={s <= rating ? "text-orange-400" : "text-gray-700"} style={{ fontSize: 12 }}>★</span>
       ))}
     </span>
   );

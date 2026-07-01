@@ -261,13 +261,13 @@ function EatPageInner() {
   }
 
   return (
-    <main className="relative min-h-screen bg-gray-950 px-4 py-6 md:bg-orange-50">
+    <main className="relative min-h-screen bg-gray-950 px-4 py-6">
       {/* 상단 헤더 */}
       <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between">
         <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
           ← 홈으로
         </Link>
-        <h1 className="text-lg font-bold text-white md:text-gray-900">🍚 오늘 뭐 먹지?</h1>
+        <h1 className="text-lg font-bold text-white">🍚 오늘 뭐 먹지?</h1>
         <div className="w-16" />
       </div>
 
@@ -276,15 +276,15 @@ function EatPageInner() {
 
         {/* 왼쪽: 설정 패널 */}
         <aside className="hidden lg:flex lg:w-72 lg:flex-shrink-0 lg:flex-col lg:gap-4">
-          <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5">
             <p className="mb-3 text-sm font-bold text-orange-500">오늘의 메뉴 추천</p>
             <p className="text-sm leading-6 text-gray-400">
               음식 분류와 브랜드를 고르면 오늘 먹을 메뉴를 랜덤으로 추천해줘요.
             </p>
           </div>
 
-          <div className="rounded-3xl bg-white p-5 shadow-sm">
-            <p className="mb-3 text-sm font-bold text-gray-700">🍽 음식 분류</p>
+          <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5">
+            <p className="mb-3 text-sm font-bold text-white">🍽 음식 분류</p>
             <CategorySelector
               selected={selectedCategory}
               onChange={handleCategoryChange}
@@ -292,8 +292,8 @@ function EatPageInner() {
             />
           </div>
 
-          <div className="rounded-3xl bg-white p-5 shadow-sm">
-            <p className="mb-3 text-sm font-bold text-gray-700">🎲 추천 방식</p>
+          <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5">
+            <p className="mb-3 text-sm font-bold text-white">🎲 추천 방식</p>
             <RecommendModeSelector
               selected={recommendMode}
               onChange={setRecommendMode}
@@ -301,7 +301,7 @@ function EatPageInner() {
             />
           </div>
 
-          <div className="rounded-3xl bg-white p-5 shadow-sm">
+          <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5">
             <FilterSelector
               filters={filters}
               onChange={handleFilterChange}
@@ -312,7 +312,7 @@ function EatPageInner() {
           <button
             type="button"
             onClick={() => setShowSuggest(true)}
-            className="w-full rounded-2xl border border-orange-200 bg-white py-3 text-sm font-bold text-orange-500 active:scale-95"
+            className="w-full rounded-2xl border border-orange-500/30 bg-gray-700 py-3 text-sm font-bold text-orange-400 active:scale-95"
           >
             🍽 메뉴 제안하기
           </button>
@@ -322,11 +322,11 @@ function EatPageInner() {
         <div className="flex min-w-0 flex-1 flex-col items-center">
           {/* 모바일 전용 설정 */}
           <div className="flex w-full flex-col gap-4 lg:hidden">
-            <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
+            <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5 shadow-sm">
               <p className="text-sm font-bold text-orange-500">오늘의 메뉴 추천</p>
-              <h2 className="mt-1 text-3xl font-bold text-white md:text-gray-900">🍚 오늘 뭐 먹지?</h2>
+              <h2 className="mt-1 text-3xl font-bold text-white">🍚 오늘 뭐 먹지?</h2>
               <div className="mt-4 text-left">
-                <p className="mb-3 text-sm font-bold text-white md:text-gray-700">🍽 음식 분류</p>
+                <p className="mb-3 text-sm font-bold text-white">🍽 음식 분류</p>
                 <CategorySelector
                   selected={selectedCategory}
                   onChange={handleCategoryChange}
@@ -334,15 +334,15 @@ function EatPageInner() {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5 text-left shadow-sm md:border-none md:bg-white">
-              <p className="mb-3 text-sm font-bold text-white md:text-gray-700">🎲 추천 방식</p>
+            <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5 text-left shadow-sm">
+              <p className="mb-3 text-sm font-bold text-white">🎲 추천 방식</p>
               <RecommendModeSelector
                 selected={recommendMode}
                 onChange={setRecommendMode}
                 disabled={isRolling || isHoldingFinal}
               />
             </div>
-            <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
+            <div className="rounded-3xl border border-gray-700 bg-gray-800 p-5 shadow-sm">
               <FilterSelector
                 filters={filters}
                 onChange={handleFilterChange}
@@ -400,7 +400,7 @@ function EatPageInner() {
             <button
               type="button"
               onClick={() => setShowSuggest(true)}
-              className="mt-4 w-full rounded-2xl border border-orange-500/30 bg-gray-700 py-4 text-sm font-bold text-orange-400 active:scale-95 md:border-orange-200 md:bg-white md:text-orange-500"
+              className="mt-4 w-full rounded-2xl border border-orange-500/30 bg-gray-700 py-4 text-sm font-bold text-orange-400 active:scale-95"
             >
               🍽 먹고 싶은 메뉴가 없어요? 제안하기
             </button>

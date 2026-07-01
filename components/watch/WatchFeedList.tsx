@@ -29,14 +29,14 @@ export default function WatchFeedList() {
   const feed = feeds[index];
 
   return (
-    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm md:border-none md:bg-white">
-      <p className="mb-3 text-sm font-bold text-white md:text-gray-800">💬 오늘의 방명록</p>
+    <div className="rounded-2xl border border-gray-700 bg-gray-800 p-5 shadow-sm">
+      <p className="mb-3 text-sm font-bold text-white">💬 오늘의 방명록</p>
       <div style={{ opacity: visible ? 1 : 0, transition: "opacity 250ms ease" }}>
         <div className="flex gap-2">
           <span className="text-xl">{feed.foodEmoji}</span>
           <div className="flex-1">
-            <p className="text-xs font-bold text-gray-200 md:text-gray-700">{feed.foodName}</p>
-            <p className="mt-0.5 text-sm leading-snug text-gray-400 md:text-gray-600">{feed.comment}</p>
+            <p className="text-xs font-bold text-gray-200">{feed.foodName}</p>
+            <p className="mt-0.5 text-sm leading-snug text-gray-400">{feed.comment}</p>
           </div>
         </div>
       </div>

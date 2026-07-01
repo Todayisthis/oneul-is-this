@@ -66,6 +66,7 @@ export default function ResultCard({
   const [comment, setComment] = useState("");
   const [commentSent, setCommentSent] = useState(false);
   const [commentError, setCommentError] = useState("");
+  const [hoverRating, setHoverRating] = useState(0);
 
   function openShare() {
     if (rating !== null) {
@@ -130,20 +131,20 @@ export default function ResultCard({
         <SharePopup food={food} onClose={() => setShowShare(false)} />
       )}
 
-      <div className="mt-6 w-full rounded-3xl border border-gray-700 bg-gray-800 p-8 text-center shadow-sm md:border-none md:bg-white">
+      <div className="mt-6 w-full rounded-3xl border border-gray-700 bg-gray-800 p-8 text-center shadow-sm">
         <FoodImage food={food} />
 
         <p className="mt-4 text-xs font-bold uppercase tracking-widest text-orange-500">
           오늘의 추천 메뉴
         </p>
 
-        <h2 className="mt-2 text-4xl font-black tracking-tight text-white md:text-gray-900">{food.name}</h2>
+        <h2 className="mt-2 text-4xl font-black tracking-tight text-white">{food.name}</h2>
 
-        <p className="mt-1 text-sm font-medium text-gray-400 md:text-gray-500">
+        <p className="mt-1 text-sm font-medium text-gray-400">
           {food.brand ? food.brand : food.category}
         </p>
 
-        <p className="mt-5 rounded-2xl bg-gray-700 px-4 py-4 text-sm font-medium leading-relaxed text-gray-200 md:bg-orange-50 md:text-gray-700">
+        <p className="mt-5 rounded-2xl bg-gray-700 px-4 py-4 text-sm font-medium leading-relaxed text-gray-200">
           {message}
         </p>
 
@@ -174,10 +175,10 @@ export default function ResultCard({
         </button>
 
         <div className="mt-6">
-          <div className="mb-3 rounded-xl bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-400 md:bg-amber-50 md:text-amber-700">
+          <div className="mb-3 rounded-xl bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-400">
             💡 <strong>별점을 주시면 광고 없이 바로 공유</strong>할 수 있어요!
           </div>
-          <p className="mb-3 text-sm font-bold text-gray-300 md:text-gray-600">
+          <p className="mb-3 text-sm font-bold text-gray-300">
             이 추천 어땠어?
           </p>
 
@@ -186,25 +187,28 @@ export default function ResultCard({
               <button
                 key={score}
                 type="button"
-                onClick={() => handleRate(score)}
-                className={`text-3xl transition hover:scale-110 ${
-                  rating !== null && score <= rating ? "text-orange-400" : "text-gray-600"
+                onClick={() => rating === null && handleRate(score)}
+                onMouseEnter={() => rating === null && setHoverRating(score)}
+                onMouseLeave={() => rating === null && setHoverRating(0)}
+                disabled={rating !== null}
+                className={`text-3xl transition-transform hover:scale-110 disabled:cursor-default ${
+                  score <= (hoverRating || rating || 0) ? "text-orange-400" : "text-gray-600"
                 }`}
               >
-                {rating !== null && score <= rating ? "★" : "☆"}
+                ★
               </button>
             ))}
           </div>
 
           {rating !== null && (
-            <p className="mt-4 rounded-2xl bg-gray-700 px-4 py-3 text-sm font-bold text-gray-200 md:bg-gray-50 md:text-gray-600">
+            <p className="mt-4 rounded-2xl bg-gray-700 px-4 py-3 text-sm font-bold text-gray-200">
               {ratingMessage}
             </p>
           )}
         </div>
 
-        <div className="mt-5 border-t border-gray-700 pt-5 md:border-gray-100">
-          <p className="mb-2 text-sm font-bold text-white md:text-gray-700">📝 방명록 남기기</p>
+        <div className="mt-5 border-t border-gray-700 pt-5">
+          <p className="mb-2 text-sm font-bold text-white">📝 방명록 남기기</p>
           {commentSent ? (
             <p className="rounded-2xl bg-orange-50 py-3 text-sm font-bold text-orange-500">
               방명록이 등록됐어요! 🎉
@@ -222,7 +226,7 @@ export default function ResultCard({
                   onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
                   maxLength={60}
                   placeholder="맛있었다, 별로였다... 자유롭게!"
-                  className="flex-1 rounded-2xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-800 md:placeholder:text-gray-400"
+                  className="flex-1 rounded-2xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400"
                 />
                 <button
                   type="button"
