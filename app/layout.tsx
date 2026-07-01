@@ -86,7 +86,7 @@ export default function RootLayout({
     <html
       lang="ko"
       className={`${notoSansKr.variable} h-full antialiased`}
-      style={{ backgroundColor: "#fff7ed" }}
+      style={{ backgroundColor: "#030712" }}
     >
       <head>
         <script
