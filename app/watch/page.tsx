@@ -197,8 +197,8 @@ export default function WatchPage() {
     setMessageIndex(0);
 
     setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 150);
 
     const startedAt = Date.now();
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -234,6 +234,9 @@ export default function WatchPage() {
         setWatchCommentSent(false);
         setWatchCommentError("");
         recordWatchPick(finalContent).catch(() => {});
+        setTimeout(() => {
+          resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
       }, 500);
     }, ROULETTE_DURATION);
   }
