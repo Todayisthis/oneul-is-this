@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 let globalAdCount = 0;
+let reloadTimer: ReturnType<typeof setTimeout> | null = null;
 
 interface KakaoAdProps {
   unitId?: string;
@@ -39,15 +40,19 @@ export default function KakaoAd({
 
     containerRef.current.appendChild(ins);
 
-    const old = document.querySelector('script[data-kakao-ad]');
-    if (old) old.remove();
-
-    const script = document.createElement("script");
-    script.src = "//t1.kakaocdn.net/kas/static/ba.min.js";
-    script.async = true;
-    script.charset = "utf-8";
-    script.setAttribute("data-kakao-ad", "1");
-    document.body.appendChild(script);
+    // 모든 광고 ins가 DOM에 올라온 뒤 스크립트를 한 번만 실행
+    if (reloadTimer) clearTimeout(reloadTimer);
+    reloadTimer = setTimeout(() => {
+      const old = document.querySelector('script[data-kakao-ad]');
+      if (old) old.remove();
+      const script = document.createElement("script");
+      script.src = "//t1.kakaocdn.net/kas/static/ba.min.js";
+      script.async = true;
+      script.charset = "utf-8";
+      script.setAttribute("data-kakao-ad", "1");
+      document.body.appendChild(script);
+      reloadTimer = null;
+    }, 100);
 
     return () => {
       delete (window as unknown as Record<string, unknown>)[cbName];
