@@ -432,6 +432,11 @@ export default function WatchPage() {
             </div>
 
             <p className="text-center text-xs text-gray-400">{filtered.length}개 작품 중 추천</p>
+
+            {/* PC 전용 광고 — 모바일에서는 숨김 */}
+            <div className="hidden lg:block">
+              <KakaoAd />
+            </div>
           </div>
 
           {/* ───── 메인 영역 ───── */}
