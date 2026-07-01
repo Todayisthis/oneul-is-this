@@ -25,6 +25,7 @@ import {
   type ContentGenre,
 } from "@/data/contents";
 import KakaoAd from "@/components/ads/KakaoAd";
+import WatchSuggestModal from "@/components/watch/WatchSuggestModal";
 
 const ROULETTE_DURATION = 4000;
 const rouletteSpeeds = [50, 70, 100, 150, 220, 340, 500];
@@ -105,6 +106,7 @@ export default function WatchPage() {
   const [watchCommentSent, setWatchCommentSent] = useState(false);
   const [watchCommentError, setWatchCommentError] = useState("");
 
+  const [showSuggest, setShowSuggest] = useState(false);
   const [showAdModal, setShowAdModal] = useState(false);
   const [adCountdown, setAdCountdown] = useState(3);
   const adPendingContent = useRef<Content | null>(null);
@@ -276,6 +278,7 @@ export default function WatchPage() {
         />
       )}
       {showReview && <ReviewModal onClose={() => setShowReview(false)} />}
+      {showSuggest && <WatchSuggestModal onClose={() => setShowSuggest(false)} />}
 
       {/* 광고 모달 */}
       {showAdModal && (
@@ -441,6 +444,14 @@ export default function WatchPage() {
 
             <p className="text-center text-xs text-gray-400">{filtered.length}개 작품 중 추천</p>
 
+            <button
+              type="button"
+              onClick={() => setShowSuggest(true)}
+              className="w-full rounded-2xl border border-orange-500/30 bg-gray-700 py-3 text-sm font-bold text-orange-400 active:scale-95"
+            >
+              🎬 작품 제안하기
+            </button>
+
             {/* PC 전용 광고 — 모바일에서는 숨김 */}
             <div className="hidden lg:block">
               <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
@@ -463,6 +474,15 @@ export default function WatchPage() {
                 조건을 조정해보세요.
               </div>
             )}
+
+            {/* 모바일 전용 제안 버튼 */}
+            <button
+              type="button"
+              onClick={() => setShowSuggest(true)}
+              className="w-full rounded-2xl border border-orange-500/30 bg-gray-700 py-3 text-sm font-bold text-orange-400 active:scale-95 lg:hidden"
+            >
+              🎬 보고 싶은 작품이 없어요? 제안하기
+            </button>
 
             {/* 룰렛 애니메이션 */}
             <div ref={resultRef} className="w-full">
