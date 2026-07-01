@@ -32,7 +32,7 @@ export default function AdminPage() {
 
   // 쿠키가 있으면 서버 API 호출이 성공하는지로 인증 상태 확인
   useEffect(() => {
-    apiFetch("/api/admin/data?collection=feeds").then((r) => {
+    apiFetch("/api/admin/check").then((r) => {
       setAuthed(r.ok);
     });
   }, []);
