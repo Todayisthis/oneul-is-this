@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -74,7 +74,7 @@ export default function ReviewsClient() {
               onClick={() => setShowModal(true)}
               className="mt-4 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white"
             >
-              첫 번째 후기 남기기
+              첫 번째 사용후기 남기기
             </button>
           </div>
         ) : (

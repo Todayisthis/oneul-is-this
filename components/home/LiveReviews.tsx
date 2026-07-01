@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -42,7 +42,7 @@ export default function LiveReviews() {
             onClick={() => setShowModal(true)}
             className="rounded-2xl bg-orange-500 px-4 py-2 text-sm font-bold text-white active:scale-95"
           >
-            ✍️ 후기 남기기
+            ✍️ 사용후기 남기기
           </button>
           <Link
             href="/reviews"

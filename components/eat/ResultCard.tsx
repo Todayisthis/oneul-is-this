@@ -203,7 +203,7 @@ export default function ResultCard({
         </div>
 
         <div className="mt-5 border-t border-gray-700 pt-5 md:border-gray-100">
-          <p className="mb-2 text-sm font-bold text-white md:text-gray-700">💬 한줄 후기 남기기</p>
+          <p className="mb-2 text-sm font-bold text-white md:text-gray-700">💬 한줄 사용후기 남기기</p>
           {commentSent ? (
             <p className="rounded-2xl bg-orange-50 py-3 text-sm font-bold text-orange-500">
               후기가 등록됐어요! 🎉

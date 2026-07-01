@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo } from "react";
 import { foods } from "@/data/foods";
@@ -74,7 +74,7 @@ export default function ReviewModal({ onClose }: Props) {
         ) : (
           <>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-800">✍️ 후기 남기기</h2>
+              <h2 className="text-lg font-bold text-gray-800">✍️ 사용후기 남기기</h2>
               <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
             </div>
 

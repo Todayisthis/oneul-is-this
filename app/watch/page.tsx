@@ -563,7 +563,7 @@ export default function WatchPage() {
                     onClick={() => setShowReview(true)}
                     className="mt-3 w-full rounded-xl border border-gray-600 bg-gray-700 py-3 text-sm font-bold text-gray-300 hover:bg-gray-600 md:border-gray-200 md:bg-white md:text-gray-600 md:hover:bg-gray-50"
                   >
-                    ✍️ 후기 남기기
+                    ✍️ 사용후기 남기기
                   </button>
                 </div>
               </div>
