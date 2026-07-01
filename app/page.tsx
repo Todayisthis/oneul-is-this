@@ -66,7 +66,7 @@ export default function Home() {
 
           {/* 왼쪽 광고 (PC 전용) */}
           <div className="hidden lg:block lg:sticky lg:top-8 lg:pt-12">
-            <KakaoAd />
+            <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
           </div>
 
           {/* 메인 콘텐츠 */}
@@ -119,7 +119,7 @@ export default function Home() {
 
           {/* 오른쪽 광고 (PC 전용) */}
           <div className="hidden lg:block lg:sticky lg:top-8 lg:pt-12">
-            <KakaoAd />
+            <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
           </div>
 
         </div>

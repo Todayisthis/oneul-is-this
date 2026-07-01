@@ -267,7 +267,7 @@ function EatPageInner() {
 
         {/* 왼쪽 광고 (PC 전용) */}
         <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-14">
-          <KakaoAd />
+          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
         </div>
 
         {/* 메인 콘텐츠 */}
@@ -441,7 +441,7 @@ function EatPageInner() {
 
         {/* 오른쪽 광고 (PC 전용) */}
         <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-14">
-          <KakaoAd />
+          <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
         </div>
 
       </div>{/* xl grid 끝 */}

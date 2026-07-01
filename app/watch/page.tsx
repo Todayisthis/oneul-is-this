@@ -435,7 +435,7 @@ export default function WatchPage() {
 
             {/* PC 전용 광고 — 모바일에서는 숨김 */}
             <div className="hidden lg:block">
-              <KakaoAd />
+              <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
             </div>
           </div>
 
@@ -629,7 +629,7 @@ export default function WatchPage() {
           <div className="space-y-4">
             <WatchFeedList />
             <div className="hidden lg:block">
-              <KakaoAd />
+              <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
             </div>
             {topPicks.length > 0 ? (
               <RankCarousel
