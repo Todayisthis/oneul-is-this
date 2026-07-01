@@ -240,7 +240,7 @@ export default function WatchPage() {
     if (!ok) { setWatchCommentError(reason ?? "등록할 수 없는 내용이에요."); return; }
     setWatchCommentError("");
     await saveFeedComment({
-      foodId: String(content.id),
+      foodId: typeof content.id === "number" ? content.id : 0,
       foodName: content.title,
       foodEmoji: "🎬",
       comment: trimmed,
