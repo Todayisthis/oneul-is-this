@@ -697,7 +697,7 @@ export default function WatchPage() {
             )}
 
             <div className="hidden lg:block">
-              <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
+              <KakaoAd unitId="DAN-yJ0Pw8hXks20RZ5n" width={300} height={250} />
             </div>
           </div>
         </div>
