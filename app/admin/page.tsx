@@ -14,6 +14,7 @@ import {
 
 type FeedItem = { id: string; foodName: string; foodEmoji: string; comment: string; createdAt: Date };
 type ReviewItem = { id: string; itemName: string; itemEmoji: string; rating: number; content: string; type: string; createdAt: Date };
+type CommentItem = { id: string; reviewId: string; content: string; createdAt: Date };
 
 function timeAgo(date: Date) {
   const diff = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -29,9 +30,10 @@ export default function AdminPage() {
   const [pwError, setPwError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [tab, setTab] = useState<"feeds" | "reviews">("feeds");
+  const [tab, setTab] = useState<"feeds" | "reviews" | "comments">("feeds");
   const [feeds, setFeeds] = useState<FeedItem[]>([]);
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
+  const [comments, setComments] = useState<CommentItem[]>([]);
   const [dataLoading, setDataLoading] = useState(false);
 
   useEffect(() => {
@@ -91,10 +93,27 @@ export default function AdminPage() {
     setDataLoading(false);
   }
 
+  async function loadComments() {
+    setDataLoading(true);
+    const q = query(collection(db, "review_comments"), orderBy("createdAt", "desc"), limit(200));
+    const snap = await getDocs(q);
+    setComments(snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        reviewId: data.reviewId,
+        content: data.content,
+        createdAt: data.createdAt?.toDate?.() ?? new Date(),
+      };
+    }));
+    setDataLoading(false);
+  }
+
   useEffect(() => {
     if (!authed) return;
     if (tab === "feeds") loadFeeds();
-    else loadReviews();
+    else if (tab === "reviews") loadReviews();
+    else loadComments();
   }, [authed, tab]);
 
   async function deleteFeed(id: string) {
@@ -107,6 +126,12 @@ export default function AdminPage() {
     if (!confirm("이 후기를 삭제할까요?")) return;
     await deleteDoc(doc(db, "reviews", id));
     setReviews((prev) => prev.filter((r) => r.id !== id));
+  }
+
+  async function deleteComment(id: string) {
+    if (!confirm("이 댓글을 삭제할까요?")) return;
+    await deleteDoc(doc(db, "review_comments", id));
+    setComments((prev) => prev.filter((c) => c.id !== id));
   }
 
   function logout() {
@@ -163,10 +188,34 @@ export default function AdminPage() {
           >
             ⭐ 후기 ({reviews.length})
           </button>
+          <button
+            onClick={() => setTab("comments")}
+            className={`rounded-xl px-5 py-2 text-sm font-bold transition ${tab === "comments" ? "bg-orange-500 text-white" : "bg-gray-700 text-gray-300"}`}
+          >
+            🗨 댓글 ({comments.length})
+          </button>
         </div>
 
         {dataLoading ? (
           <p className="py-12 text-center text-gray-400">불러오는 중...</p>
+        ) : tab === "comments" ? (
+          <div className="flex flex-col gap-3">
+            {comments.length === 0 && <p className="py-12 text-center text-gray-400">댓글이 없어요.</p>}
+            {comments.map((c) => (
+              <div key={c.id} className="flex items-start gap-4 rounded-2xl border border-gray-700 bg-gray-800 p-4">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-gray-300">{c.content}</p>
+                  <p className="mt-1 text-xs text-gray-500">후기 ID: {c.reviewId} · {timeAgo(c.createdAt)}</p>
+                </div>
+                <button
+                  onClick={() => deleteComment(c.id)}
+                  className="shrink-0 rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-bold text-red-400 hover:bg-red-500 hover:text-white transition"
+                >
+                  삭제
+                </button>
+              </div>
+            ))}
+          </div>
         ) : tab === "feeds" ? (
           <div className="flex flex-col gap-3">
             {feeds.length === 0 && <p className="py-12 text-center text-gray-400">방명록이 없어요.</p>}

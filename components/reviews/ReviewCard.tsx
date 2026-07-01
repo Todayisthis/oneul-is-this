@@ -92,7 +92,7 @@ export default function ReviewCard({ review }: { review: Review }) {
           onClick={toggleComments}
           className="flex items-center gap-1 rounded-xl bg-gray-700 px-3 py-1.5 text-xs font-bold text-gray-300 hover:bg-gray-600 md:bg-gray-100 md:text-gray-600 md:hover:bg-gray-200"
         >
-          💬 댓글 {comments.length > 0 ? comments.length : ""}
+          💬 댓글 {comments.length}
         </button>
       </div>
 
