@@ -1,6 +1,6 @@
 import type { Content } from "../contents";
 
-export const netflixContents: Content[] = [
+const chunk1: Content[] = [
   { id: 9001, title: "참교육", year: 2026, type: "드라마", genres: ["드라마", "액션"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81947300", imdbScore: 8.6, country: "KR" },
   { id: 9002, title: "The Rookie", year: 2018, type: "드라마", genres: ["액션", "범죄", "드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81666165", imdbScore: 8, country: "US" },
   { id: 9003, title: "멋진 신세계", year: 2026, type: "드라마", genres: ["SF", "드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/82682323", imdbScore: 7.8, country: "KR" },
@@ -450,6 +450,9 @@ export const netflixContents: Content[] = [
   { id: 9447, title: "오쇼 라즈니쉬의 문제적 유토피아", year: 2018, type: "드라마", genres: ["범죄"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/80145240", imdbScore: 8, country: "US" },
   { id: 9448, title: "아름다운 그대에게: 미남 파라다이스", year: 2007, type: "드라마", genres: ["드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/82116128", imdbScore: 7.8, country: "JP" },
   { id: 9449, title: "정신병동에도 아침이 와요", year: 2023, type: "드라마", genres: ["드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81572595", imdbScore: 8.1, country: "KR" },
+];
+
+const chunk2: Content[] = [
   { id: 9450, title: "러브 온 더 스펙트럼: 미국", year: 2022, type: "드라마", genres: ["드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81338328", imdbScore: 8.5, country: "US" },
   { id: 9451, title: "보일링 포인트", year: 2021, type: "영화", genres: ["드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81502386", imdbScore: 7.5, country: "AU" },
   { id: 9452, title: "갑철성의 카바네리", year: 2016, type: "드라마", genres: ["액션", "SF", "드라마", "애니메이션"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81095103", imdbScore: 7.2, country: "JP" },
@@ -899,6 +902,9 @@ export const netflixContents: Content[] = [
   { id: 9896, title: "팍스 마르세유", year: 2023, type: "드라마", genres: ["드라마", "액션", "범죄"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81462496", imdbScore: 7, country: "FR" },
   { id: 9897, title: "길모어 걸스: 한 해의 스케치", year: 2016, type: "드라마", genres: ["드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/80109415", imdbScore: 7.4, country: "US" },
   { id: 9898, title: "WWE 크라운 주얼 2025", year: 2025, type: "영화", genres: ["액션"], ott: ["넷플릭스"], url: "https://www.netflix.com/browse/genre/81921064", imdbScore: 7.5, country: "US" },
+];
+
+const chunk3: Content[] = [
   { id: 9899, title: "브레이크스루", year: 2025, type: "드라마", genres: ["드라마", "범죄"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81566970", imdbScore: 7.1, country: "SE" },
   { id: 9900, title: "프롬 스크래치", year: 2022, type: "드라마", genres: ["드라마"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81104486", imdbScore: 7.9, country: "US" },
   { id: 9901, title: "Ragnarok", year: 2020, type: "드라마", genres: ["액션", "드라마", "SF"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/80232926", imdbScore: 7.3, country: "NO" },
@@ -1351,3 +1357,5 @@ export const netflixContents: Content[] = [
   { id: 10348, title: "지옥", year: 2021, type: "드라마", genres: ["스릴러", "SF", "드라마", "범죄", "판타지", "공포"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81256675", imdbScore: 6.6, country: "KR" },
   { id: 10349, title: "퓨리", year: 2024, type: "드라마", genres: ["드라마", "액션", "범죄"], ott: ["넷플릭스"], url: "https://www.netflix.com/title/81461530", imdbScore: 6.3, country: "FR" },
 ];
+
+export const netflixContents: Content[] = [...chunk1, ...chunk2, ...chunk3];
