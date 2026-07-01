@@ -540,16 +540,16 @@ export default function WatchPage() {
 
                   <div className="mt-5">
                     <p className="mb-2 text-sm font-bold text-gray-300">바로 보기</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-col gap-2">
                       {result.ott.map((o) => (
                         <a
                           key={o}
                           href={getNetflixUrl(result.url, result.title)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`rounded-xl px-4 py-2 text-sm font-bold transition hover:opacity-80 ${OTT_COLOR[o]}`}
+                          className={`block w-full rounded-xl py-3 text-center text-base font-bold transition hover:opacity-80 ${OTT_COLOR[o]}`}
                         >
-                          {o} →
+                          {o} 보러가기 →
                         </a>
                       ))}
                     </div>
@@ -557,7 +557,7 @@ export default function WatchPage() {
 
                   <button
                     onClick={startRoulette}
-                    className="mt-5 w-full rounded-xl border border-orange-500/30 bg-gray-700 py-3 text-sm font-medium text-orange-400 hover:bg-gray-600"
+                    className="mt-3 w-full rounded-xl border border-orange-500/30 bg-gray-700 px-4 py-2 text-sm font-medium text-orange-400 hover:bg-gray-600"
                   >
                     다시 뽑기
                   </button>
