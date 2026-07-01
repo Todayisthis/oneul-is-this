@@ -45,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.2,
     },
     {
+      url: "https://oneul-is-this.com/reviews",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
       url: "https://oneul-is-this.com/about",
       lastModified: new Date(),
       changeFrequency: "monthly",

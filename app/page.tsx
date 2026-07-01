@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import FeatureCards from "@/components/home/FeatureCards";
+import LiveReviews from "@/components/home/LiveReviews";
 
 export const metadata: Metadata = {
   title: "오늘 뭐먹지? 오늘 뭐보지? 메뉴·넷플릭스 랜덤 추천 | 오늘은 이거다",
@@ -66,6 +67,9 @@ export default function Home() {
           </h2>
           <FeatureCards />
         </section>
+
+        {/* 실시간 후기 */}
+        <LiveReviews />
 
         {/* SEO 텍스트 */}
         <section className="mx-auto max-w-3xl space-y-6 px-6 pb-24 text-left">

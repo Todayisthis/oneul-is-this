@@ -5,6 +5,7 @@ import Link from "next/link";
 import WatchFooter from "@/components/watch/WatchFooter";
 import RankCarousel from "@/components/ui/RankCarousel";
 import WatchSharePopup from "@/components/watch/WatchSharePopup";
+import ReviewModal from "@/components/reviews/ReviewModal";
 import {
   recordWatchPick,
   recordWatchRating,
@@ -95,6 +96,7 @@ export default function WatchPage() {
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [shareSuccess, setShareSuccess] = useState(false);
   const [showSharePopup, setShowSharePopup] = useState(false);
+  const [showReview, setShowReview] = useState(false);
 
   const [showAdModal, setShowAdModal] = useState(false);
   const [adCountdown, setAdCountdown] = useState(3);
@@ -248,6 +250,7 @@ export default function WatchPage() {
           onClose={() => setShowSharePopup(false)}
         />
       )}
+      {showReview && <ReviewModal onClose={() => setShowReview(false)} />}
 
       {/* 광고 모달 */}
       {showAdModal && (
@@ -555,6 +558,12 @@ export default function WatchPage() {
                     }`}
                   >
                     {ratingSubmitted ? "📤 바로 공유하기 (광고 없음)" : "📤 공유하기 (광고 3초)"}
+                  </button>
+                  <button
+                    onClick={() => setShowReview(true)}
+                    className="mt-3 w-full rounded-xl border border-gray-600 bg-gray-700 py-3 text-sm font-bold text-gray-300 hover:bg-gray-600 md:border-gray-200 md:bg-white md:text-gray-600 md:hover:bg-gray-50"
+                  >
+                    ✍️ 후기 남기기
                   </button>
                 </div>
               </div>

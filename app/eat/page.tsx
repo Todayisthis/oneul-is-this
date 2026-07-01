@@ -33,6 +33,7 @@ import FeedList from "@/components/eat/FeedList";
 import AdPlaceholder from "@/components/ads/AdPlaceholder";
 import KakaoAd from "@/components/ads/KakaoAd";
 import Footer from "@/components/layout/Footer";
+import ReviewModal from "@/components/reviews/ReviewModal";
 
 const ROULETTE_DURATION = 5000;
 const FINAL_HOLD_DURATION = 600;
@@ -58,6 +59,7 @@ function EatPageInner() {
   const [isRolling, setIsRolling] = useState(false);
   const [isHoldingFinal, setIsHoldingFinal] = useState(false);
   const [showSuggest, setShowSuggest] = useState(false);
+  const [showReview, setShowReview] = useState(false);
 
   const [messageIndex, setMessageIndex] = useState(0);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
@@ -401,6 +403,13 @@ function EatPageInner() {
             >
               🍽 먹고 싶은 메뉴가 없어요? 제안하기
             </button>
+            <button
+              type="button"
+              onClick={() => setShowReview(true)}
+              className="mt-3 w-full rounded-2xl border border-gray-600 bg-gray-700 py-4 text-sm font-bold text-gray-300 active:scale-95 md:border-gray-200 md:bg-white md:text-gray-600"
+            >
+              ✍️ 후기 남기기
+            </button>
           </div>
         </div>
 
@@ -415,6 +424,7 @@ function EatPageInner() {
       </div>
 
       {showSuggest && <SuggestModal onClose={() => setShowSuggest(false)} />}
+      {showReview && <ReviewModal onClose={() => setShowReview(false)} />}
 
       <Footer />
     </main>
