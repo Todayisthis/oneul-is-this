@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getReviews, type Review } from "@/lib/reviewStats";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import ReviewModal from "@/components/reviews/ReviewModal";
+import KakaoAd from "@/components/ads/KakaoAd";
 
 export default function ReviewsClient() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -64,6 +65,8 @@ export default function ReviewsClient() {
             </button>
           ))}
         </div>
+
+        <KakaoAd />
 
         {loading ? (
           <div className="py-16 text-center text-gray-500">불러오는 중...</div>

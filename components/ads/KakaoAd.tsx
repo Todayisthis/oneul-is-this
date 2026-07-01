@@ -6,20 +6,15 @@ let globalAdCount = 0;
 
 export default function KakaoAd() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const initializedRef = useRef(false);
 
   useEffect(() => {
-    if (initializedRef.current) return;
     if (!containerRef.current) return;
-    initializedRef.current = true;
 
     globalAdCount += 1;
     const cbName = `kakaoAdFail_${globalAdCount}`;
-    const unitId = `kakao-ad-unit-${globalAdCount}`;
 
     const ins = document.createElement("ins");
     ins.className = "kakao_ad_area";
-    ins.id = unitId;
     ins.style.display = "none";
     ins.style.width = "100%";
     ins.setAttribute("data-ad-unit", "DAN-3qhuUl7cRaH3PTPF");
@@ -34,22 +29,23 @@ export default function KakaoAd() {
 
     containerRef.current.appendChild(ins);
 
-    if (!document.querySelector('script[src="//t1.kakaocdn.net/kas/static/ba.min.js"]')) {
-      const script = document.createElement("script");
-      script.src = "//t1.kakaocdn.net/kas/static/ba.min.js";
-      script.async = true;
-      script.charset = "utf-8";
-      document.body.appendChild(script);
-    } else {
-      // 스크립트 이미 있으면 직접 트리거
-      const w = window as unknown as Record<string, () => void>;
-      if (typeof w.kakao_ad === "function") {
-        try { w.kakao_ad(); } catch {}
-      }
-    }
+    // 기존 스크립트 제거 후 재삽입 → SPA 페이지 이동 시 재스캔
+    const old = document.querySelector('script[data-kakao-ad]');
+    if (old) old.remove();
+
+    const script = document.createElement("script");
+    script.src = "//t1.kakaocdn.net/kas/static/ba.min.js";
+    script.async = true;
+    script.charset = "utf-8";
+    script.setAttribute("data-kakao-ad", "1");
+    document.body.appendChild(script);
 
     return () => {
       delete (window as unknown as Record<string, unknown>)[cbName];
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
+        containerRef.current.style.display = "";
+      }
     };
   }, []);
 
