@@ -95,6 +95,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" async />
+        <script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
