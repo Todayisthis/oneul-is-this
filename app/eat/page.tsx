@@ -266,7 +266,7 @@ function EatPageInner() {
       <div className="xl:grid xl:grid-cols-[160px_1fr_160px] xl:items-start xl:gap-2">
 
         {/* 왼쪽 광고 (PC 전용) */}
-        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-14">
+        <div className="hidden xl:flex xl:flex-col xl:items-center xl:sticky xl:top-8 xl:pt-14">
           <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
         </div>
 
@@ -374,7 +374,10 @@ function EatPageInner() {
               : "🎲 메뉴 뽑기"}
           </button>
 
-          <KakaoAd />
+          {/* 모바일 전용 300×250 광고 */}
+          <div className="lg:hidden w-full">
+            <KakaoAd />
+          </div>
 
           <div ref={resultRef} className="mt-6 w-full">
             {(isRolling || isHoldingFinal) && (
@@ -398,7 +401,9 @@ function EatPageInner() {
                 onShare={shareFood}
                 onReview={() => setShowReview(true)}
               />
-              <KakaoAd />
+              <div className="lg:hidden w-full">
+                <KakaoAd />
+              </div>
             </>
           )}
 
@@ -429,7 +434,6 @@ function EatPageInner() {
           <PopularFoods topPicked={topPicked} topRated={topRated} />
           <FeedList feeds={feeds} />
           <FoodHistory history={history} />
-          <KakaoAd />
         </aside>
 
       </div>
@@ -440,7 +444,7 @@ function EatPageInner() {
         </div>{/* 메인 콘텐츠 끝 */}
 
         {/* 오른쪽 광고 (PC 전용) */}
-        <div className="hidden xl:block xl:sticky xl:top-8 xl:pt-14">
+        <div className="hidden xl:flex xl:flex-col xl:items-center xl:sticky xl:top-8 xl:pt-14">
           <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
         </div>
 

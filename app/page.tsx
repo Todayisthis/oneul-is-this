@@ -65,7 +65,7 @@ export default function Home() {
         <div className="lg:grid lg:grid-cols-[160px_1fr_160px] lg:items-start lg:gap-4">
 
           {/* 왼쪽 광고 (PC 전용) */}
-          <div className="hidden lg:block lg:sticky lg:top-8 lg:pt-12">
+          <div className="hidden lg:flex lg:flex-col lg:items-center lg:sticky lg:top-8 lg:pt-12">
             <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
           </div>
 
@@ -118,7 +118,7 @@ export default function Home() {
           </div>
 
           {/* 오른쪽 광고 (PC 전용) */}
-          <div className="hidden lg:block lg:sticky lg:top-8 lg:pt-12">
+          <div className="hidden lg:flex lg:flex-col lg:items-center lg:sticky lg:top-8 lg:pt-12">
             <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
           </div>
 
