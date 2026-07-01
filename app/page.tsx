@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import FeatureCards from "@/components/home/FeatureCards";
 import LiveReviews from "@/components/home/LiveReviews";
+import Footer from "@/components/layout/Footer";
+import KakaoAd from "@/components/ads/KakaoAd";
 
 export const metadata: Metadata = {
   title: "오늘 뭐먹지? 오늘 뭐보지? 메뉴·넷플릭스 랜덤 추천 | 오늘은 이거다",
@@ -103,7 +105,10 @@ export default function Home() {
             오늘 뭐먹지 · 저녁 뭐먹지 · 점심 뭐먹지 · 메뉴 추천 · 오늘 뭐보지 · 넷플릭스 추천 · 랜덤 추천
           </p>
         </section>
+
+        <KakaoAd />
       </main>
+      <Footer />
     </>
   );
 }

@@ -24,6 +24,7 @@ import {
   type Content,
   type ContentGenre,
 } from "@/data/contents";
+import KakaoAd from "@/components/ads/KakaoAd";
 
 const ROULETTE_DURATION = 4000;
 const rouletteSpeeds = [50, 70, 100, 150, 220, 340, 500];
@@ -668,6 +669,8 @@ export default function WatchPage() {
             )}
           </div>
         </div>
+
+        <KakaoAd />
 
         {/* ───── IMDb Top 10 + 나라별 Top 3 ───── */}
         <section className="mt-10 grid gap-6 lg:grid-cols-3">

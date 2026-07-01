@@ -5,10 +5,10 @@ export default function WatchFooter() {
     <footer className="mt-16 border-t border-gray-700 bg-gray-950 py-8">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 text-sm text-gray-400">
         <div className="flex flex-wrap justify-center gap-5">
-          <Link href="/watch/about" className="hover:text-orange-500">서비스 소개</Link>
-          <Link href="/watch/privacy" className="hover:text-orange-500">개인정보처리방침</Link>
-          <Link href="/watch/contact" className="hover:text-orange-500">문의하기</Link>
-          <Link href="/watch/faq" className="hover:text-orange-500">FAQ</Link>
+          <Link href="/about" className="hover:text-orange-500">서비스 소개</Link>
+          <Link href="/privacy" className="hover:text-orange-500">개인정보처리방침</Link>
+          <Link href="/contact" className="hover:text-orange-500">문의하기</Link>
+          <Link href="/faq" className="hover:text-orange-500">FAQ</Link>
         </div>
         <p>
           작품 정보는{" "}

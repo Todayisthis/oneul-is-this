@@ -1,113 +1,50 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import Footer from "../../components/layout/Footer";
-import { saveContactMessage } from "@/lib/firebaseStats";
+import Footer from "@/components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "문의하기 | 오늘은 이거다",
+};
 
 export default function ContactPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) return;
-
-    setStatus("sending");
-    try {
-      await saveContactMessage({ name: name.trim(), email: email.trim(), message: message.trim() });
-      setStatus("done");
-      setName("");
-      setEmail("");
-      setMessage("");
-    } catch {
-      setStatus("error");
-    }
-  }
-
   return (
-    <main className="min-h-screen bg-orange-50 px-4 py-8">
-      <div className="mx-auto max-w-3xl rounded-3xl bg-white p-6 shadow-sm">
-        <Link href="/" className="text-sm text-gray-400 hover:text-orange-500">
-          ← 홈으로
-        </Link>
+    <>
+      <main className="min-h-screen bg-gray-950 px-4 py-12">
+        <div className="mx-auto max-w-2xl">
+          <Link href="/" className="text-sm text-gray-400 hover:text-orange-400">← 홈으로</Link>
+          <h1 className="mt-6 text-3xl font-extrabold text-white">문의하기</h1>
+          <p className="mt-2 text-gray-400">서비스 이용 중 불편한 점이나 건의사항을 알려주세요.</p>
 
-        <h1 className="mt-6 text-3xl font-bold">문의하기</h1>
+          <div className="mt-8 space-y-4">
+            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6">
+              <h2 className="text-base font-bold text-white">📧 이메일 문의</h2>
+              <p className="mt-3 leading-8 text-gray-300">
+                아래 이메일로 문의해 주시면 빠르게 답변드리겠습니다.
+              </p>
+              <a
+                href="mailto:kyuseok0818@gmail.com"
+                className="mt-3 inline-block rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-orange-600"
+              >
+                kyuseok0818@gmail.com
+              </a>
+            </div>
 
-        <p className="mt-3 leading-7 text-gray-600">
-          서비스 이용 중 불편한 점, 오류 제보, 음식 데이터 추가 요청, 기타 문의를 남겨주세요.
-          검토 후 답변 드리겠습니다.
-        </p>
-
-        {status === "done" ? (
-          <div className="mt-8 rounded-2xl bg-orange-50 px-6 py-8 text-center">
-            <p className="text-2xl">✅</p>
-            <p className="mt-3 font-bold text-gray-800">문의가 접수됐어요!</p>
-            <p className="mt-1 text-sm text-gray-500">검토 후 입력하신 이메일로 답변 드릴게요.</p>
-            <button
-              type="button"
-              onClick={() => setStatus("idle")}
-              className="mt-6 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white"
-            >
-              다시 문의하기
-            </button>
+            <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6">
+              <h2 className="text-base font-bold text-white">💬 자주 묻는 질문</h2>
+              <p className="mt-3 leading-8 text-gray-300">
+                문의 전에 FAQ를 먼저 확인해보시면 빠르게 해결되실 수도 있어요.
+              </p>
+              <Link
+                href="/faq"
+                className="mt-3 inline-block rounded-xl border border-gray-600 px-5 py-2.5 text-sm font-bold text-gray-300 hover:border-orange-500 hover:text-orange-400"
+              >
+                FAQ 보러 가기 →
+              </Link>
+            </div>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
-            <div>
-              <label className="mb-1 block text-sm font-bold text-gray-700">이름</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="홍길동"
-                required
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-orange-400"
-              />
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-bold text-gray-700">이메일</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="example@email.com"
-                required
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-orange-400"
-              />
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-bold text-gray-700">문의 내용</label>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="문의 내용을 입력해주세요."
-                required
-                rows={5}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-orange-400 resize-none"
-              />
-            </div>
-
-            {status === "error" && (
-              <p className="text-sm text-red-500">전송 중 오류가 발생했어요. 다시 시도해주세요.</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="rounded-2xl bg-orange-500 py-4 text-sm font-bold text-white disabled:opacity-50"
-            >
-              {status === "sending" ? "전송 중..." : "문의 보내기"}
-            </button>
-          </form>
-        )}
-      </div>
-
+        </div>
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
