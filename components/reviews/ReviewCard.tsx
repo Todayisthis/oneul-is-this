@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { likeReview, getReviewComments, type Review, type ReviewComment } from "@/lib/reviewStats";
+import { getReviewComments, type Review, type ReviewComment } from "@/lib/reviewStats";
 
 function timeAgo(date: Date): string {
   const diff = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -42,7 +42,11 @@ export default function ReviewCard({ review }: { review: Review }) {
       const arr = stored ? JSON.parse(stored) : [];
       localStorage.setItem("liked_reviews", JSON.stringify([...arr, review.id]));
     } catch {}
-    await likeReview(review.id);
+    await fetch("/api/reviews/like", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reviewId: review.id }),
+    });
   }
 
   async function toggleComments() {

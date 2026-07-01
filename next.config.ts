@@ -18,6 +18,8 @@ const securityHeaders = [
       "img-src 'self' data: blob: https:",
       "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com wss://*.firebaseio.com https://images.unsplash.com https://api.unsplash.com https://*.kakao.com https://*.kakaocdn.net https://*.daumcdn.net https://*.onkakao.net https://stat.tiara.kakao.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google",
       "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://t1.kakaocdn.net https://ka-f.kakaocdn.net https://*.kakao.com https://*.daumcdn.net",
+      "worker-src 'self'",
+      "child-src 'self' https://googleads.g.doubleclick.net https://*.kakao.com https://*.daumcdn.net",
       "object-src 'none'",
       "base-uri 'self'",
     ].join("; "),

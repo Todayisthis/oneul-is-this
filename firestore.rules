@@ -36,12 +36,14 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
-    // 통계용 픽 기록: 누구나 읽기/쓰기
+    // 통계용 픽 기록: 읽기만 허용, 쓰기는 서버 Admin SDK 경유
     match /foodPicks/{docId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if false;
     }
     match /watchPicks/{docId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if false;
     }
 
     // 문의/제안: 누구나 작성 (길이 제한)

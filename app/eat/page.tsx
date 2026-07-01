@@ -19,7 +19,7 @@ import {
   saveFoodPick,
   saveFoodRating,
 } from "@/lib/foodStats";
-import { recordFoodPick, recordFoodRating, getTopFoods, getTopRatedFoods, getRecentFeeds, type PopularItem, type FeedItem } from "@/lib/firebaseStats";
+import { getTopFoods, getTopRatedFoods, getRecentFeeds, type PopularItem, type FeedItem } from "@/lib/firebaseStats";
 
 import CategorySelector from "@/components/eat/CategorySelector";
 import RecommendModeSelector from "@/components/eat/RecommendModeSelector";
@@ -224,7 +224,7 @@ function EatPageInner() {
           saveFoodPick(finalFood);
           saveFoodHistory(finalFood);
           refreshStats();
-          recordFoodPick(finalFood).then(() => refreshPopular());
+          fetch("/api/food/pick", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ foodId: finalFood.id }) }).then(() => refreshPopular()).catch(() => {});
         } catch {}
 
         scrollToResult();
@@ -240,7 +240,7 @@ function EatPageInner() {
     } catch {}
 
     setSelectedRating(score);
-    recordFoodRating(selectedFood, score).then(() => refreshPopular());
+    fetch("/api/food/pick", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ foodId: selectedFood.id, rating: score }) }).then(() => refreshPopular()).catch(() => {});
   }
 
   async function shareFood() {

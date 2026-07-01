@@ -7,11 +7,8 @@ import RankCarousel from "@/components/ui/RankCarousel";
 import WatchSharePopup from "@/components/watch/WatchSharePopup";
 import ReviewModal from "@/components/reviews/ReviewModal";
 import WatchFeedList from "@/components/watch/WatchFeedList";
-import { saveFeedComment } from "@/lib/firebaseStats";
 import { filterComment } from "@/lib/filterComment";
 import {
-  recordWatchPick,
-  recordWatchRating,
   getTopWatchPicks,
   getTopRatedWatch,
   type WatchPopularItem,
@@ -233,7 +230,7 @@ export default function WatchPage() {
         setWatchComment("");
         setWatchCommentSent(false);
         setWatchCommentError("");
-        recordWatchPick(finalContent).catch(() => {});
+        fetch("/api/watch/pick", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contentId: finalContent.id }) }).catch(() => {});
         setTimeout(() => {
           resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
         }, 100);
@@ -247,12 +244,12 @@ export default function WatchPage() {
     const { ok, reason } = filterComment(trimmed);
     if (!ok) { setWatchCommentError(reason ?? "등록할 수 없는 내용이에요."); return; }
     setWatchCommentError("");
-    await saveFeedComment({
-      foodId: typeof content.id === "number" ? content.id : 0,
-      foodName: content.title,
-      foodEmoji: "🎬",
-      comment: trimmed,
+    const res = await fetch("/api/watch/comment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contentId: content.id, contentTitle: content.title, comment: trimmed }),
     });
+    if (!res.ok) { setWatchCommentError("등록 중 오류가 발생했어요."); return; }
     setWatchCommentSent(true);
   }
 
@@ -268,7 +265,7 @@ export default function WatchPage() {
   async function handleRating(content: Content, score: number) {
     setUserRating(score);
     setRatingSubmitted(true);
-    await recordWatchRating(content, score).catch(() => {});
+    await fetch("/api/watch/pick", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contentId: content.id, rating: score }) }).catch(() => {});
     getTopRatedWatch(5).then(setTopRated).catch(() => {});
   }
 

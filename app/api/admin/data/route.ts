@@ -45,6 +45,11 @@ export async function DELETE(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id");
   if (!isAllowed(col) || !id) return NextResponse.json({ error: "Invalid params" }, { status: 400 });
 
-  await getAdminDb().collection(col).doc(id).delete();
-  return NextResponse.json({ ok: true });
+  try {
+    await getAdminDb().collection(col).doc(id).delete();
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("admin data DELETE error:", e);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
