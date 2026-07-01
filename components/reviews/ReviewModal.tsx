@@ -99,13 +99,13 @@ export default function ReviewModal({ onClose }: Props) {
             </div>
 
             {/* 검색 */}
-            <div className="mb-2 relative">
+            <div className="relative mb-4">
               <input
                 type="text"
                 value={selected ? `${selected.emoji} ${selected.name}` : search}
                 onChange={(e) => { setSelected(null); setSearch(e.target.value); }}
                 placeholder={type === "food" ? "음식 이름 검색..." : "작품 제목 검색..."}
-                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-orange-400"
+                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-orange-400"
               />
               {selected && (
                 <button
@@ -113,27 +113,26 @@ export default function ReviewModal({ onClose }: Props) {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                 >✕</button>
               )}
+              {/* 검색 결과 — absolute로 띄워서 레이아웃 안 밀림 */}
+              {!selected && results.length > 0 && (
+                <div className="absolute left-0 right-0 top-full z-10 mt-1 max-h-40 overflow-y-auto rounded-xl border border-gray-100 bg-white shadow-lg">
+                  {results.map((item) => {
+                    const name = type === "food" ? (item as typeof foods[0]).name : (item as typeof contents[0]).title;
+                    const emoji = type === "food" ? (item as typeof foods[0]).emoji : "🎬";
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { setSelected({ name, emoji }); setSearch(""); }}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-orange-50"
+                      >
+                        <span>{emoji}</span>
+                        <span>{name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-
-            {/* 검색 결과 */}
-            {!selected && results.length > 0 && (
-              <div className="mb-3 max-h-40 overflow-y-auto rounded-xl border border-gray-100 bg-gray-50">
-                {results.map((item) => {
-                  const name = type === "food" ? (item as typeof foods[0]).name : (item as typeof contents[0]).title;
-                  const emoji = type === "food" ? (item as typeof foods[0]).emoji : "🎬";
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => { setSelected({ name, emoji }); setSearch(""); }}
-                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm hover:bg-orange-50"
-                    >
-                      <span>{emoji}</span>
-                      <span className="text-gray-700">{name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
 
             {/* 별점 */}
             <div className="mb-4">
