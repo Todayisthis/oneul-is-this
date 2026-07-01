@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ docs });
   } catch (e) {
     console.error("admin data GET error:", e);
-    return NextResponse.json({ error: String(e) }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
