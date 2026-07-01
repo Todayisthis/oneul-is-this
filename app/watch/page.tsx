@@ -451,10 +451,6 @@ export default function WatchPage() {
 
             <p className="text-center text-xs text-gray-400">{filtered.length}개 작품 중 추천</p>
 
-            {/* PC 전용 광고 — 모바일에서는 숨김 */}
-            <div className="hidden lg:block">
-              <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
-            </div>
           </div>
 
           {/* ───── 메인 영역 ───── */}
@@ -655,9 +651,6 @@ export default function WatchPage() {
           {/* ───── 오른쪽 사이드바 ───── */}
           <div className="space-y-4">
             <WatchFeedList />
-            <div className="hidden lg:block">
-              <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
-            </div>
             {topPicks.length > 0 ? (
               <RankCarousel
                 title="🔥 이번주 자주 추천된 작품"
