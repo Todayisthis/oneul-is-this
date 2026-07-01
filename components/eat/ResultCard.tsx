@@ -6,6 +6,7 @@ import SharePopup from "./SharePopup";
 import { saveFeedComment } from "@/lib/firebaseStats";
 import { filterComment } from "@/lib/filterComment";
 import { getFoodDisplayEmoji } from "@/lib/foodEmoji";
+import KakaoAd from "@/components/ads/KakaoAd";
 
 type Props = {
   food: Food;
@@ -37,8 +38,8 @@ function AdInterstitial({ onDone }: { onDone: () => void }) {
           <p className="text-sm font-bold text-gray-500">잠깐! 광고를 확인해주세요</p>
           <span className="text-sm text-gray-400">{count}초 후 공유 가능</span>
         </div>
-        <div className="mt-4 flex min-h-[200px] items-center justify-center rounded-2xl bg-gray-100 text-sm text-gray-400">
-          광고 영역
+        <div className="mt-4">
+          <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
         </div>
         <button
           type="button"

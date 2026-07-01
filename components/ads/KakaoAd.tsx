@@ -61,7 +61,8 @@ export default function KakaoAd({
   return (
     <div
       ref={containerRef}
-      className="my-2 flex w-full items-center justify-center"
+      className="my-2 flex w-full items-center justify-center bg-transparent"
+      style={{ minHeight: 0 }}
     />
   );
 }

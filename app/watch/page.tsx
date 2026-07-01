@@ -280,22 +280,22 @@ export default function WatchPage() {
       {/* 광고 모달 */}
       {showAdModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="mx-4 w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-            <p className="text-center text-sm font-medium text-gray-500">잠깐! 광고를 보고 공유할게요</p>
-            <p className="mt-1 text-center text-xs text-orange-500">
+          <div className="mx-4 w-full max-w-sm rounded-2xl bg-gray-800 p-6 shadow-2xl">
+            <p className="text-center text-sm font-medium text-gray-300">잠깐! 광고를 보고 공유할게요</p>
+            <p className="mt-1 text-center text-xs text-orange-400">
               💡 별점을 주시면 광고 없이 바로 공유할 수 있어요
             </p>
-            <div className="mt-4 flex items-center justify-center rounded-xl bg-gray-100">
-              <KakaoAd />
+            <div className="mt-4 flex items-center justify-center">
+              <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
             </div>
             <div className="mt-4 flex items-center gap-2">
-              <div className="h-2 flex-1 rounded-full bg-gray-200">
+              <div className="h-2 flex-1 rounded-full bg-gray-600">
                 <div
                   className="h-2 rounded-full bg-orange-500 transition-all duration-1000"
                   style={{ width: `${((3 - adCountdown) / 3) * 100}%` }}
                 />
               </div>
-              <span className="w-6 text-right text-sm font-bold text-orange-500">{adCountdown}s</span>
+              <span className="w-6 text-right text-sm font-bold text-orange-400">{adCountdown}s</span>
             </div>
             <p className="mt-2 text-center text-xs text-gray-400">
               {adCountdown > 0 ? `${adCountdown}초 후 자동으로 공유됩니다` : "공유 준비 중..."}
