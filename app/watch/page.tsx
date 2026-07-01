@@ -486,16 +486,16 @@ export default function WatchPage() {
             <div ref={resultRef} className="w-full">
               {(isRolling || isHoldingFinal) && displayContent && (
                 <div className="w-full rounded-2xl border border-gray-700 bg-gray-800 p-8 text-center shadow-md">
-                  <span className={`rounded-full px-3 py-1 text-sm font-bold ${
+                  <p className="text-xl font-bold text-orange-500">
+                    {spinMessages[messageIndex % spinMessages.length]}
+                  </p>
+                  <span className={`mt-5 inline-block rounded-full px-3 py-1 text-sm font-bold ${
                     displayContent.type === "영화" ? "bg-blue-900 text-blue-300" : "bg-purple-900 text-purple-300"
                   }`}>
                     {displayContent.type}
                   </span>
-                  <h2 className="mt-4 text-3xl font-bold text-white">{displayContent.title}</h2>
+                  <h2 className="mt-3 text-3xl font-bold text-white">{displayContent.title}</h2>
                   <p className="mt-2 text-gray-400">{displayContent.year}년</p>
-                  <p className="mt-6 text-lg font-semibold text-orange-500">
-                    {spinMessages[messageIndex % spinMessages.length]}
-                  </p>
                 </div>
               )}
             </div>
