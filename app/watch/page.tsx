@@ -718,6 +718,9 @@ export default function WatchPage() {
         </section>
       </div>
 
+      <div className="hidden lg:flex justify-center py-4">
+        <KakaoAd unitId="DAN-v96On6dbt3Krp7Pw" width={728} height={90} />
+      </div>
       <WatchFooter />
     </main>
   );
