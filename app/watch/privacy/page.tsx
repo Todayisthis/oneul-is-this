@@ -25,11 +25,15 @@ export default function WatchPrivacyPage() {
               body: "서비스 이용 중 브라우저 로컬 스토리지에 일부 상태 정보가 저장될 수 있습니다. 브라우저 설정에서 언제든지 삭제 가능합니다.",
             },
             {
-              title: "4. 제3자 서비스",
+              title: "4. 이용 통계 수집 (Google Analytics)",
+              body: "서비스 개선을 위해 Google Analytics 4를 사용합니다. 방문 페이지, 체류 시간, 접속 국가 등 익명의 이용 통계가 수집되며, 개인을 식별할 수 있는 정보는 수집하지 않습니다.",
+            },
+            {
+              title: "5. 제3자 서비스",
               body: "작품 데이터는 JustWatch API를 통해 수집됩니다. 서비스 운영에 Firebase(Google)를 사용하며, Google의 개인정보처리방침이 적용됩니다. 광고 서비스 이용 시 광고 제공업체의 정책이 적용될 수 있습니다.",
             },
             {
-              title: "5. 문의",
+              title: "6. 문의",
               body: "개인정보 관련 문의는 문의하기 페이지를 통해 접수해주세요.",
             },
           ].map((s) => (

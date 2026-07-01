@@ -33,7 +33,19 @@ export default function PrivacyPage() {
             </section>
 
             <section className="rounded-2xl border border-gray-700 bg-gray-800 p-6">
-              <h2 className="text-base font-bold text-white">3. 제3자 제공</h2>
+              <h2 className="text-base font-bold text-white">3. 이용 통계 수집 (Google Analytics)</h2>
+              <p className="mt-3 leading-8">
+                서비스 개선을 위해 Google Analytics 4를 사용합니다.
+                방문 페이지, 체류 시간, 접속 국가 등 익명의 이용 통계가 수집되며,
+                개인을 식별할 수 있는 정보는 수집하지 않습니다.
+                Google의 데이터 처리 방식은{" "}
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-orange-400 underline hover:text-orange-300">Google 개인정보처리방침</a>
+                을 참고하세요.
+              </p>
+            </section>
+
+            <section className="rounded-2xl border border-gray-700 bg-gray-800 p-6">
+              <h2 className="text-base font-bold text-white">4. 제3자 제공</h2>
               <p className="mt-3 leading-8">
                 수집된 정보는 제3자에게 제공하지 않습니다.
                 단, 서비스 운영을 위해 Firebase(Google) 인프라를 사용하며,
@@ -42,7 +54,7 @@ export default function PrivacyPage() {
             </section>
 
             <section className="rounded-2xl border border-gray-700 bg-gray-800 p-6">
-              <h2 className="text-base font-bold text-white">4. 보유 기간</h2>
+              <h2 className="text-base font-bold text-white">5. 보유 기간</h2>
               <p className="mt-3 leading-8">
                 방명록 및 후기 데이터는 서비스 운영 기간 동안 보관되며,
                 삭제 요청 시 즉시 처리합니다.
@@ -50,7 +62,7 @@ export default function PrivacyPage() {
             </section>
 
             <section className="rounded-2xl border border-gray-700 bg-gray-800 p-6">
-              <h2 className="text-base font-bold text-white">5. 문의</h2>
+              <h2 className="text-base font-bold text-white">6. 문의</h2>
               <p className="mt-3 leading-8">
                 개인정보 관련 문의는{" "}
                 <Link href="/contact" className="text-orange-400 underline hover:text-orange-300">문의하기</Link>
