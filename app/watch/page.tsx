@@ -702,10 +702,6 @@ export default function WatchPage() {
           </div>
         </div>
 
-        <div className="hidden lg:block">
-          <KakaoAd />
-        </div>
-
         {/* ───── IMDb Top 10 + 나라별 Top 3 ───── */}
         <section className="mt-10 grid gap-6 lg:grid-cols-3">
           <RankCarousel
