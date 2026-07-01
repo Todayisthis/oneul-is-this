@@ -628,6 +628,9 @@ export default function WatchPage() {
           {/* ───── 오른쪽 사이드바 ───── */}
           <div className="space-y-4">
             <WatchFeedList />
+            <div className="hidden lg:block">
+              <KakaoAd />
+            </div>
             {topPicks.length > 0 ? (
               <RankCarousel
                 title="🔥 이번주 자주 추천된 작품"
