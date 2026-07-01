@@ -124,10 +124,12 @@ export default function Home() {
 
         </div>
       </main>
-      <div className="hidden lg:flex justify-center bg-gray-950 py-4">
-        <KakaoAd unitId="DAN-v96On6dbt3Krp7Pw" width={728} height={90} />
+      <div className="bg-gray-950">
+        <div className="hidden lg:flex justify-center py-4">
+          <KakaoAd unitId="DAN-v96On6dbt3Krp7Pw" width={728} height={90} />
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
