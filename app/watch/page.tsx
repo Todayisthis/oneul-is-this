@@ -700,6 +700,8 @@ export default function WatchPage() {
                 <p className="py-4 text-center text-xs text-gray-400">아직 데이터가 없어요</p>
               </div>
             )}
+
+            <KakaoAd unitId="DAN-3qhuUl7cRaH3PTPF" width={300} height={250} />
           </div>
         </div>
 
