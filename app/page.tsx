@@ -62,10 +62,10 @@ export default function Home() {
         </section>
 
         {/* 히어로 아래 — PC에서 좌우 광고 포함 3컬럼 */}
-        <div className="lg:grid lg:grid-cols-[160px_1fr_160px] lg:items-start lg:gap-4">
+        <div className="min-[1220px]:grid min-[1220px]:items-start min-[1220px]:gap-4" style={{ gridTemplateColumns: "1fr minmax(0, 900px) 1fr" }}>
 
           {/* 왼쪽 광고 (PC 전용) */}
-          <div className="hidden lg:flex lg:flex-col lg:items-center lg:sticky lg:top-8 lg:pt-12 lg:self-start">
+          <div className="hidden min-[1220px]:flex min-[1220px]:flex-col min-[1220px]:items-center min-[1220px]:sticky min-[1220px]:top-8 min-[1220px]:pt-12 min-[1220px]:self-start">
             <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
           </div>
 
@@ -118,7 +118,7 @@ export default function Home() {
           </div>
 
           {/* 오른쪽 광고 (PC 전용) */}
-          <div className="hidden lg:flex lg:flex-col lg:items-center lg:sticky lg:top-8 lg:pt-12 lg:self-start">
+          <div className="hidden min-[1220px]:flex min-[1220px]:flex-col min-[1220px]:items-center min-[1220px]:sticky min-[1220px]:top-8 min-[1220px]:pt-12 min-[1220px]:self-start">
             <KakaoAd unitId="DAN-Rx4jX8tclansKt6T" width={160} height={600} />
           </div>
 
