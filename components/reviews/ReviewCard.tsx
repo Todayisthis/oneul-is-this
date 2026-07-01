@@ -44,11 +44,17 @@ export default function ReviewCard({ review }: { review: Review }) {
     const { ok, reason } = filterComment(trimmed);
     if (!ok) { setCommentError(reason ?? "등록할 수 없는 내용이에요."); return; }
     setCommentError("");
-    await addReviewComment(review.id, trimmed);
-    setComments((prev) => [...prev, { id: Date.now().toString(), reviewId: review.id, content: trimmed, createdAt: new Date() }]);
+    const optimistic = { id: Date.now().toString(), reviewId: review.id, content: trimmed, createdAt: new Date() };
+    setComments((prev) => [...prev, optimistic]);
     setComment("");
     setCommentSent(true);
     setTimeout(() => setCommentSent(false), 2000);
+    try {
+      await addReviewComment(review.id, trimmed);
+    } catch {
+      setComments((prev) => prev.filter((c) => c.id !== optimistic.id));
+      setCommentError("댓글 등록에 실패했어요. 다시 시도해주세요.");
+    }
   }
 
   return (
