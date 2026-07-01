@@ -11,7 +11,7 @@ function isAllowed(col: string | null): col is Col {
 }
 
 export async function GET(req: NextRequest) {
-  if (!isAdminAuthed(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!await isAdminAuthed(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const col = req.nextUrl.searchParams.get("collection");
   if (!isAllowed(col)) return NextResponse.json({ error: "Invalid collection" }, { status: 400 });
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!isAdminAuthed(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!await isAdminAuthed(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
   if (!rateLimit(`admin_delete:${ip}`, 30, 60_000)) {

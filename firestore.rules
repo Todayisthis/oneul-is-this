@@ -58,6 +58,11 @@ service cloud.firestore {
                     && request.resource.data.description.size() <= 500;
     }
 
+    // 어드민 세션: 클라이언트 접근 완전 차단 (Admin SDK만 접근)
+    match /admin_sessions/{docId} {
+      allow read, write: if false;
+    }
+
     // 그 외 모든 컬렉션 차단
     match /{document=**} {
       allow read, write: if false;

@@ -18,18 +18,21 @@ export async function POST(req: NextRequest) {
   if (typeof content !== "string" || content.trim().length === 0 || content.length > 300)
     return NextResponse.json({ ok: false, error: "Invalid content" }, { status: 400 });
 
-  const reviewSnap = await getDoc(doc(db, "reviews", reviewId));
-  if (!reviewSnap.exists())
-    return NextResponse.json({ ok: false, error: "Review not found" }, { status: 404 });
-
   const { ok, reason } = filterComment(content);
   if (!ok) return NextResponse.json({ ok: false, error: reason }, { status: 400 });
 
-  await addDoc(collection(db, "review_comments"), {
-    reviewId,
-    content: content.trim(),
-    createdAt: serverTimestamp(),
-  });
+  try {
+    const reviewSnap = await getDoc(doc(db, "reviews", reviewId));
+    if (!reviewSnap.exists())
+      return NextResponse.json({ ok: false, error: "Review not found" }, { status: 404 });
+    await addDoc(collection(db, "review_comments"), {
+      reviewId,
+      content: content.trim(),
+      createdAt: serverTimestamp(),
+    });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }

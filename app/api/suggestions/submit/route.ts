@@ -4,6 +4,8 @@ import { filterComment } from "@/lib/filterComment";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
+const VALID_CATEGORIES = new Set(["음식", "영화", "드라마", "기타"]);
+
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
   if (!rateLimit(`suggestion_submit:${ip}`, 5, 60_000)) {
@@ -18,16 +20,22 @@ export async function POST(req: NextRequest) {
   if (typeof description === "string" && description.length > 500)
     return NextResponse.json({ ok: false, error: "Description too long" }, { status: 400 });
 
+  const safeCategory = VALID_CATEGORIES.has(category) ? category : "기타";
+
   const { ok, reason } = filterComment(name + " " + (description ?? ""));
   if (!ok) return NextResponse.json({ ok: false, error: reason }, { status: 400 });
 
-  await addDoc(collection(db, "suggestions"), {
-    name: name.trim(),
-    category: category ?? "기타",
-    description: (description ?? "").trim(),
-    createdAt: serverTimestamp(),
-    status: "pending",
-  });
+  try {
+    await addDoc(collection(db, "suggestions"), {
+      name: name.trim(),
+      category: safeCategory,
+      description: (description ?? "").trim(),
+      createdAt: serverTimestamp(),
+      status: "pending",
+    });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }

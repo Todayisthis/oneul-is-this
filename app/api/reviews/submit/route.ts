@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const { type, itemId, rating, content } = body;
 
   if (!["food", "movie"].includes(type)) return NextResponse.json({ ok: false, error: "Invalid type" }, { status: 400 });
-  if (typeof rating !== "number" || rating < 1 || rating > 5) return NextResponse.json({ ok: false, error: "Invalid rating" }, { status: 400 });
+  if (!Number.isFinite(rating) || rating < 1 || rating > 5) return NextResponse.json({ ok: false, error: "Invalid rating" }, { status: 400 });
   if (typeof content !== "string" || content.trim().length === 0 || content.length > 500) return NextResponse.json({ ok: false, error: "Invalid content" }, { status: 400 });
 
   let itemName: string;
@@ -39,15 +39,19 @@ export async function POST(req: NextRequest) {
   const { ok, reason } = filterComment(content);
   if (!ok) return NextResponse.json({ ok: false, error: reason }, { status: 400 });
 
-  await addDoc(collection(db, "reviews"), {
-    type,
-    itemName,
-    itemEmoji,
-    rating,
-    content: content.trim(),
-    likes: 0,
-    createdAt: serverTimestamp(),
-  });
+  try {
+    await addDoc(collection(db, "reviews"), {
+      type,
+      itemName,
+      itemEmoji,
+      rating,
+      content: content.trim(),
+      likes: 0,
+      createdAt: serverTimestamp(),
+    });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }

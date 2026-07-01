@@ -15,10 +15,14 @@ export async function POST(req: NextRequest) {
   if (typeof reviewId !== "string" || reviewId.length === 0 || reviewId.length > 128)
     return NextResponse.json({ ok: false, error: "Invalid reviewId" }, { status: 400 });
 
-  const reviewSnap = await getDoc(doc(db, "reviews", reviewId));
-  if (!reviewSnap.exists())
-    return NextResponse.json({ ok: false, error: "Review not found" }, { status: 404 });
+  try {
+    const reviewSnap = await getDoc(doc(db, "reviews", reviewId));
+    if (!reviewSnap.exists())
+      return NextResponse.json({ ok: false, error: "Review not found" }, { status: 404 });
+    await updateDoc(doc(db, "reviews", reviewId), { likes: increment(1) });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+  }
 
-  await updateDoc(doc(db, "reviews", reviewId), { likes: increment(1) });
   return NextResponse.json({ ok: true });
 }

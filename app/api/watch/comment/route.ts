@@ -25,13 +25,17 @@ export async function POST(req: NextRequest) {
   const { ok, reason } = filterComment(comment);
   if (!ok) return NextResponse.json({ ok: false, error: reason }, { status: 400 });
 
-  await addDoc(collection(db, "feeds"), {
-    foodId: content.id,
-    foodName: content.title,
-    foodEmoji: "🎬",
-    comment: comment.trim(),
-    createdAt: serverTimestamp(),
-  });
+  try {
+    await addDoc(collection(db, "feeds"), {
+      foodId: content.id,
+      foodName: content.title,
+      foodEmoji: "🎬",
+      comment: comment.trim(),
+      createdAt: serverTimestamp(),
+    });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }
