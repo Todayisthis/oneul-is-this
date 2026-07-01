@@ -16,17 +16,21 @@ export async function GET(req: NextRequest) {
   const col = req.nextUrl.searchParams.get("collection");
   if (!isAllowed(col)) return NextResponse.json({ error: "Invalid collection" }, { status: 400 });
 
-  const snap = await getAdminDb().collection(col).orderBy("createdAt", "desc").limit(200).get();
-  const docs = snap.docs.map((d) => {
-    const data = d.data();
-    return {
-      id: d.id,
-      ...data,
-      createdAt: data.createdAt?.toDate?.()?.toISOString() ?? null,
-    };
-  });
-
-  return NextResponse.json({ docs });
+  try {
+    const snap = await getAdminDb().collection(col).orderBy("createdAt", "desc").limit(200).get();
+    const docs = snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.()?.toISOString() ?? null,
+      };
+    });
+    return NextResponse.json({ docs });
+  } catch (e) {
+    console.error("admin data GET error:", e);
+    return NextResponse.json({ error: String(e) }, { status: 500 });
+  }
 }
 
 export async function DELETE(req: NextRequest) {
