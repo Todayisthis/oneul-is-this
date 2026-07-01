@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import type { Food } from "@/data/foods";
 import SharePopup from "./SharePopup";
-import { saveFeedComment } from "@/lib/firebaseStats";
-import { filterComment } from "@/lib/filterComment";
 import { getFoodDisplayEmoji } from "@/lib/foodEmoji";
 import KakaoAd from "@/components/ads/KakaoAd";
 
@@ -65,7 +63,13 @@ export default function ResultCard({
   const [showAd, setShowAd] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [comment, setComment] = useState("");
-  const [commentSent, setCommentSent] = useState(false);
+  const [commentSent, setCommentSent] = useState(() => {
+    try {
+      const stored = localStorage.getItem("feed_submitted");
+      const arr = stored ? JSON.parse(stored) : [];
+      return arr.includes(food.id);
+    } catch { return false; }
+  });
   const [commentError, setCommentError] = useState("");
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -84,20 +88,25 @@ export default function ResultCard({
 
   async function submitComment() {
     const trimmed = comment.trim();
-    if (!trimmed) return;
-    const { ok, reason } = filterComment(trimmed);
-    if (!ok) {
-      setCommentError(reason ?? "등록할 수 없는 내용이에요.");
-      return;
-    }
+    if (!trimmed || commentSent) return;
     setCommentError("");
-    await saveFeedComment({
-      foodId: food.id,
-      foodName: food.name,
-      foodEmoji: food.emoji,
-      comment: trimmed,
-    });
-    setCommentSent(true);
+    try {
+      const res = await fetch("/api/feeds/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ foodId: food.id, foodName: food.name, foodEmoji: food.emoji, comment: trimmed }),
+      });
+      const json = await res.json();
+      if (!res.ok) { setCommentError(json.error ?? "등록 중 오류가 발생했어요."); return; }
+      try {
+        const stored = localStorage.getItem("feed_submitted");
+        const arr = stored ? JSON.parse(stored) : [];
+        localStorage.setItem("feed_submitted", JSON.stringify([...arr, food.id]));
+      } catch {}
+      setCommentSent(true);
+    } catch {
+      setCommentError("등록 중 오류가 발생했어요. 다시 시도해주세요.");
+    }
   }
 
   const ratingMessage =

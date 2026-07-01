@@ -11,8 +11,16 @@ export default function WatchContactPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const { saveContactMessage } = await import("@/lib/firebaseStats");
-      await saveContactMessage(form);
+      const res = await fetch("/api/contact/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        alert(json.error ?? "전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
       setSubmitted(true);
     } catch {
       alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");

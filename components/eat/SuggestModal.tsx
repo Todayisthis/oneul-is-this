@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { saveFoodSuggestion } from "@/lib/firebaseStats";
 
 type Props = {
   onClose: () => void;
@@ -23,7 +22,12 @@ export default function SuggestModal({ onClose }: Props) {
 
     setStatus("loading");
     try {
-      await saveFoodSuggestion({ name: name.trim(), category, description: description.trim() });
+      const res = await fetch("/api/suggestions/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.trim(), category, description: description.trim() }),
+      });
+      if (!res.ok) { setStatus("error"); return; }
       setStatus("done");
     } catch {
       setStatus("error");
