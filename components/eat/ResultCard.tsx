@@ -221,7 +221,7 @@ export default function ResultCard({
                   onKeyDown={(e) => { if (e.key === "Enter") submitComment(); }}
                   maxLength={60}
                   placeholder="맛있었다, 별로였다... 자유롭게!"
-                  className="flex-1 rounded-2xl border border-gray-200 px-4 py-2 text-sm outline-none focus:border-orange-400"
+                  className="flex-1 rounded-2xl border border-gray-600 bg-gray-700 px-4 py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:border-orange-400 md:border-gray-200 md:bg-white md:text-gray-700 md:placeholder:text-gray-400"
                 />
                 <button
                   type="button"
