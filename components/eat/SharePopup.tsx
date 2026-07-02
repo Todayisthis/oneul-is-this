@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Food } from "@/data/foods";
 import KakaoAd from "@/components/ads/KakaoAd";
 
@@ -22,10 +22,11 @@ type Props = {
 };
 
 export default function SharePopup({ food, onClose }: Props) {
-  const url =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/eat?food=${food.id}`
-      : "";
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    setUrl(`${window.location.origin}/eat?food=${food.id}`);
+  }, [food.id]);
 
   const text = `오늘 뭐 먹지? ${food.emoji} ${food.name} 어때요?`;
 

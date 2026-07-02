@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "**.kakaocdn.net" },
       { protocol: "https", hostname: "**.kakao.com" },
+      { protocol: "https", hostname: "ddragon.leagueoflegends.com" },
     ],
   },
   async headers() {

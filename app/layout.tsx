@@ -62,7 +62,6 @@ export const metadata: Metadata = {
     canonical: "https://oneul-is-this.com",
   },
   verification: {
-    google: "mLLe59N63bwrm-c-hUhsSlLKUCJrTxDYK_7Skqj5UWk",
     other: {
       "naver-site-verification": ["52009dc868f35b78a0e25eab06f50b7a5efa2510"],
     },
@@ -88,20 +87,22 @@ export default function RootLayout({
       className={`${notoSansKr.variable} h-full antialiased`}
       style={{ backgroundColor: "#030712" }}
     >
-      <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q94CGPGK68" />
+      <head suppressHydrationWarning>
+        <script suppressHydrationWarning async src="https://www.googletagmanager.com/gtag/js?id=G-Q94CGPGK68" />
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Q94CGPGK68',{page_path:location.pathname,send_page_view:!location.pathname.startsWith('/admin')});`,
           }}
         />
         <script
+          suppressHydrationWarning
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6637875835027720"
           crossOrigin="anonymous"
         />
-        <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" async />
-        <script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async />
+        <script suppressHydrationWarning src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" async />
+        <script suppressHydrationWarning type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async />
       </head>
       <body className="min-h-full flex flex-col bg-gray-950">{children}</body>
     </html>
